@@ -1,5 +1,11 @@
 Sputnik::Application.routes.draw do
   
+  resources :items
+
+
+  resources :channels
+
+
   devise_for :users
 
   root :to => "home#index"
