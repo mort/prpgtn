@@ -31,8 +31,10 @@ end
 
 group :test do
   gem "factory_girl", "~> 4.1.0"
+  gem "factory_girl_rails", "~> 4.1.0"
   gem "shoulda", "~> 3.3.2"
   gem "faker", "~> 1.1.2"
+  gem "database_cleaner", "~> 0.9.1"
 end
 
 # To use ActiveModel has_secure_password

@@ -17,11 +17,11 @@ class Channel < ActiveRecord::Base
   has_many :items
   
   has_many :channel_subs
-  has_many :users, :through => :channel_subs, :uniq => true
+  has_many :subscribers, :class_name => 'User', :through => :channel_subs, :uniq => true
 
   validates_presence_of :title, :description, :creator_id
 
-  after_create :subscribe_creator
+  #after_create :subscribe_creator
     
   def subscribe(user)
     cs = channel_subs.build

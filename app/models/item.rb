@@ -2,13 +2,13 @@
 #
 # Table name: items
 #
-#  id           :integer          not null, primary key
-#  channel_id   :integer
-#  user_id      :integer
-#  base36_token :string(255)
-#  body         :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :integer          not null, primary key
+#  channel_id :integer
+#  user_id    :integer
+#  item_token :string(255)
+#  body       :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Item < ActiveRecord::Base
