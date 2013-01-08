@@ -1,7 +1,11 @@
-Sputnik::Application.routes.draw do
-  
-  resources :items
+require 'grape'
+require 'api'
 
+Sputnik::Application.routes.draw do
+    
+  mount Sputnik::Api => "/" 
+    
+  resources :items
 
   resources :channels
 
@@ -9,6 +13,7 @@ Sputnik::Application.routes.draw do
   devise_for :users
 
   root :to => "home#index"
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
