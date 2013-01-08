@@ -14,5 +14,21 @@ require 'test_helper'
 
 class ChannelTest < ActiveSupport::TestCase
 
-
+  context 'a channel' do
+    
+      setup do
+        @channel = FactoryGirl.create(:channel)
+      end
+      
+      should 'have one subscriber to boot' do
+        assert_equal 1, @channel.users.size
+      end
+    
+      should 'have the creator as first subscriber' do
+         assert_equal @channel.users.first, @channel.creator
+       end
+    
+  end
+  
+  
 end
