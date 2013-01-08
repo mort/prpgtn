@@ -15,7 +15,8 @@ FactoryGirl.define do
   factory :item do
     channel
     user
-    body 'Wadus'
+    body 'http://google.com'
+    item_type 'url'
   end
   
 end
