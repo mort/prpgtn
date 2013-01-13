@@ -1,19 +1,15 @@
-require 'grape'
-require 'api'
-
 Sputnik::Application.routes.draw do
     
-  mount Sputnik::Api => "/" 
-    
-  resources :items
-
-  resources :channels
-
-
+  use_doorkeeper
   devise_for :users
+  
+  resources :items  
+
+  resources :channels do 
+    resources :items
+  end
 
   root :to => "home#index"
-  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

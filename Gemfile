@@ -9,7 +9,8 @@ gem 'sqlite3'
 gem "mysql2", "~> 0.3.11"
 gem "devise", "~> 2.1.2"
 gem "cancan", "~> 1.6.8"
-gem "grape", "~> 0.2.4"
+#gem "grape", "~> 0.2.4"
+gem 'doorkeeper', '~> 0.6.6'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,6 +28,9 @@ gem 'jquery-rails'
 
 group :development do 
   gem "annotate", "~> 2.5.0"
+  gem "wirble"
+  gem "hirb"
+  gem "awesome_print"
 end
 
 group :test do
