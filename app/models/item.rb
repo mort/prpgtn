@@ -31,10 +31,10 @@ class Item < ActiveRecord::Base
   
   after_create :set_item_token
   
-  
-  def to_param
-    item_token
-  end
+  # 
+  # def to_param
+  #   item_token
+  # end
 
   private 
 

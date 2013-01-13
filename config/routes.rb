@@ -1,12 +1,21 @@
 Sputnik::Application.routes.draw do
     
   use_doorkeeper
+  
   devise_for :users
   
   resources :items  
 
   resources :channels do 
     resources :items
+  end
+  
+  
+  api version: 1 do
+
+    get 'channels/:channel_id/items', :to => 'api/items#index'
+    get 'items/:id', :to => 'api/items#show'
+    
   end
 
   root :to => "home#index"
