@@ -13,12 +13,14 @@
 #
 
 class Item < ActiveRecord::Base
-  attr_accessible :body
+  attr_accessible :body, :link_id, :link_fetched_at
   
-  ITEM_TYPES = %W(url emoji)
+  ITEM_TYPES = %W(url emote)
   
   belongs_to :channel
   belongs_to :user
+  
+  belongs_to :link
   
   # Ensure it has a type
   before_validation do 
@@ -30,6 +32,7 @@ class Item < ActiveRecord::Base
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
   
   after_create :set_item_token
+  after_create :url_process
   
   # 
   # def to_param
@@ -44,6 +47,11 @@ class Item < ActiveRecord::Base
   
   def set_item_token
     update_attribute :item_token, generate_item_token
+  end
+  
+  def url_process
+    return unless item_type == 'url'
+    Resque.enqueue(UrlProcessor, id)
   end
   
   

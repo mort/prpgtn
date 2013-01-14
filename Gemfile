@@ -11,6 +11,10 @@ gem "devise", "~> 2.1.2"
 gem "cancan", "~> 1.6.8"
 gem "rocket_pants", "~> 1.5.5"
 gem 'doorkeeper', '~> 0.6.6'
+gem "resque", "~> 1.23.0"
+gem "postrank-uri", "~> 1.0.16"
+gem "opengraph", "~> 0.0.4"
+gem "pismo", "~> 0.7.2"
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: links
+#
+#  id              :integer          not null, primary key
+#  uri             :string(255)
+#  mime_type       :string(255)
+#  og_title        :string(255)
+#  og_type         :string(255)
+#  og_image        :string(255)
+#  og_url          :string(255)
+#  og_description  :text
+#  fetch_method    :string(255)
+#  has_embed       :boolean
+#  oembed_response :text
+#  fetched_at      :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+#  column: value

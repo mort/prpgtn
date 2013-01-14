@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130109221230) do
+ActiveRecord::Schema.define(:version => 20130113202751) do
 
   create_table "channel_subs", :force => true do |t|
     t.integer  "channel_id"
@@ -36,6 +36,22 @@ ActiveRecord::Schema.define(:version => 20130109221230) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "item_type"
+  end
+
+  create_table "links", :force => true do |t|
+    t.string   "uri"
+    t.string   "mime_type"
+    t.string   "og_title"
+    t.string   "og_type"
+    t.string   "og_image"
+    t.string   "og_url"
+    t.text     "og_description"
+    t.string   "fetch_method"
+    t.boolean  "has_embed"
+    t.text     "oembed_response"
+    t.datetime "fetched_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "oauth_access_grants", :force => true do |t|
