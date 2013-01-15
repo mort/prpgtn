@@ -19,16 +19,26 @@ class UrlProcessor
     
       puts data
     
-      #ActiveRecord::Transaction do
-        link = Link.create(data)
-        item.update_attributes({:link_id => link.id, :link_fetched_at => Time.now})
-      #end
+      link = Link.create(data)
+      fa = Time.now
 
     elsif c == 1
       
       link = Link.where(["uri = ?", u]).first
-      item.update_attributes({:link_id => link.id})
+      fa = nil
       
+    end
+    
+    item.update_attributes({:link_id => link.id, :link_fetched_at => fa})
+    
+    
+  end
+  
+  
+  def disembed(item)
+    if serv = Disembed.has_embed?(t)
+      d = Disembed.disembed(t, serv)
+      item.update_attributes(:has_embed => true, :oembed_response => d)
     end
   end
   

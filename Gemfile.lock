@@ -214,6 +214,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.1.0)
   faker (~> 1.1.2)
   hirb
+  httparty
   jquery-rails
   mysql2 (~> 0.3.11)
   opengraph (~> 0.0.4)
