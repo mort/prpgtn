@@ -16,6 +16,8 @@ gem "postrank-uri", "~> 1.0.16"
 gem "opengraph", "~> 0.0.4"
 gem "pismo", "~> 0.7.2"
 gem 'httparty'
+gem "foreman", "~> 0.61.0"
+gem "thin", "~> 1.5.0"
 
 # Gems used only for assets and not required
 # in production environments by default.
