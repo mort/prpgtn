@@ -10,6 +10,8 @@ class UrlProcessor
     
     c = Link.count(:conditions => {:uri => u})
       
+    embed_attrs = {}  
+      
     if c < 1
     
       puts "Count #{c}. Procesando."
@@ -21,7 +23,12 @@ class UrlProcessor
     
       link = Link.create(data)
       fa = Time.now
-
+      
+      embed_attrs = disembed(u)
+      
+      link.update_attributes(embed_attrs)
+      
+      
     elsif c == 1
       
       link = Link.where(["uri = ?", u]).first
@@ -35,11 +42,20 @@ class UrlProcessor
   end
   
   
-  def disembed(item)
-    if serv = Disembed.has_embed?(t)
-      d = Disembed.disembed(t, serv)
-      item.update_attributes(:has_embed => true, :oembed_response => d)
+  def self.disembed(u)
+    
+    #TODO Support short urls for youtu.be etc 
+    
+    r = {:has_embed => false, :oembed_response => nil}
+    
+    puts "Disembedding"
+    if serv = Disembed.has_embed?(u)
+      puts "#{u} has embed, disembedding ..."
+      d = Disembed.disembed(u, serv)
+      r = {:has_embed => true, :oembed_response => d}
     end
+    
+    r
   end
   
   
