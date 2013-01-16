@@ -18,6 +18,7 @@ gem "pismo", "~> 0.7.2"
 gem 'httparty'
 gem "foreman", "~> 0.61.0"
 gem "thin", "~> 1.5.0"
+gem "whenever", "~> 0.8.2"
 
 # Gems used only for assets and not required
 # in production environments by default.
