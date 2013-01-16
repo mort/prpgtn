@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130113202751) do
+ActiveRecord::Schema.define(:version => 20130114004322) do
 
   create_table "channel_subs", :force => true do |t|
     t.integer  "channel_id"
@@ -33,9 +33,11 @@ ActiveRecord::Schema.define(:version => 20130113202751) do
     t.integer  "user_id"
     t.string   "item_token"
     t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "item_type"
+    t.integer  "link_id"
+    t.datetime "link_fetched_at"
   end
 
   create_table "links", :force => true do |t|
