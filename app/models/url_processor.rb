@@ -21,12 +21,12 @@ class UrlProcessor
     
       puts data
     
-      link = Link.create(data)
+      link = Link.create!(data)
       fa = Time.now
       
       embed_attrs = disembed(u)
       
-      link.update_attributes(embed_attrs)
+      link.update_attributes!(embed_attrs)
       
       
     elsif c == 1
@@ -36,8 +36,7 @@ class UrlProcessor
       
     end
     
-    item.update_attributes({:link_id => link.id, :link_fetched_at => fa})
-    
+    item.update_attributes!({:link_id => link.id, :link_fetched_at => fa})
     
   end
   
