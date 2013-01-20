@@ -2,22 +2,28 @@
 #response['results'].each {|r| r['entities']['urls'].each {|u| i = Item.new; i.user_id = i.channel_id = 1; i.body = u['expanded_url']; i.save }  }
 
 
-task "sputnik:twitter_feed", [:q] => :environment do |t, args|
+task "sputnik:twitter_feed", [:q, :rpp] => :environment do |t, args|
   
-  args.with_defaults(:q => "http")
+  args.with_defaults(:q => "http", :rpp => '100')
   
   puts "Buscando #{args.q}"
   
-  url = "http://search.twitter.com/search.json?q=#{args.q}&rpp=100&include_entities=true&result_type=mixed"
+  url = "http://search.twitter.com/search.json?q=#{args.q}&rpp=#{args.rpp}&include_entities=true&result_type=mixed"
 
   puts url
 
   response = HTTParty.get(url)
   
+  user = User.first
+  c = Channel.first
+  
+  
+  
   response['results'].each do |r| 
     r['entities']['urls'].each do |u| 
       i = Item.new
-      i.user_id = i.channel_id = 1
+      i.user_id = user.id
+      i.channel_id = c.id
       i.body = u['expanded_url']
       puts i.attributes
       i.save!   

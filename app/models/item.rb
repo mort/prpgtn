@@ -22,6 +22,12 @@ class Item < ActiveRecord::Base
   
   belongs_to :link
   
+  class << self
+    def with_link
+      where("link_id IS NOT NULL")
+    end
+  end
+  
   # Ensure it has a type
   before_validation do 
     self.item_type = 'url' if item_type.blank?

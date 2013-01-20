@@ -17,6 +17,8 @@ class UrlProcessor
       puts "Count #{c}. Procesando."
     
       data = LinkFetcher.fetch(u)
+      
+      puts "Fetched Data #{data}"
       data.merge!(:uri => u, :fetched_at => Time.now)
     
       puts data
