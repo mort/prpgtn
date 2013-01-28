@@ -4,15 +4,9 @@ Sputnik::Application.routes.draw do
   
   devise_for :users
   
-  resources :items  
-
-  resources :channels do 
-    resources :items
-  end
-  
-  
   api version: 1 do
 
+    post 'channels/:channel_id/items', :to => 'api/items#create'
     get 'channels/:channel_id/items', :to => 'api/items#index'
     get 'items/:id', :to => 'api/items#show'
     

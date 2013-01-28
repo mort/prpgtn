@@ -8,6 +8,7 @@
 #  description :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  max_users   :integer
 #
 
 require 'test_helper'
@@ -25,8 +26,11 @@ class ChannelTest < ActiveSupport::TestCase
       end
     
       should 'have the creator as first subscriber' do
-         assert_equal @channel.users.first, @channel.creator
-       end
+        assert_equal @channel.users.first, @channel.creator
+      end
+       
+       
+       
     
   end
   

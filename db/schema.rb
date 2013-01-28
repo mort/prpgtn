@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116151155) do
+ActiveRecord::Schema.define(:version => 20130125121145) do
 
   create_table "channel_subs", :force => true do |t|
     t.integer  "channel_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130116151155) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "max_users"
   end
 
   create_table "items", :force => true do |t|
@@ -95,6 +96,18 @@ ActiveRecord::Schema.define(:version => 20130116151155) do
 
   add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
 
+  create_table "plans", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "max_created_channels"
+    t.integer  "max_users_in_channel"
+    t.integer  "monthly_price"
+    t.string   "monthly_price_currency"
+    t.integer  "channels_counter"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -108,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20130116151155) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.integer  "plan_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -15,6 +15,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  plan_id                :integer
 #
 
 class User < ActiveRecord::Base
@@ -32,5 +33,11 @@ class User < ActiveRecord::Base
   has_many :channels, :through => :channel_subs, :readonly => true
   has_many :created_channels, :class_name => 'Channel', :foreign_key => 'creator_id', :dependent => :destroy
   has_many :items
+  
+  validates_presence_of :plan_id
+  
+  belongs_to :plan
+  
+  delegate :max_created_channels, :to => :plan
   
 end

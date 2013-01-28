@@ -7,10 +7,12 @@ DatabaseCleaner.strategy = :truncation
 class ActiveSupport::TestCase
   
   def setup
+    Resque.redis.select 1
     DatabaseCleaner.start
   end
 
   def teardown
+    Resque.redis.keys("queue:*").each {|key| Resque.redis.del key }
     DatabaseCleaner.clean
   end
   
