@@ -17,15 +17,12 @@ task "sputnik:twitter_feed", [:q, :rpp] => :environment do |t, args|
   user = User.first
   c = Channel.first
   
-  
-  
   response['results'].each do |r| 
     r['entities']['urls'].each do |u| 
       i = Item.new
       i.user_id = user.id
       i.channel_id = c.id
       i.body = u['expanded_url']
-      puts i.attributes
       i.save!   
     end  
   end

@@ -40,4 +40,8 @@ class User < ActiveRecord::Base
   
   delegate :max_created_channels, :to => :plan
   
+  before_validation do |user|
+    user.plan_id ||= Plan.first.id
+  end
+  
 end

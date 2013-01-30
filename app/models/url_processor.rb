@@ -6,40 +6,20 @@ class UrlProcessor
   def self.perform(item_id)
     
     item = Item.find item_id
-    u = normalize(item.body)
     
-    c = Link.count(:conditions => {:uri => u})
-      
-    embed_attrs = {}  
-      
-    if c < 1
+    u = normalize(item.body)    
+
+    # Hit the cache first
+    link = Link.where(["uri = ?", u]).first || fetch(u)
+            
+    item.update_attribute(:link_id, link.id)
     
-      puts "Count #{c}. Procesando."
-    
-      data = LinkFetcher.fetch(u)
-      
-      puts "Fetched Data #{data}"
-      data.merge!(:uri => u, :fetched_at => Time.now)
-    
-      puts data
-    
-      link = Link.create!(data)
-      fa = Time.now
-      
-      embed_attrs = disembed(u)
-      
-      link.update_attributes!(embed_attrs)
-      
-      
-    elsif c == 1
-      
-      link = Link.where(["uri = ?", u]).first
-      fa = nil
-      
-    end
-    
-    item.update_attributes!({:link_id => link.id, :link_fetched_at => fa})
-    
+  end
+  
+  def self.fetch(u)
+    # Fetch link data and create the link
+    data = LinkFetcher.fetch(u).merge!(:uri => u)          
+    Link.create!(data)
   end
   
   
@@ -48,15 +28,13 @@ class UrlProcessor
     #TODO Support short urls for youtu.be etc 
     
     r = {:has_embed => false, :oembed_response => nil}
+    serv_name = Disembed.has_embed?(u)
     
-    puts "Disembedding"
-    if serv = Disembed.has_embed?(u)
-      puts "#{u} has embed, disembedding ..."
-      d = Disembed.disembed(u, serv)
-      r = {:has_embed => true, :oembed_response => d}
-    end
+    return unless serv_name
     
-    r
+    d = Disembed.disembed(u, serv_name)
+    {:has_embed => true, :oembed_response => d}
+  
   end
   
   

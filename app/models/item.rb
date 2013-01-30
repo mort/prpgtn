@@ -15,7 +15,7 @@
 #
 
 class Item < ActiveRecord::Base
-  attr_accessible :body, :link_id, :link_fetched_at
+  attr_accessible :body, :link_id
   
   #include RocketPants::Cacheable
   
@@ -42,7 +42,9 @@ class Item < ActiveRecord::Base
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
   
   after_create :set_item_token
-  after_create :url_process
+  after_create :process_url
+  
+  delegate :fetched_at, :to => :link, :prefix => true
   
   # 
   # def to_param
@@ -59,7 +61,7 @@ class Item < ActiveRecord::Base
     update_attribute :item_token, generate_item_token
   end
   
-  def url_process
+  def process_url
     return unless item_type == 'url'
     Resque.enqueue(UrlProcessor, id)
   end

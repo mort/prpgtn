@@ -25,11 +25,8 @@ class Disembed
        end   
     end
     
-    r = found ? s : found
+    found ? s : found
     
-    puts "#{url} has embed? #{r}"
-    
-    r
 
   end
   
