@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130129164053) do
+ActiveRecord::Schema.define(:version => 20130130152239) do
 
   create_table "channel_subs", :force => true do |t|
     t.integer  "channel_id"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20130129164053) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "links", ["uri"], :name => "index_links_on_uri"
 
   create_table "oauth_access_grants", :force => true do |t|
     t.integer  "resource_owner_id", :null => false

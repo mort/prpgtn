@@ -13,6 +13,7 @@ class LinkFetcher
       {:og_url => m, :og_title => nil, :og_description => nil, :fetch_method => nil}
     end
      
+    puts "... fetched data for #{m}: #{data}"
     data.merge!(:fetched_at => Time.now)
     
   end

@@ -63,7 +63,8 @@ class Item < ActiveRecord::Base
   
   def process_url
     return unless item_type == 'url'
-    Resque.enqueue(UrlProcessor, id)
+    UrlProcessor.perform_async(id)
+    #Resque.enqueue(UrlProcessor, id)
   end
   
   

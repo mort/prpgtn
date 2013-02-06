@@ -33,14 +33,26 @@ class Disembed
   
   def self.disembed(url, service = nil)
 
-    service ||= has_embed?(url) 
-    resp = do_request(service, url) if service
+    # service ||= has_embed?(url) 
+    # resp = do_request(service, url) if service
+    
+    
+    resp = embedly_request(url)
 
     resp.to_json
     
   end
   
   private
+  
+  def self.embedly_request(url)
+    key = '5a1cf92d86504bde85eaafc7a9ca5f2c'
+    endpoint = 'http://api.embed.ly/1/oembed'
+    
+    r = HTTParty.get endpoint, :query => {:key => key, :url => url}
+    puts "... Embedly response #{r}"
+    r
+  end
   
   def self.do_request(service, url)
 

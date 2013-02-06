@@ -1,14 +1,8 @@
-#response = HTTParty.get('http://search.twitter.com/search.json?q=http&rpp=100&include_entities=true&result_type=mixed')
-#response['results'].each {|r| r['entities']['urls'].each {|u| i = Item.new; i.user_id = i.channel_id = 1; i.body = u['expanded_url']; i.save }  }
-
-
-task "sputnik:twitter_feed", [:q, :rpp] => :environment do |t, args|
+task "sputnik:twitter_feed", [:q, :limit] => :environment do |t, args|
   
-  args.with_defaults(:q => "http", :rpp => '100')
-  
-  puts "Buscando #{args.q}"
-  
-  url = "http://search.twitter.com/search.json?q=#{args.q}&rpp=#{args.rpp}&include_entities=true&result_type=mixed"
+  args.with_defaults(:q => "http", :limit => '100')
+    
+  url = "http://search.twitter.com/search.json?q=#{args.q}&rpp=#{args.limit}&include_entities=true&result_type=mixed"
 
   puts url
 
@@ -17,6 +11,8 @@ task "sputnik:twitter_feed", [:q, :rpp] => :environment do |t, args|
   user = User.first
   c = Channel.first
   
+  raise "Twitter has left the building #{response.inspect}" if (response['errors'] || response['error'])
+  
   response['results'].each do |r| 
     r['entities']['urls'].each do |u| 
       i = Item.new
@@ -24,6 +20,7 @@ task "sputnik:twitter_feed", [:q, :rpp] => :environment do |t, args|
       i.channel_id = c.id
       i.body = u['expanded_url']
       i.save!   
+      puts "MSG: #{i.body}"
     end  
   end
 

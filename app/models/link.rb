@@ -27,14 +27,14 @@ class Link < ActiveRecord::Base
   validates_presence_of :uri
   validates_uniqueness_of :uri
   
-  after_create :disembed
+  #after_create :disembed
   
-  private
+  # private
   
-  def disembed
-    embed_attrs = UrlProcessor.disembed(uri)
-    update_attributes!(embed_attrs)
-  end 
+  # def disembed
+  #   embed_attrs = UrlProcessor.disembed(uri)
+  #   update_attributes!(embed_attrs)
+  # end 
   
   
   
