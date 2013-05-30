@@ -21,8 +21,6 @@ class UrlProcessor
     link = if existing_link
       puts "... Existing link from #{existing_link.created_at.to_s}"
       existing_link
-
-
     else 
     
       link_attrs = embed_attrs = nil

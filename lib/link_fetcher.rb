@@ -33,6 +33,7 @@ class OGFetcher
 end
 
 class PismoFetcher
+
   def self.fetch(url)
     doc = Pismo::Document.new(url)
     raise PismoFail unless doc
@@ -42,8 +43,5 @@ class PismoFetcher
 end
 
 
-class OGFail < StandardError 
-end
-  
-class PismoFail < StandardError 
-end
+class OGFail < StandardError;end  
+class PismoFail < StandardError;end
