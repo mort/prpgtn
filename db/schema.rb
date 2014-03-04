@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114004322) do
+ActiveRecord::Schema.define(:version => 20130130152239) do
 
   create_table "channel_subs", :force => true do |t|
     t.integer  "channel_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "max_users"
   end
 
   create_table "items", :force => true do |t|
@@ -33,16 +34,15 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
     t.integer  "user_id"
     t.string   "item_token"
     t.text     "body"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.string   "item_type"
     t.integer  "link_id"
-    t.datetime "link_fetched_at"
   end
 
   create_table "links", :force => true do |t|
     t.string   "uri"
-    t.string   "mime_type"
+    t.string   "content_type"
     t.string   "og_title"
     t.string   "og_type"
     t.string   "og_image"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "links", ["uri"], :name => "index_links_on_uri"
 
   create_table "oauth_access_grants", :force => true do |t|
     t.integer  "resource_owner_id", :null => false
@@ -95,6 +97,18 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
 
   add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
 
+  create_table "plans", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "max_created_channels"
+    t.integer  "max_users_in_channel"
+    t.integer  "monthly_price"
+    t.string   "monthly_price_currency"
+    t.integer  "channels_counter"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -108,6 +122,7 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.integer  "plan_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

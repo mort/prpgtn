@@ -4,10 +4,8 @@ require 'pismo'
 class LinkFetcher
 
   def self.fetch(m)
-    
-    puts "M "+m
-    
-    link = begin
+        
+    data = begin
       OGFetcher.fetch(m)
     rescue OGFail
       PismoFetcher.fetch(m)
@@ -15,7 +13,8 @@ class LinkFetcher
       {:og_url => m, :og_title => nil, :og_description => nil, :fetch_method => nil}
     end
      
-    link
+    puts "... fetched data for #{m}: #{data}"
+    data.merge!(:fetched_at => Time.now)
     
   end
   
@@ -34,6 +33,7 @@ class OGFetcher
 end
 
 class PismoFetcher
+
   def self.fetch(url)
     doc = Pismo::Document.new(url)
     raise PismoFail unless doc
@@ -43,8 +43,5 @@ class PismoFetcher
 end
 
 
-class OGFail < StandardError 
-end
-  
-class PismoFail < StandardError 
-end
+class OGFail < StandardError;end  
+class PismoFail < StandardError;end

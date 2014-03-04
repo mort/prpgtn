@@ -4,7 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  uri             :string(255)
-#  mime_type       :string(255)
+#  content_type    :string(255)
 #  og_title        :string(255)
 #  og_type         :string(255)
 #  og_image        :string(255)

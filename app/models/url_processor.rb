@@ -1,65 +1,81 @@
 require 'link_fetcher'
 
 class UrlProcessor
+  include Sidekiq::Worker
+  
   @queue = :url_processor #this class variable will be used as queue name in resque, so you can fill in different name
   
-  def self.perform(item_id)
+  def perform(item_id)
+    
+    link_created = false
     
     item = Item.find item_id
-    u = normalize(item.body)
     
-    c = Link.count(:conditions => {:uri => u})
-      
-    embed_attrs = {}  
-      
-    if c < 1
+    u = normalize(item.body)    
     
-      puts "Count #{c}. Procesando."
+    puts "_______ Working with #{u}"
+
+    # Hit the cache first
+    existing_link = Link.where(["uri = ?", u]).first
     
-      data = LinkFetcher.fetch(u)
-      data.merge!(:uri => u, :fetched_at => Time.now)
+    link = if existing_link
+      puts "... Existing link from #{existing_link.created_at.to_s}"
+      existing_link
+    else 
     
-      puts data
+      link_attrs = embed_attrs = nil
+       
+      puts "... Fetching link"
+      link_attrs = fetch(u)
     
-      link = Link.create(data)
-      fa = Time.now
-      
-      embed_attrs = disembed(u)
-      
-      link.update_attributes(embed_attrs)
-      
-      
-    elsif c == 1
-      
-      link = Link.where(["uri = ?", u]).first
-      fa = nil
-      
+      puts "... Disembedding link"
+      embed_attrs = embedly_disembed(u)
+  
+      attrs = link_attrs.merge!(embed_attrs)
+
+      puts "Creating link #{attrs}"
+      Link.create!(attrs)
+        
     end
     
-    item.update_attributes({:link_id => link.id, :link_fetched_at => fa})
+        
+    item.update_attribute(:link_id, link.id)
     
+  end
+  
+  def process
+  end
+  
+  def fetch(u)
+    # Fetch link data and create the link
+    LinkFetcher.fetch(u).merge!(:uri => u)          
+    #Link.create!(data)
+  end
+  
+  def embedly_disembed(u)
+    "... hitting Embedly for #{u}"
+    d = Disembed.disembed(u)
+    {:has_embed => true, :oembed_response => d}
     
   end
   
   
-  def self.disembed(u)
+  def disembed(u)
     
     #TODO Support short urls for youtu.be etc 
     
     r = {:has_embed => false, :oembed_response => nil}
+    serv_name = Disembed.has_embed?(u)
     
-    puts "Disembedding"
-    if serv = Disembed.has_embed?(u)
-      puts "#{u} has embed, disembedding ..."
-      d = Disembed.disembed(u, serv)
-      r = {:has_embed => true, :oembed_response => d}
-    end
+    return unless serv_name
     
-    r
+    d = Disembed.disembed(u, serv_name)
+    {:has_embed => true, :oembed_response => d}
+  
   end
   
   
-  def self.normalize(body)
+  def normalize(body)
     u = PostRank::URI.extract(body).first
     u = PostRank::URI.clean(u)
     # u = PostRank::URI.normalize(u)

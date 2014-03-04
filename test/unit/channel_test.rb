@@ -8,6 +8,7 @@
 #  description :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  max_users   :integer
 #
 
 require 'test_helper'
@@ -24,9 +25,18 @@ class ChannelTest < ActiveSupport::TestCase
         assert_equal 1, @channel.users.size
       end
     
+<<<<<<< HEAD
       should 'have the owner as first subscriber' do
          assert_equal @channel.users.first, @channel.owner
        end
+=======
+      should 'have the creator as first subscriber' do
+        assert_equal @channel.users.first, @channel.creator
+      end
+       
+       
+       
+>>>>>>> b36161d0d7819f76f7a14cfb46f698ea8cfe1020
     
   end
   

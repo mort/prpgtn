@@ -15,12 +15,31 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  plan_id                :integer
 #
 
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  context 'a creator' do
+    
+    setup do
+    end
+    
+    should 'not be able to create more channels than allowed' do
+      @channel = FactoryGirl.create(:channel)
+      
+      creator = @channel.creator
+      
+      ch = creator.created_channels.create(:title => 'Foo', :description => 'Foo')
+      
+      assert_equal ch.valid?, false  
+      assert ch.errors.has_key?(:max_users) 
+      
+    end
+  
+  
+  end
+
 end

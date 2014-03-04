@@ -12,7 +12,21 @@
 require 'test_helper'
 
 class ChannelSubTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  context 'a channel sub' do
+    
+    setup do
+      @channel = FactoryGirl.create(:channel)
+      @channel.users.expects(:count).returns(@channel.max_users)
+    end
+    
+    should 'not happen if the channel is full' do
+      
+      FactoryGirl.create(:channel_sub, :channel => @channel)
+    
+    end
+  
+  
+  end
+
 end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.10'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,12 +12,16 @@ gem "cancan", "~> 1.6.8"
 gem "rocket_pants", "~> 1.5.5"
 gem 'doorkeeper', '~> 0.6.6'
 gem "resque", "~> 1.23.0"
-gem "postrank-uri", "~> 1.0.16"
-gem "opengraph", "~> 0.0.4"
+gem "postrank-uri", "~> 1.0.17"
+gem "opengraph", :git => 'https://github.com/mort/opengraph.git'
 gem "pismo", "~> 0.7.2"
-gem 'httparty'
+gem "httparty", "~> 0.11.0"
 gem "foreman", "~> 0.61.0"
 gem "thin", "~> 1.5.0"
+gem "whenever", "~> 0.8.2"
+gem "sidekiq", "~> 2.12.0"
+gem "nokogiri", "~> 1.5.9"
+
 
 # Gems used only for assets and not required
 # in production environments by default.

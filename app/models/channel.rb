@@ -8,6 +8,7 @@
 #  description :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  max_users   :integer
 #
 
 class Channel < ActiveRecord::Base
@@ -17,16 +18,24 @@ class Channel < ActiveRecord::Base
   attr_accessible :title, :description
   
   belongs_to :owner, :class_name => 'User'
+  belongs_to :plan
   has_many :items
   
   has_many :channel_subs
   has_many :users, :through => :channel_subs, :uniq => true
 
+  validates_presence_of :title, :description, :creator_id, :max_users
   validates_presence_of :title, :description, :owner_id
-
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
+  
+  validate do
+    
+    errors.add(:max_users, "Channels maxed out. Please, upgrade.") unless (creator.created_channels.count < creator.max_created_channels)
+    
+  end
 
-  after_create :subscribe_owner
+  before_validation :set_max_users
+  after_create :subscribe_creator
     
   def subscribe(user)
     cs = channel_subs.build
@@ -42,8 +51,11 @@ class Channel < ActiveRecord::Base
   
   def subscribe_owner
     subscribe(owner)
-  end  
+  end
+
+  def set_max_users
+    self.max_users = User.find(self.creator_id).plan.max_users_in_channel
+  end
+  
     
 end
-
-

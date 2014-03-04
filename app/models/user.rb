@@ -15,6 +15,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  plan_id                :integer
 #
 
 class User < ActiveRecord::Base
@@ -33,8 +34,17 @@ class User < ActiveRecord::Base
   has_many :owned_channels, :class_name => 'Channel', :foreign_key => 'owner_id', :dependent => :destroy
   has_one  :selfie, :class_name => 'Channel', :conditions => [:channel_type => Channel::CHANNEL_TYPES[:selfie]] 
   has_many :items
+  belongs_to :plan
   
   after_create :create_selfie
+  
+  validates_presence_of :plan_id
+    
+  delegate :max_created_channels, :to => :plan
+  
+  before_validation do |user|
+    user.plan_id ||= Plan.first.id
+  end
   
   
   private
@@ -44,7 +54,6 @@ class User < ActiveRecord::Base
     channels.create!(:title => 'Selfie', :description => 'For your eyes only', :channel_type => Channel::CHANNEL_TYPES[:selfie])
   
   end
-  
   
   
 end

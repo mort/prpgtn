@@ -4,7 +4,7 @@ class ApiController < RocketPants::Base
   
   version 1
   
-  doorkeeper_for :all
+  #doorkeeper_for :all
   
   map_error! ActiveRecord::RecordNotFound, RocketPants::NotFound
   
