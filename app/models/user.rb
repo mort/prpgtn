@@ -30,7 +30,21 @@ class User < ActiveRecord::Base
   
   has_many :channel_subs
   has_many :channels, :through => :channel_subs, :readonly => true
-  has_many :created_channels, :class_name => 'Channel', :foreign_key => 'creator_id', :dependent => :destroy
+  has_many :owned_channels, :class_name => 'Channel', :foreign_key => 'owner_id', :dependent => :destroy
+  has_one  :selfie, :class_name => 'Channel', :conditions => [:channel_type => Channel::CHANNEL_TYPES[:selfie]] 
   has_many :items
+  
+  after_create :create_selfie
+  
+  
+  private
+  
+  def create_selfie
+  
+    channels.create!(:title => 'Selfie', :description => 'For your eyes only', :channel_type => Channel::CHANNEL_TYPES[:selfie])
+  
+  end
+  
+  
   
 end

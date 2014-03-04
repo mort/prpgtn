@@ -3,7 +3,7 @@
 # Table name: channels
 #
 #  id          :integer          not null, primary key
-#  creator_id  :integer
+#  owner_id  :integer
 #  title       :string(255)      not null
 #  description :string(255)
 #  created_at  :datetime         not null
@@ -11,17 +11,22 @@
 #
 
 class Channel < ActiveRecord::Base
+  
+  CHANNEL_TYPES = [:standard => 1, :selfie => 2, :popular => 3]
+  
   attr_accessible :title, :description
   
-  belongs_to :creator, :class_name => 'User'
+  belongs_to :owner, :class_name => 'User'
   has_many :items
   
   has_many :channel_subs
   has_many :users, :through => :channel_subs, :uniq => true
 
-  validates_presence_of :title, :description, :creator_id
+  validates_presence_of :title, :description, :owner_id
 
-  after_create :subscribe_creator
+  validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
+
+  after_create :subscribe_owner
     
   def subscribe(user)
     cs = channel_subs.build
@@ -35,8 +40,8 @@ class Channel < ActiveRecord::Base
   
   private
   
-  def subscribe_creator
-    subscribe(creator)
+  def subscribe_owner
+    subscribe(owner)
   end  
     
 end

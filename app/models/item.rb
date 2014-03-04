@@ -22,11 +22,6 @@ class Item < ActiveRecord::Base
   
   belongs_to :link
   
-  # Ensure it has a type
-  before_validation do 
-    self.item_type = 'url' if item_type.blank?
-  end
-  
   validates_presence_of :body, :channel_id, :user_id
   validates_inclusion_of :item_type, :in => ITEM_TYPES
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }

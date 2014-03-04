@@ -3,7 +3,7 @@
 # Table name: channels
 #
 #  id          :integer          not null, primary key
-#  creator_id  :integer
+#  owner_id  :integer
 #  title       :string(255)      not null
 #  description :string(255)
 #  created_at  :datetime         not null
@@ -24,8 +24,8 @@ class ChannelTest < ActiveSupport::TestCase
         assert_equal 1, @channel.users.size
       end
     
-      should 'have the creator as first subscriber' do
-         assert_equal @channel.users.first, @channel.creator
+      should 'have the owner as first subscriber' do
+         assert_equal @channel.users.first, @channel.owner
        end
     
   end

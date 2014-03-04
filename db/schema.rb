@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20130114004322) do
   end
 
   create_table "channels", :force => true do |t|
-    t.integer  "creator_id"
+    t.integer  "owner_id"
     t.string   "title",       :null => false
     t.string   "description"
     t.datetime "created_at",  :null => false

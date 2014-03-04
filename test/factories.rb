@@ -1,6 +1,6 @@
 FactoryGirl.define do
   
-  factory :user, aliases: [:creator] do 
+  factory :user, aliases: [:owner] do 
     sequence(:email) {|n| "email#{n}@sputnikgo.com" }        
     password               "password"
     password_confirmation  "password"
@@ -9,7 +9,7 @@ FactoryGirl.define do
   factory :channel do 
     title             "Foo"
     description       "Foo"
-    creator  
+    owner  
   end
   
   factory :item do
