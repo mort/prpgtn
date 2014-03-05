@@ -1,2 +1,0 @@
-rvm_trust_rvmrcs_flag=1
-rvm --create ruby-1.9.3-p362@sputnik > /dev/null

@@ -22,10 +22,11 @@ ActiveRecord::Schema.define(:version => 20130130152239) do
 
   create_table "channels", :force => true do |t|
     t.integer  "owner_id"
-    t.string   "title",       :null => false
+    t.string   "title",                       :null => false
     t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "channel_type", :default => 1, :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.integer  "max_users"
   end
 
@@ -34,9 +35,9 @@ ActiveRecord::Schema.define(:version => 20130130152239) do
     t.integer  "user_id"
     t.string   "item_token"
     t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "item_type"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "item_type",  :default => "url", :null => false
     t.integer  "link_id"
   end
 

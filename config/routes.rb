@@ -1,18 +1,22 @@
 Sputnik::Application.routes.draw do
     
-  use_doorkeeper
+  #use_doorkeeper
   
   devise_for :users
   
-  api version: 1 do
+  # api version: 1 do
+  # 
+  #   post 'channels/:channel_id/items', :to => 'api/items#create'
+  #   get 'channels/:channel_id/items', :to => 'api/items#index'
+  #   get 'items/:id', :to => 'api/items#show'
+  #   
+  # end
+  
+ 
+  resources :channels, :only => [:new, :create, :index]
+  
 
-    post 'channels/:channel_id/items', :to => 'api/items#create'
-    get 'channels/:channel_id/items', :to => 'api/items#index'
-    get 'items/:id', :to => 'api/items#show'
-    
-  end
-
-  root :to => "home#index"
+  root :to => "channels#index"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

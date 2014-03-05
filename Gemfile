@@ -6,11 +6,11 @@ gem 'rails', '3.2.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem "mysql2", "~> 0.3.11"
-gem "devise", "~> 2.1.2"
-gem "cancan", "~> 1.6.8"
-gem "rocket_pants", "~> 1.5.5"
-gem 'doorkeeper', '~> 0.6.6'
+gem "mysql2", "~> 0.3.15"
+gem "devise", "~> 3.2.3"
+gem "cancan", "~> 1.6.10"
+#gem "rocket_pants", "~> 1.5.5"
+#gem 'doorkeeper', '~> 0.6.6'
 gem "resque", "~> 1.23.0"
 gem "postrank-uri", "~> 1.0.17"
 gem "opengraph", :git => 'https://github.com/mort/opengraph.git'

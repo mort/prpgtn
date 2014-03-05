@@ -19,9 +19,9 @@ class ChannelSub < ActiveRecord::Base
   
   validates :user_id, :uniqueness => {:scope => :channel_id, :message => 'Only one subscription per user and channel'}  
   
-  validate do
-    errors[:base] << "Channel is full. Make room! Make room!" unless (channel.users.count < channel.max_users)
-  end
+  # validate do
+  #   errors[:base] << "Channel is full. Make room! Make room!" unless (channel.users.count < channel.max_users)
+  # end
   
   
 end
