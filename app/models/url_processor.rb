@@ -2,9 +2,7 @@ require 'link_fetcher'
 
 class UrlProcessor
   include Sidekiq::Worker
-  
-  @queue = :url_processor #this class variable will be used as queue name in resque, so you can fill in different name
-  
+    
   def perform(item_id)
     
     link_created = false
@@ -21,6 +19,7 @@ class UrlProcessor
     link = if existing_link
       puts "... Existing link from #{existing_link.created_at.to_s}"
       existing_link
+      
     else 
     
       link_attrs = embed_attrs = nil

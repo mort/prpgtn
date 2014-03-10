@@ -1,0 +1,28 @@
+<h1>Channel <%= @channel.id %> items</h1>
+
+<table>
+  <tr>
+    <th>
+      Body
+    </th>
+    <th>
+      Posted by
+    </th>
+    <th>
+      Created at
+    </th>
+    <th>
+      Link
+    </th>
+  </tr>
+<%- @channel.items.each do |i| %>
+  <tr>
+  <td><%= i.body -%></td>
+  <td><%= link_to i.user_id, admin_user_path(i.user) -%></td>
+  <td><%= i.created_at -%></td>
+  <td><%= link_to i.link_id, admin_link_path(i.link)  %></td>
+  
+  </li>
+<%- end -%>
+
+</ol>

@@ -1,0 +1,27 @@
+<h2>Link <%= @link.id %></h2>
+
+<p>
+  <%= link_to @link.uri, @link.uri %>
+</p>  
+<p>
+  Linked from:  
+</p>
+<ul>
+<%- @link.items.each do |i| -%>
+  <li><%= link_to i.channel.id, admin_channel_path(i.channel.id) %></li>
+<%- end -%>
+</ul>
+<%- if @link.fetch_og? -%>
+<p><%= @link.og_title %></p>
+<p>
+  <%= @link.og_description %>
+</p>
+<p><%= @link.og_type %></p>
+<p>
+  <%= image_tag @link.og_image %>
+</p>
+<%- end -%>
+
+<%- if @link.has_embed -%>
+  <%= @link.oembed_response %>
+<%- end -%>

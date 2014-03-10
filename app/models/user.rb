@@ -51,8 +51,10 @@ class User < ActiveRecord::Base
   
   def create_selfie
   
-    channels.create!(:title => 'Selfie', :description => 'For your eyes only', :channel_type => Channel::CHANNEL_TYPES[:selfie])
-  
+    c = channels.build(:title => '#selfie', :description => 'For your eyes only')
+    c.channel_type = Channel::CHANNEL_TYPES[:selfie]
+    c.save
+    
   end
   
   

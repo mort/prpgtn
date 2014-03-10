@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Sputnik::Application.load_tasks
+Prpgtn::Application.load_tasks

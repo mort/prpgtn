@@ -2,16 +2,15 @@
 #
 # Table name: items
 #
-#  id              :integer          not null, primary key
-#  channel_id      :integer
-#  user_id         :integer
-#  item_token      :string(255)
-#  body            :text
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  item_type       :string(255)
-#  link_id         :integer
-#  link_fetched_at :datetime
+#  id         :integer          not null, primary key
+#  channel_id :integer
+#  user_id    :integer
+#  item_token :string(255)
+#  body       :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  item_type  :string(255)      default("url"), not null
+#  link_id    :integer
 #
 
 require 'test_helper'

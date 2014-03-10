@@ -1,0 +1,10 @@
+<h1>Channels</h1>
+
+<table>
+    
+<%- @channels.each do |c| -%>
+<tr>
+ <td><%= link_to c.title, admin_channel_path(c) %></td>
+ <td><%= link_to c.owner_id, admin_user_path(c.owner) %></td>
+</tr>
+<%- end -%>

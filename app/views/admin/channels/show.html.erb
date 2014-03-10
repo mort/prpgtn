@@ -1,0 +1,22 @@
+<h1>Channel</h1>
+
+<p>
+<%= @channel.title %>
+</p>
+
+<p>
+<%= @channel.created_at %>
+</p>
+
+<p>
+  <%= link_to @channel.owner_id, admin_user_path(@channel.owner) %>
+</p>
+
+<p>
+  <%= link_to @channel.items.count, items_admin_channel_path(@channel) %>
+</p>
+
+
+<p>
+  <%= link_to @channel.users.count, subscribers_admin_channel_path(@channel) %>
+</p>

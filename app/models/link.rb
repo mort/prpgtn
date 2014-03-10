@@ -27,6 +27,10 @@ class Link < ActiveRecord::Base
   validates_presence_of :uri
   validates_uniqueness_of :uri
   
+  def fetch_og?
+    fetch_method == 'og'
+  end
+  
   #after_create :disembed
   
   # private

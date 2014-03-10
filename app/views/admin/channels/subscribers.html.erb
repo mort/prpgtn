@@ -1,0 +1,10 @@
+<h1>Channel <%= @channel.id %> subscribers</h1>
+
+<ol>
+  
+<%- @channel.users.each do |u| %>
+  <li><%= u.email -%></li>
+<%- end -%>
+
+</ol>
+  

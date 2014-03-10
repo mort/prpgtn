@@ -21,6 +21,6 @@
 
 # every 5.minutes do 
 #   
-#   rake "sputnik:twitter_feed RAILS_ENV=development" 
+#   rake "prpgtn:twitter_feed RAILS_ENV=development" 
 #   
 # end

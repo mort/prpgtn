@@ -11,15 +11,14 @@ gem "devise", "~> 3.2.3"
 gem "cancan", "~> 1.6.10"
 #gem "rocket_pants", "~> 1.5.5"
 #gem 'doorkeeper', '~> 0.6.6'
-gem "resque", "~> 1.23.0"
 gem "postrank-uri", "~> 1.0.17"
 gem "opengraph", :git => 'https://github.com/mort/opengraph.git'
 gem "pismo", "~> 0.7.2"
-gem "httparty", "~> 0.11.0"
-gem "foreman", "~> 0.61.0"
-gem "thin", "~> 1.5.0"
-gem "whenever", "~> 0.8.2"
-gem "sidekiq", "~> 2.12.0"
+gem "httparty", "~> 0.13.0"
+gem "foreman", "~> 0.63.0"
+gem "thin", "~> 1.6.2"
+gem "whenever", "~> 0.9.2"
+gem "sidekiq", "~> 2.17.7"
 gem "nokogiri", "~> 1.5.9"
 
 

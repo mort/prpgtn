@@ -2,18 +2,20 @@
 #
 # Table name: channels
 #
-#  id          :integer          not null, primary key
-#  owner_id  :integer
-#  title       :string(255)      not null
-#  description :string(255)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  max_users   :integer
+#  id           :integer          not null, primary key
+#  owner_id     :integer
+#  title        :string(255)      not null
+#  description  :string(255)
+#  channel_type :integer          default(1), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  max_users    :integer
+#  is_deletable :boolean          default(TRUE), not null
 #
 
 class Channel < ActiveRecord::Base
   
-  CHANNEL_TYPES = {:standard => 1, :selfie => 2, :popular => 3}
+  CHANNEL_TYPES = {:standard => 1, :selfie => 2, :bored => 3}
     
   attr_accessible :title, :description
   

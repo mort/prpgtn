@@ -1,7 +1,9 @@
-Sputnik::Application.routes.draw do
+Prpgtn::Application.routes.draw do
     
+
   #use_doorkeeper
   
+  devise_for :admins
   devise_for :users
   
   # api version: 1 do
@@ -12,6 +14,15 @@ Sputnik::Application.routes.draw do
   #   
   # end
   
+  namespace :admin do 
+    
+    resources :users, :links, :items
+    resources :channels do
+      member do 
+        get 'subscribers', 'items'
+      end
+    end
+  end
  
   resources :channels, :only => [:new, :create, :index]
   

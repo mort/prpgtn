@@ -1,0 +1,44 @@
+<h2>Items</h2>
+
+<table>
+  
+  <tr>
+    <th>
+      Channel
+    </th>
+    <th>
+      User
+    </th>
+    <th>
+      Link
+    </th>
+    <th>
+      Body
+    </th>
+    <th>
+      Created at
+    </th>
+  </tr>
+  
+<%- @items.each do |i| -%>
+<tr>
+  
+  <td>
+    <%= link_to i.channel_id, admin_channel_path(i.channel) %>
+  </td>
+  <td>
+    <%= link_to i.user_id, admin_user_path(i.user) %>
+  </td>
+  <td>
+     <%= link_to i.link_id, admin_link_path(i.link) %>
+   </td>
+  <td>
+    <%= i.body %>
+  </td>
+  <td>
+    <%= i.created_at %>
+  </td>
+ 
+</tr>
+<%- end -%>
+</table>
