@@ -1,4 +1,4 @@
-Sputnik
+Propagation
 ======
 
-Link sharing, high and ballsy.
+Super boring link sharing, brought to you by Super Boring Stuff.
