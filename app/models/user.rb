@@ -36,6 +36,9 @@ class User < ActiveRecord::Base
   has_many :items
   has_many :archived_links 
   has_many :links, :through => :archived_links 
+  has_many :sent_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'sender_id'
+  has_many :received_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'recipient_id'
+  
   
   belongs_to :plan
   

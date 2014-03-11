@@ -5,7 +5,7 @@
 <%- if @channels.any? -%>
   <%- @channels.each do |c| -%>
     <li>
-      <%= c.title %>
+      <%=  link_to c.title, channel_path(c) %>
     </li>
   <%- end -%>  
 <%- end -%>

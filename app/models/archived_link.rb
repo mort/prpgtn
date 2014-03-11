@@ -6,6 +6,7 @@ class ArchivedLink < ActiveRecord::Base
   belongs_to :user
   belongs_to :link
   
+  validates_presence_of :archive_type
   validates_uniqueness_of :link_id, :scope => [:user_id, :archive_type]
   
   ARCHIVE_TYPES.each do |k,v| 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140310224133) do
+ActiveRecord::Schema.define(:version => 20140311202905) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -37,6 +37,20 @@ ActiveRecord::Schema.define(:version => 20140310224133) do
     t.integer  "archive_type"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "channel_invites", :force => true do |t|
+    t.integer  "channel_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "email"
+    t.string   "token"
+    t.integer  "status",       :default => 1, :null => false
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
+    t.datetime "expired_at"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "channel_subs", :force => true do |t|

@@ -32,7 +32,9 @@ Prpgtn::Application.routes.draw do
     end
   end
  
-  resources :channels, :only => [:new, :create, :index]
+  resources :channels, :only => [:new, :create, :index, :show] do
+    resources :channel_invites, :shallow => true
+  end
   
 
   root :to => "channels#index"

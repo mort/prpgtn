@@ -9,6 +9,12 @@ class ChannelsController < ApplicationController
     @channel = current_user.channels.build
   end
   
+  def show
+    @channel = current_user.channels.find params[:id]
+    @invite = @channel.channel_invites.build
+    
+  end
+  
   def create
     
     @channel = Channel.new(params[:channel])
@@ -30,5 +36,7 @@ class ChannelsController < ApplicationController
     
     
   end
+  
+
   
 end
