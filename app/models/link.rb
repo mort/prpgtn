@@ -23,12 +23,21 @@ class Link < ActiveRecord::Base
   attr_accessible :og_url, :og_title, :og_image, :og_description, :fetch_method, :uri, :fetched_at, :og_type, :has_embed, :oembed_response
   
   has_many :items
+  has_many :archived_links
+  has_many :users, :through => :archived_links
   
   validates_presence_of :uri
   validates_uniqueness_of :uri
   
   def fetch_og?
     fetch_method == 'og'
+  end
+  
+  def archive_for(user, options)
+    l = archived_links.build
+    l.user_id = user.id
+    l.archive_type = options[:as]
+    l.save!
   end
   
   #after_create :disembed

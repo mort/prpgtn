@@ -1,0 +1,23 @@
+<h2>Links</h2>
+<ul>
+  <li>
+    <%= link_to 'Mine', links_path(:s => 'by') %>
+  </li>
+  <li>
+    <%= link_to 'For me', links_path(:s => 'for')  %>
+  </li>
+  <li>
+    <%= link_to 'Kept', links_path(:s => 'kept')  %>
+  </li>
+  
+</ul>  
+
+<table>
+  <%- @links.each do |l| -%>
+    <tr>
+      <td>
+        <%= l.uri %>
+      </td>
+    </tr>
+  <%- end -%>  
+</table>

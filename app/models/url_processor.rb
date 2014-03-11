@@ -39,7 +39,7 @@ class UrlProcessor
     
         
     item.update_attribute(:link_id, link.id)
-    
+    item.archive_links
   end
   
   def process

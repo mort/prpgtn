@@ -34,6 +34,9 @@ class User < ActiveRecord::Base
   has_many :owned_channels, :class_name => 'Channel', :foreign_key => 'owner_id', :dependent => :destroy
   has_one  :selfie, :class_name => 'Channel', :conditions => [:channel_type => Channel::CHANNEL_TYPES[:selfie]] 
   has_many :items
+  has_many :archived_links 
+  has_many :links, :through => :archived_links 
+  
   belongs_to :plan
   
   after_create :create_selfie

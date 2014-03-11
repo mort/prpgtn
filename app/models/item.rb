@@ -49,6 +49,19 @@ class Item < ActiveRecord::Base
   # def to_param
   #   item_token
   # end
+  
+  def archive_links
+    if link
+      link.archive_for(user, :as => ArchivedLink::ARCHIVE_TYPES[:by])
+      channel.users.each do |u|
+        link.archive_for(u, :as => ArchivedLink::ARCHIVE_TYPES[:for]) unless (u == user)
+      end
+    end
+  end
+
+  def keep_link_for(user)
+    link.archive_for(user, :as => ArchivedLink::ARCHIVE_TYPES[:kept])
+  end
 
   private 
 
@@ -64,6 +77,8 @@ class Item < ActiveRecord::Base
     return unless item_type == 'url'
     UrlProcessor.perform_async(id)
   end
+  
+
   
   
 end

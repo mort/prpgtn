@@ -14,6 +14,14 @@ Prpgtn::Application.routes.draw do
   #   
   # end
   
+  resources :items, :links
+  
+  namespace :popup do
+  
+    resources :items
+    
+  end
+  
   namespace :admin do 
     
     resources :users, :links, :items
