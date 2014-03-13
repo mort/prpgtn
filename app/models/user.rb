@@ -52,6 +52,13 @@ class User < ActiveRecord::Base
     user.plan_id ||= Plan.first.id
   end
   
+  def owns?(channel)
+    id == channel.owner_id
+  end
+  
+  def display_name
+    email
+  end
   
   private
   

@@ -1,17 +1,58 @@
 <h2><%= @channel.title %></h2>
-
-<%= form_for [@channel, @invite] do |f| %>
+<%- if @channel.description -%>
   <p>
-    <%= f.text_field :email %>
-  </p>
-  <p>
-    <%= submit_tag 'Invite' %>
+    <%= @channel.description %>
   </p>
 <%- end -%>
+
+<p>
+  Participants: <%= @channel.users.size %>. Started: <%= @channel.created_at %>
+</p>
+
+
+<%- unless current_user.owns?(@channel) -%>
+  
+    <%= form_for @channel, :url => leave_channel_path(@channel) do -%>
+      <p>
+        <%= submit_tag 'Leave channel'  %>
+      </p>
+    <%- end -%>
+    
+<%- else -%>    
+    
+    <%= form_for @channel, :url => channel_path(@channel), :method => :delete do -%>
+      <p>
+        <%= submit_tag 'Exit and delete channel'  %>
+      </p>
+    <%- end -%>
+  
+<%- end -%>
+
+<%- if current_user.owns?(@channel) -%>
+
+  <%= form_for [@channel, @invite] do |f| %>
+    <p>
+      <%= f.text_field :email %>
+    </p>
+    <p>
+      <%= submit_tag 'Invite' %>
+    </p>
+  <%- end -%>
+
+<%- end -%>
+
+<h3>Participants</h3>
 
 <ul>
 <%- @channel.users.each do |u| -%>
-<li><%= u.email %></li>
+<li><%= (current_user == u) ? 'You' : u.display_name %></li>
 <%- end -%>
+
+<%- @channel.channel_invites.pending.each do |i| -%>
+<li><%= i.email %> <i>(pending)</i></li>
+<%- end -%>
+
+
+
 </ul>
   

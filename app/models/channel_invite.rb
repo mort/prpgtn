@@ -7,9 +7,10 @@ class ChannelInvite < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'User'
   belongs_to :channel
   
-  attr_accessible :email
+  attr_accessible :email, :status, :accepted_at, :recipient_id, :declined_at
   
-  validates_presence_of :sender_id, :email
+  validates_presence_of :sender_id, :email, :channel_id
+  validates_uniqueness_of :email, :scope => [:channel_id], :conditions => ["status = ?", STATUSES[:pending]], :message => 'Already invited to this channel', :on => :create
   
   validate do 
     

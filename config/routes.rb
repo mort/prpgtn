@@ -32,10 +32,20 @@ Prpgtn::Application.routes.draw do
     end
   end
  
-  resources :channels, :only => [:new, :create, :index, :show] do
-    resources :channel_invites, :shallow => true
+  resources :channels, :only => [:new, :create, :index, :show, :destroy] do
+    
+    member do
+      put 'leave'
+    end
+    
+    resources :channel_invites, :shallow => true do
+      member do
+        put 'accept', 'decline'
+      end
+    end
   end
   
+  match 'user/invites' => 'channel_invites#index', :as => :invites
 
   root :to => "channels#index"
   

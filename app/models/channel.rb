@@ -21,17 +21,16 @@ class Channel < ActiveRecord::Base
   
   belongs_to :owner, :class_name => 'User'
   belongs_to :plan
-  has_many :items
   
-  has_many :channel_subs
-  has_many :channel_invites
+  has_many :items, :dependent => :destroy
+  has_many :channel_subs, :dependent => :destroy
+  has_many :channel_invites, :dependent => :destroy
+
   has_many :users, :through => :channel_subs, :uniq => true
 
   validates_presence_of :title, :owner_id
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
   validates_uniqueness_of :title, :scope => [:owner_id]
-  
-  
   
   # validate do
   #    
@@ -41,6 +40,10 @@ class Channel < ActiveRecord::Base
 
   #before_validation :set_max_users
   after_create :subscribe_owner
+  
+  def owned_by?(user)
+    owner_id == user.id
+  end
     
   def subscribe(user)
     cs = channel_subs.build

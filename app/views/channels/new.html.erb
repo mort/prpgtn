@@ -3,8 +3,12 @@
 
 <%= form_for @channel do |f| -%>
 
+  <p>
   <%= f.text_field :title %>
-
+  </p>
+  
+  <p><%= f.text_area :description %></p>
+  
   <%= submit_tag 'Create' %>
 
 <%- end -%>

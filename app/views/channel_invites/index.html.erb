@@ -1,0 +1,31 @@
+<h2>Invites</h2>
+
+<h3>For you</h3>
+
+<%- @received.each do |i| -%>
+<p>
+  To channel <%= i.channel.title %>, from <%= i.sender.email %>
+</p>
+<%= form_for i, :url => accept_channel_invite_path(i.token), :method => :put do |f| %>
+<p>
+  <%= submit_tag 'Accept' %>
+</p>
+
+<%- end -%>  
+
+<%= form_for i, :url => decline_channel_invite_path(i.token), :method => :put do |f| %>
+<p>
+  <%= submit_tag 'Decline' %>
+</p>
+
+<%- end -%>  
+<%- end -%>
+
+
+<h3>Sent by you</h3>
+
+<%- @sent.each do |i| -%>
+<p>
+  To <%= i.email %> for channel <%= i.channel.title %>
+</p>
+<%- end -%>

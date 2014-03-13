@@ -1,5 +1,10 @@
 class ChannelInvitesController < ApplicationController
   before_filter :authenticate_user!
+  
+  def index
+    @sent = current_user.sent_channel_invites.pending
+    @received = current_user.received_channel_invites.pending
+  end
 
   def create
     @channel = current_user.channels.find(params[:channel_id])
@@ -7,20 +12,26 @@ class ChannelInvitesController < ApplicationController
     @invite = @channel.channel_invites.build(params[:channel_invite])
     @invite.sender = current_user
     
+    r = User.find_by_email(@invite.email)
+    @invite.recipient = r if r
+    
     if @invite.save
       
+      UserMailer.channel_invite(@invite)
+
       respond_to do |format|
         
         format.html {
-          redirect_to channel_path(@channel)
+          redirect_to channel_path(@channel), :notice => 'Invitation sent'
         }
+        
       end
       
       else
         
         respond_to do |format|
             format.html {
-              render :text => 'Ouch'
+             redirect_to channel_path(@channel)
             }
       end
     end
@@ -29,8 +40,8 @@ class ChannelInvitesController < ApplicationController
   end
   
   def show
-  
-    @invite = ChannelInvite.pending.find_by_token params[:id]
+    
+    @invite = ChannelInvite.pending.find_by_token_and_email params[:id], current_user.email
     @channel = @invite.channel
     
   end
@@ -60,7 +71,7 @@ class ChannelInvitesController < ApplicationController
   
   def decline
     
-    @invite = ChannelInvite.pending.find_by_token params[:token]
+    @invite = ChannelInvite.pending.find_by_token params[:id]
        
     if @invite
       
@@ -70,6 +81,7 @@ class ChannelInvitesController < ApplicationController
         format.html {
           redirect_to channels_path
         }
+        
       end  
       
     end

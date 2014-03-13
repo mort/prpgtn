@@ -5,12 +5,62 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  
+  <style>
+    
+    div#canvas {
+      width: 100%;
+    }
+    
+    div#sidebar {
+      width: 18%;
+      float: left;
+    }
+    
+    div#main {
+      width: 80%;      
+      float: right;
+    }
+    
+  
+  </style>
+  
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
 
-  <%= yield %>
+
+  <div id="canvas">
+    <div id="sidebar">
+      <%- if current_user -%>
+        <%= current_user.email %>
+      <%- end -%>
+      <hr>
+      <ul>
+        <li>
+          <%= link_to 'Channels', channels_path %>
+        </li>
+        <li>
+          <%= link_to 'Links', links_path %>
+        </li>
+        <li>
+          <%= link_to 'Invites', invites_path %>
+        </li>
+        
+      </ul>  
+    </div>
+    
+    <div id="main">
+      <h1>Propagation</h1>
+      
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+
+      <%= yield %>
+      
+    </div>
+    
+  </div>
+
 
 </body>
 </html>
