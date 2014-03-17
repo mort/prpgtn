@@ -8,6 +8,8 @@ gem 'rails', '3.2.11'
 gem 'sqlite3'
 gem "mysql2", "~> 0.3.15"
 gem "devise", "~> 3.2.3"
+gem "devise-async", "~> 0.9.0"
+
 gem "cancan", "~> 1.6.10"
 #gem "rocket_pants", "~> 1.5.5"
 #gem 'doorkeeper', '~> 0.6.6'
@@ -22,6 +24,8 @@ gem "sidekiq", "~> 2.17.7"
 gem "nokogiri", "~> 1.5.9"
 gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 
 
 # Gems used only for assets and not required
@@ -43,6 +47,7 @@ group :development do
   gem "wirble"
   gem "hirb"
   gem "awesome_print"
+  gem 'mailcatcher'
 end
 
 group :test do

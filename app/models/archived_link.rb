@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: archived_links
+#
+#  id           :integer          not null, primary key
+#  user_id      :integer
+#  link_id      :integer
+#  archive_type :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class ArchivedLink < ActiveRecord::Base
   # attr_accessible :title, :body
   

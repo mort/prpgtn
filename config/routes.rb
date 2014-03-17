@@ -1,10 +1,16 @@
 Prpgtn::Application.routes.draw do
     
+  require 'sidekiq/web'
+
 
   #use_doorkeeper
   
   devise_for :admins
   devise_for :users
+  
+  authenticate :admin do
+    mount Sidekiq::Web => '/sidekiq'
+  end
   
   # api version: 1 do
   # 
@@ -37,6 +43,14 @@ Prpgtn::Application.routes.draw do
     member do
       put 'leave'
     end
+    
+    resources :items do
+      member do
+        get 'jump'
+      end
+    end
+    
+    resources :channel_subs, :only => :destroy
     
     resources :channel_invites, :shallow => true do
       member do

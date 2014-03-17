@@ -16,13 +16,19 @@
 class Channel < ActiveRecord::Base
   
   CHANNEL_TYPES = {:standard => 1, :selfie => 2, :bored => 3}
+  POST_PERMISSIONS = {:editorial => 0, :all => 1, :owner => 2}  
+    
+  
+  CHANNEL_TYPES.each do |k,v|
+     scope k, where('channel_type = ?', v)
+   end
     
   attr_accessible :title, :description
   
   belongs_to :owner, :class_name => 'User'
   belongs_to :plan
   
-  has_many :items, :dependent => :destroy
+  has_many :items, :order => 'created_at DESC', :dependent => :destroy
   has_many :channel_subs, :dependent => :destroy
   has_many :channel_invites, :dependent => :destroy
 
@@ -41,8 +47,24 @@ class Channel < ActiveRecord::Base
   #before_validation :set_max_users
   after_create :subscribe_owner
   
+  def standard?
+    channel_type == CHANNEL_TYPES[:standard]
+  end
+  
+  def selfie?
+    channel_type == CHANNEL_TYPES[:selfie]
+  end
+  
   def owned_by?(user)
     owner_id == user.id
+  end
+  
+  def all_can_post?
+    post_permissions = POST_PERMISSIONS[:all]
+  end
+  
+  def owner_can_post?
+     post_permissions = POST_PERMISSIONS[:owner]
   end
     
   def subscribe(user)

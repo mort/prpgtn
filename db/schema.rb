@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140311202905) do
+ActiveRecord::Schema.define(:version => 20140317002923) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -62,13 +62,14 @@ ActiveRecord::Schema.define(:version => 20140311202905) do
 
   create_table "channels", :force => true do |t|
     t.integer  "owner_id"
-    t.string   "title",                          :null => false
+    t.string   "title",                              :null => false
     t.string   "description"
-    t.integer  "channel_type", :default => 1,    :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "channel_type",     :default => 1,    :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "max_users"
-    t.boolean  "is_deletable", :default => true, :null => false
+    t.boolean  "is_deletable",     :default => true, :null => false
+    t.integer  "post_permissions", :default => 1,    :null => false
   end
 
   create_table "items", :force => true do |t|
@@ -80,6 +81,19 @@ ActiveRecord::Schema.define(:version => 20140311202905) do
     t.datetime "updated_at",                    :null => false
     t.string   "item_type",  :default => "url", :null => false
     t.integer  "link_id"
+  end
+
+  create_table "link_stats", :force => true do |t|
+    t.integer  "link_id"
+    t.integer  "item_count"
+    t.integer  "jump_count"
+    t.integer  "kept_count"
+    t.integer  "fwd_count"
+    t.integer  "twitter_share_count"
+    t.integer  "fb_share_count"
+    t.integer  "email_share_count"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "links", :force => true do |t|

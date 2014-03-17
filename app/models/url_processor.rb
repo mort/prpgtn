@@ -2,6 +2,7 @@ require 'link_fetcher'
 
 class UrlProcessor
   include Sidekiq::Worker
+  sidekiq_options :queue => :critical
     
   def perform(item_id)
     

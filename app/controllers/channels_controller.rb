@@ -14,15 +14,29 @@ class ChannelsController < ApplicationController
   end
   
   def show
+          
+      @channel = current_user.channels.find params[:id]
     
-    @channel = current_user.channels.find params[:id]
-    @invite = @channel.channel_invites.build
+      @invite = @channel.channel_invites.build
+      @items = @channel.items
     
+      t = Channel::CHANNEL_TYPES.invert[@channel.channel_type]
+    
+        respond_to do |format|
+      
+          format.html {
+            render :template => "channels/show.#{t}"
+          }
+          format.atom
+      
+        end
+
   end
   
   def create
     
     @channel = Channel.new(params[:channel])
+    @channel.post_permissions = Channel::POST_PERMISSIONS[:all]
     @channel.owner_id = current_user.id
     
     if @channel.save 
@@ -43,8 +57,10 @@ class ChannelsController < ApplicationController
   end
   
   def destroy
+        
+    channel = current_user.own_channels.find(params[:id])
+    return if channel.selfie?
     
-    channel = Channel.find(params[:id])
     channel.destroy
     
     respond_to do |format|
@@ -56,7 +72,7 @@ class ChannelsController < ApplicationController
 
   def leave
     
-    channel = Channel.find(params[:id])
+    channel = current_user.channels.find(params[:id])
     
     # Channel's owner can't leave before destroying it
     return if channel.owned_by?(current_user) 

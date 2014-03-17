@@ -1,4 +1,7 @@
 <h2><%= @channel.title %></h2>
+<p>
+  <%= link_to channel_url(@channel, :format => 'atom'), channel_url(@channel, :format => 'atom') %>
+</p>
 <%- if @channel.description -%>
   <p>
     <%= @channel.description %>
@@ -46,6 +49,17 @@
 <ul>
 <%- @channel.users.each do |u| -%>
 <li><%= (current_user == u) ? 'You' : u.display_name %></li>
+
+<%- if current_user.owns?(@channel) && (current_user != u) -%>
+
+  <%= form_for @channel, :url => channel_channel_sub_path(@channel, u.channel_sub_for(@channel.id)), :method => :delete do -%>
+    <p>
+      <%= submit_tag 'Remove from channel'  %>
+    </p>
+  <%- end -%>
+
+<%- end -%>
+
 <%- end -%>
 
 <%- @channel.channel_invites.pending.each do |i| -%>

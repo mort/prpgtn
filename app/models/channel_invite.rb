@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: channel_invites
+#
+#  id           :integer          not null, primary key
+#  channel_id   :integer
+#  sender_id    :integer
+#  recipient_id :integer
+#  email        :string(255)
+#  token        :string(255)
+#  status       :integer          default(1), not null
+#  accepted_at  :datetime
+#  declined_at  :datetime
+#  expired_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class ChannelInvite < ActiveRecord::Base
   # attr_accessible :title, :body
   
@@ -13,7 +31,8 @@ class ChannelInvite < ActiveRecord::Base
   validates_uniqueness_of :email, :scope => [:channel_id], :conditions => ["status = ?", STATUSES[:pending]], :message => 'Already invited to this channel', :on => :create
   
   validate do 
-    
+
+    errors.add(:base, 'No invites allowed') unless channel.standard?
     errors.add(:base, 'Can\'t invite yourself') if sender.email == email
     
   end

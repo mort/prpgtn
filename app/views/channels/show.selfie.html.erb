@@ -1,0 +1,12 @@
+<h2><%= @channel.title %></h2>
+<%- if @channel.description -%>
+  <p>
+    <%= @channel.description %>
+  </p>
+<%- end -%>
+
+<p>
+  Started: <%= @channel.created_at %>
+</p>
+
+
