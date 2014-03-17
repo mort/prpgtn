@@ -25,6 +25,7 @@ gem "nokogiri", "~> 1.5.9"
 gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem "paperclip", "~> 4.1"
 
 
 
@@ -48,6 +49,8 @@ group :development do
   gem "hirb"
   gem "awesome_print"
   gem 'mailcatcher'
+  gem "rubber", "~> 2.7.4"
+  
 end
 
 group :test do

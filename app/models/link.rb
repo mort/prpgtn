@@ -55,7 +55,7 @@ class Link < ActiveRecord::Base
   
   def create_stats
     
-    link_stats.create! :item_count => 1
+    create_link_stats! :item_count => 1
     
   end
   

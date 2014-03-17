@@ -48,7 +48,10 @@
 
 <ul>
 <%- @channel.users.each do |u| -%>
-<li><%= (current_user == u) ? 'You' : u.display_name %></li>
+<li><%= (current_user == u) ? 'You' : u.display_name %>
+  <%= (u.owns?(@channel)) ? '(owner)' : '' %>
+  
+  </li>
 
 <%- if current_user.owns?(@channel) && (current_user != u) -%>
 
@@ -62,8 +65,25 @@
 
 <%- end -%>
 
+
+<%- if current_user.owns?(@channel)  -%>
+
 <%- @channel.channel_invites.pending.each do |i| -%>
-<li><%= i.email %> <i>(pending)</i></li>
+<li><%= i.email %> <i>(pending)</i>
+  
+  <%- if current_user.owns?(@channel) -%>
+  
+    <%= form_for i, :url => channel_invite_path(i), :method => :delete do -%>
+       <p>
+         <%= submit_tag 'Cancel invitation'  %>
+       </p>
+    <%- end -%>
+  <%- end -%>
+  
+  
+  
+  </li>
+<%- end -%>
 <%- end -%>
 
 

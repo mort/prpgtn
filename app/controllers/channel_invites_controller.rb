@@ -79,13 +79,30 @@ class ChannelInvitesController < ApplicationController
       
       respond_to do |format|
         format.html {
-          redirect_to channels_path
+          redirect_to channels_path, :notice => "You've declined the invitation"
         }
         
       end  
       
     end
      
+  end
+
+  def destroy
+    
+     invite = current_user.sent_channel_invites.find params[:id]
+     channel = invite.channel  
+     invite.destroy
+     
+     respond_to do |format|
+         format.html {
+           redirect_to channel_path(channel), :notice => "The invitation has been revoked"
+         }
+     end
+     
+       
+      
+    
   end
 
 
