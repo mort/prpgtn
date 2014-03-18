@@ -26,6 +26,7 @@ gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem "paperclip", "~> 4.1"
+gem 'doorkeeper'
 
 
 

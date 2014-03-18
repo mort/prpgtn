@@ -1,5 +1,7 @@
 Prpgtn::Application.routes.draw do
     
+  use_doorkeeper
+
   require 'sidekiq/web'
 
 
