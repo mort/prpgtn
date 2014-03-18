@@ -1,6 +1,5 @@
 <h2>Invites</h2>
 
-<h3>For you</h3>
 
 <%- @received.each do |i| -%>
 <p>
@@ -22,10 +21,3 @@
 <%- end -%>
 
 
-<h3>Sent by you</h3>
-
-<%- @sent.each do |i| -%>
-<p>
-  To <%= i.email %> for channel <%= i.channel.title %>
-</p>
-<%- end -%>
