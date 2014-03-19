@@ -7,9 +7,10 @@ class ChannelInvitesController < ApplicationController
   end
 
   def create
+    
     @channel = current_user.channels.find(params[:channel_id])
     
-    @invite = @channel.channel_invites.build(params[:channel_invite])
+    @invite = @channel.channel_invites.build(invite_params)
     @invite.sender = current_user
     
     r = User.find_by_email(@invite.email)
@@ -27,13 +28,14 @@ class ChannelInvitesController < ApplicationController
         
       end
       
-      else
+    else
         
-        respond_to do |format|
-            format.html {
-             redirect_to channel_path(@channel)
-            }
+      respond_to do |format|
+        format.html {
+          redirect_to channel_path(@channel)
+          }
       end
+    
     end
     
     
@@ -54,7 +56,6 @@ class ChannelInvitesController < ApplicationController
     if @invite
       
       @channel = @invite.channel
-      raise "You\'re already in!" if @channel.users.include?(current_user)
       
       @invite.accept!(current_user)
       @channel.subscribe(current_user)
@@ -103,6 +104,15 @@ class ChannelInvitesController < ApplicationController
        
       
     
+  end
+  
+  
+  private
+  
+  def invite_params
+
+    params.require(:channel_invite).permit(:email)
+
   end
 
 

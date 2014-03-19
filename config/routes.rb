@@ -59,7 +59,8 @@ Prpgtn::Application.routes.draw do
     end
   end
   
-  match 'user/invites' => 'channel_invites#index', :as => :invites
+  get 'user/invites' => 'channel_invites#index', :as => :invites
+  get 'onboarding' => 'onboarding#step', :as => :onboarding
 
   root :to => "channels#index"
   

@@ -20,7 +20,7 @@
 
 class Link < ActiveRecord::Base
   
-  attr_accessible :og_url, :og_title, :og_image, :og_description, :fetch_method, :uri, :fetched_at, :og_type, :has_embed, :oembed_response
+  #attr_accessible :og_url, :og_title, :og_image, :og_description, :fetch_method, :uri, :fetched_at, :og_type, :has_embed, :oembed_response
   
   has_many :items
   has_many :archived_links

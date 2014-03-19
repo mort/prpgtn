@@ -17,7 +17,6 @@
 #
 
 class ChannelInvite < ActiveRecord::Base
-  # attr_accessible :title, :body
   
   STATUSES = {:declined => 0, :pending => 1, :accepted => 2, :expired => 3}
   
@@ -25,10 +24,10 @@ class ChannelInvite < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'User'
   belongs_to :channel
   
-  attr_accessible :email, :status, :accepted_at, :recipient_id, :declined_at
-  
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+  validates_uniqueness_of :email, :scope => [:channel_id], :conditions => -> { where(status: STATUSES[:pending]) }, :message => 'Already invited to this channel', :on => :create
+    
   validates_presence_of :sender_id, :email, :channel_id
-  validates_uniqueness_of :email, :scope => [:channel_id], :conditions => ["status = ?", STATUSES[:pending]], :message => 'Already invited to this channel', :on => :create
   
   validate do 
 
@@ -38,7 +37,7 @@ class ChannelInvite < ActiveRecord::Base
   end
   
   STATUSES.each do |k,v|
-    scope k, where('status = ?', v)
+    scope k, -> { where('status = ?', v) }
   end
   
   after_create :set_token

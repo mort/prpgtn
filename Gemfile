@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '4.0.4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
 gem "mysql2", "~> 0.3.15"
-gem "devise", "~> 3.2.3"
+gem "devise", "~> 3.2.4"
 gem "devise-async", "~> 0.9.0"
 
 gem "cancan", "~> 1.6.10"
@@ -27,21 +27,12 @@ gem "rmagick", "~> 2.13.2"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem "paperclip", "~> 4.1"
 
-
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem 'uglifier', '>= 1.0.3'
-end
-
 gem 'jquery-rails'
+
+
+gem 'sass-rails',   '~> 4.0.2'
+gem 'coffee-rails', '~> 4.0.1'
+gem "uglifier", "~> 2.5.0"
 
 group :development do 
   gem "annotate", "~> 2.5.0"

@@ -20,11 +20,9 @@ class Channel < ActiveRecord::Base
     
   
   CHANNEL_TYPES.each do |k,v|
-     scope k, where('channel_type = ?', v)
+     scope k, -> { where('channel_type = ?', v) }
    end
-    
-  attr_accessible :title, :description
-  
+      
   belongs_to :owner, :class_name => 'User'
   belongs_to :plan
   

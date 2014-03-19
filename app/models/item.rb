@@ -14,7 +14,6 @@
 #
 
 class Item < ActiveRecord::Base
-  attr_accessible :body, :link_id
   
   #include RocketPants::Cacheable
   

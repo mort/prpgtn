@@ -13,8 +13,7 @@ class Popup::ItemsController < ApplicationController
   
   def create
     
-    @item = current_user.items.build(params[:item])
-    @item.channel_id = params[:channel_id]
+    @item = current_user.items.build(item_params)
     
     if @item.save!
       respond_to do |format|
@@ -29,6 +28,15 @@ class Popup::ItemsController < ApplicationController
     end
     
     
+  end
+  
+  
+  private 
+  
+  def item_params
+    
+    params.require(:item).permit(:body, :channel_id)
+
   end
   
 end

@@ -35,7 +35,7 @@ class ChannelsController < ApplicationController
   
   def create
     
-    @channel = Channel.new(params[:channel])
+    @channel = Channel.new(channel_params)
     @channel.post_permissions = Channel::POST_PERMISSIONS[:all]
     @channel.owner_id = current_user.id
     
@@ -86,5 +86,14 @@ class ChannelsController < ApplicationController
     
   end
 
+
+  private
+  
+  def channel_params
+
+    params.require(:channel).permit(:title, :description)
+
+  end
+  
   
 end

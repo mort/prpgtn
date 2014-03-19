@@ -16,8 +16,7 @@
 #
 
 class LinkStats < ActiveRecord::Base
-  # attr_accessible :title, :body
   
   belongs_to :link
-
+  
 end
