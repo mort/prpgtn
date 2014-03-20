@@ -36,15 +36,17 @@ class User < ActiveRecord::Base
   has_many :sent_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'sender_id'
   has_many :received_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'recipient_id'
   
-  #   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
-  #   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   
   
   belongs_to :plan
   
+  
+  before_validation :set_name
   after_create :create_selfie
   
-  validates_presence_of :plan_id
+  validates_presence_of :plan_id, :display_name
     
   delegate :max_created_channels, :to => :plan
   
@@ -55,10 +57,7 @@ class User < ActiveRecord::Base
   def owns?(channel)
     id == channel.owner_id
   end
-  
-  def display_name
-    email
-  end
+
   
   def channel_sub_for(channel_id)
     channel_subs.find_by_channel_id(channel_id)
@@ -70,6 +69,10 @@ class User < ActiveRecord::Base
   end
   
   private
+  
+  def set_name
+    display_name = email.split('@')[0]
+  end
   
   def create_selfie
   

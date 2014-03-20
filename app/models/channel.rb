@@ -57,11 +57,11 @@ class Channel < ActiveRecord::Base
     owner_id == user.id
   end
   
-  def all_can_post?
+  def anyone_can_post?
     post_permissions = POST_PERMISSIONS[:all]
   end
   
-  def owner_can_post?
+  def only_owner_can_post?
      post_permissions = POST_PERMISSIONS[:owner]
   end
     

@@ -3,7 +3,7 @@ class ChannelsController < ApplicationController
   
   def index
   
-    @channels = current_user.channels
+    @channels = current_user.channels.standard
   
   end
 
@@ -15,7 +15,7 @@ class ChannelsController < ApplicationController
   
   def show
           
-      @channel = current_user.channels.find params[:id]
+      @channel = current_user.channels.standard.find params[:id]
     
       @invite = @channel.channel_invites.build
       @items = @channel.items

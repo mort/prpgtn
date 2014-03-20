@@ -41,7 +41,7 @@ class Item < ActiveRecord::Base
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
 
   validate do
-    errors.add(:base, "Can't post") unless channel.all_can_post? || (channel.owner_can_post? && (item.user == channel.owner)) 
+    errors.add(:base, "No permissions") unless (channel.only_owner_can_post? && (item.user == channel.owner)) || channel.anyone_can_post?
   end
   
   after_create :set_item_token

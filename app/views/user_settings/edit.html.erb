@@ -1,0 +1,20 @@
+<h2>Settings</h2>
+
+<%= form_for @user, :url => user_settings_path, :html => { :multipart => true }, :method => :patch do |f| %>
+
+  <p>
+    <%= image_tag @user.avatar.url(:medium) %>
+    <%= f.file_field :avatar %>
+  </p>
+
+    
+  <p>
+    <%= f.text_field :display_name, :size => 50 %>
+  </p>
+  
+  
+  <p>
+    <%= submit_tag 'Update' %>
+  </p>
+
+<%- end -%>

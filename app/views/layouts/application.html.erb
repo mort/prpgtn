@@ -32,7 +32,8 @@
   <div id="canvas">
     <div id="sidebar">
       <%- if current_user -%>
-        <%= current_user.email %>
+        <%= image_tag current_user.avatar.url(:thumb) %>
+        <%= link_to current_user.display_name, edit_user_settings_path %>
       <%- end -%>
       <hr>
       <ul>

@@ -6,8 +6,8 @@ Prpgtn::Application.routes.draw do
   #use_doorkeeper
   
   devise_for :admins
-  devise_for :users
-  
+  devise_for :users 
+    
   authenticate :admin do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -59,9 +59,12 @@ Prpgtn::Application.routes.draw do
     end
   end
   
+  resource :user_settings, :only => [:edit, :update]
+  
+  
   get 'user/invites' => 'channel_invites#index', :as => :invites
   get 'onboarding' => 'onboarding#step', :as => :onboarding
-
+  
   root :to => "channels#index"
   
   # The priority is based upon order of creation:
