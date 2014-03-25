@@ -1,7 +1,7 @@
 class Api::V0::ChannelsController < Api::V0::ApiController
   
   def index
-    respond_with current_user.channels
+    respond_with current_user.channels, each_serializer: ChannelListSerializer
   end
   
   

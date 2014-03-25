@@ -1,8 +1,9 @@
 <%= form_for [:popup, @item] do |f| %>
   
-  <%= select_tag 'item[channel_id]', options_for_select(@channels) %>
+  <%= f.select :channel_id, options_for_select(@channels) %>
     
   <%= hidden_field_tag '[item][body]', @url %>
+ 
   <%= submit_tag 'Propagate' %>
   
 
