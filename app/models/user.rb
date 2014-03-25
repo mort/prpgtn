@@ -27,9 +27,9 @@ class User < ActiveRecord::Base
 
   
   has_many :channel_subs
-  has_many :channels, :through => :channel_subs, :readonly => true
+  has_many :channels, -> { readonly }, :through => :channel_subs
   has_many :own_channels, :class_name => 'Channel', :foreign_key => 'owner_id', :dependent => :destroy
-  has_one  :selfie, :class_name => 'Channel', :foreign_key => 'owner_id', :conditions => {:channel_type => Channel::CHANNEL_TYPES[:selfie]}, :dependent => :destroy
+  has_one  :selfie, -> { where ["channel_type = ?", Channel::CHANNEL_TYPES[:selfie]] }, :class_name => 'Channel', :foreign_key => 'owner_id' , :dependent => :destroy
   has_many :items
   has_many :archived_links 
   has_many :links, :through => :archived_links 
@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   
   def create_selfie
   
-    c = own_channels.build(:title => '#selfie', :description => 'For your eyes only')
+    c = own_channels.build(:title => '#selfie', :description => 'For your eyes only', :is_deletable => false)
     c.post_permissions = Channel::POST_PERMISSIONS[:owner]
     c.channel_type = Channel::CHANNEL_TYPES[:selfie]
     c.save

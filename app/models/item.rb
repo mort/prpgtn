@@ -14,14 +14,11 @@
 #
 
 class Item < ActiveRecord::Base
-  
-  #include RocketPants::Cacheable
-  
+    
   ITEM_TYPES = %W(url)
   
   belongs_to :channel
   belongs_to :user
-  
   belongs_to :link
   
   class << self
@@ -34,14 +31,14 @@ class Item < ActiveRecord::Base
   before_validation do 
     self.item_type = 'url' if item_type.blank?
   end
-  
-  
-  validates_presence_of :body, :channel_id, :user_id
+    
+  validates_presence_of :body, :channel, :user
   validates_inclusion_of :item_type, :in => ITEM_TYPES
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
 
   validate do
-    errors.add(:base, "No permissions") unless (channel.only_owner_can_post? && (item.user == channel.owner)) || channel.anyone_can_post?
+    errors.add(:base, "No posts allowed") if channel.post_blocked? 
+    errors.add(:base, "No permission to post") unless channel.post_public? || (channel.post_owner? && (user == channel.owner)) 
   end
   
   after_create :set_item_token
@@ -49,18 +46,19 @@ class Item < ActiveRecord::Base
   
   delegate :fetched_at, :to => :link, :prefix => true
   
-  # 
-  # def to_param
-  #   item_token
-  # end
-  
   def archive_links
+    
     if link
+      
       link.archive_for(user, :as => ArchivedLink::ARCHIVE_TYPES[:by])
-      channel.users.each do |u|
-        link.archive_for(u, :as => ArchivedLink::ARCHIVE_TYPES[:for]) unless (u == user)
-      end
+      
+      r = channel.users-[user]
+      r.each do |u|
+        link.archive_for(u, :as => ArchivedLink::ARCHIVE_TYPES[:for])
+      end if r.any? # except #selfie
+      
     end
+
   end
 
   def keep_link_for(user)
@@ -81,8 +79,5 @@ class Item < ActiveRecord::Base
     return unless item_type == 'url'
     UrlProcessor.perform_async(id)
   end
-  
-
-  
   
 end

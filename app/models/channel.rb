@@ -16,21 +16,27 @@
 class Channel < ActiveRecord::Base
   
   CHANNEL_TYPES = {:standard => 1, :selfie => 2, :bored => 3}
-  POST_PERMISSIONS = {:editorial => 0, :all => 1, :owner => 2}  
-    
+  POST_PERMISSIONS = {:blocked => 0, :public => 1, :owner => 2}  
+  
+  VIEWPORT_SIZE = 10
   
   CHANNEL_TYPES.each do |k,v|
      scope k, -> { where('channel_type = ?', v) }
    end
+   
+  POST_PERMISSIONS.each do |k,v|
+    scope k, -> { where('post_permissions = ?', v) }
+  end
       
   belongs_to :owner, :class_name => 'User'
   belongs_to :plan
   
-  has_many :items, :order => 'created_at DESC', :dependent => :destroy
+  has_many :items, -> { order('created_at DESC') }, :dependent => :destroy
+  has_many :viewport_items, -> { order('created_at DESC').limit(Channel::VIEWPORT_SIZE) }, :class_name => 'Item'
   has_many :channel_subs, :dependent => :destroy
   has_many :channel_invites, :dependent => :destroy
 
-  has_many :users, :through => :channel_subs, :uniq => true
+  has_many :users, -> { uniq }, :through => :channel_subs, :as => :subscribers
 
   validates_presence_of :title, :owner_id
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
@@ -43,6 +49,7 @@ class Channel < ActiveRecord::Base
   #  end
 
   #before_validation :set_max_users
+  
   after_create :subscribe_owner
   
   def standard?
@@ -56,13 +63,17 @@ class Channel < ActiveRecord::Base
   def owned_by?(user)
     owner_id == user.id
   end
-  
-  def anyone_can_post?
-    post_permissions = POST_PERMISSIONS[:all]
+
+  def post_blocked?
+    post_permissions == POST_PERMISSIONS[:blocked]
   end
   
-  def only_owner_can_post?
-     post_permissions = POST_PERMISSIONS[:owner]
+  def post_public?
+    post_permissions == POST_PERMISSIONS[:public]
+  end
+  
+  def post_owner?
+     post_permissions == POST_PERMISSIONS[:owner]
   end
     
   def subscribe(user)

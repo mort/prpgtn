@@ -2,8 +2,7 @@ Prpgtn::Application.routes.draw do
     
   require 'sidekiq/web'
 
-
-  #use_doorkeeper
+  use_doorkeeper
   
   devise_for :admins
   devise_for :users 
@@ -12,15 +11,26 @@ Prpgtn::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
   
-  # api version: 1 do
-  # 
-  #   post 'channels/:channel_id/items', :to => 'api/items#create'
-  #   get 'channels/:channel_id/items', :to => 'api/items#index'
-  #   get 'items/:id', :to => 'api/items#show'
-  #   
-  # end
-  
   resources :items, :links
+  
+  
+  namespace :api do 
+  
+    api_version(:module => "v0", :header => {:name => "Accept", :value => "application/vnd.prpgtn.com; version=0"}, :path => {:value => "v0"}) do
+      # match '/foos.(:format)' => 'foos#index', :via => :get
+      # match '/foos_no_format' => 'foos#index', :via => :get
+      # resources :bars
+
+      match 'me' => 'users#me', :via => :get
+  
+      resources :channels, :only => [:index, :show] do
+        resources :users, :only => [:index] 
+      end
+
+    end
+  
+  end
+  
   
   namespace :popup do
   

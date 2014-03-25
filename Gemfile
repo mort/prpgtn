@@ -29,6 +29,9 @@ gem "paperclip", "~> 4.1"
 
 gem 'jquery-rails'
 
+gem 'doorkeeper', '~> 1.0.0'
+gem 'versionist', '~> 1.3.0'
+gem 'active_model_serializers', '~> 0.8.1'
 
 gem 'sass-rails',   '~> 4.0.2'
 gem 'coffee-rails', '~> 4.0.1'
@@ -41,7 +44,7 @@ group :development do
   gem "awesome_print"
   gem 'mailcatcher'
   gem "rubber", "~> 2.7.4"
-  
+  gem 'jsonpretty', '~> 1.1.0'
 end
 
 group :test do

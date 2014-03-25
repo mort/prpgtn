@@ -1,0 +1,10 @@
+curl -i http://localhost:3000/api/v0/me.json -H "Authorization: Bearer 0e18029cff6357ad07c24f02ad23c4af4d0ba103e33641b0e0e74e762fe54549"
+
+curl -i http://localhost:3000/api/v0/channels.json -H "Authorization: Bearer 0e18029cff6357ad07c24f02ad23c4af4d0ba103e33641b0e0e74e762fe54549"
+
+curl -i http://localhost:3000/api/v0/channels/5.json -H "Authorization: Bearer 0e18029cff6357ad07c24f02ad23c4af4d0ba103e33641b0e0e74e762fe54549"
+
+curl -i http://localhost:3000/api/v0/channels/5/users.json -H "Authorization: Bearer 0e18029cff6357ad07c24f02ad23c4af4d0ba103e33641b0e0e74e762fe54549"
+
+curl -i http://localhost:3000/api/v0/my_channels.json -H "Authorization: Bearer 0e18029cff6357ad07c24f02ad23c4af4d0ba103e33641b0e0e74e762fe54549"
+
