@@ -25,9 +25,9 @@ class ChannelInvite < ActiveRecord::Base
   belongs_to :channel
   
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
-  validates_uniqueness_of :email, -> { where(status: STATUSES[:pending]) }, :scope => [:channel_id], :message => 'Already invited to this channel', :on => :create
+  validates_uniqueness_of :email, :scope => [:channel_id], :message => 'Already invited to this channel', :on => :create
     
-  validates_presence_of :sender_id, :email, :channel_id
+  validates_presence_of :sender, :email, :channel
   
   validate do 
 

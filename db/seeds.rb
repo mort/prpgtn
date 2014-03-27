@@ -7,15 +7,34 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
+User.create!([
+             {:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'},
+             {:email => 'manuel.gonzalez.noriega+a@gmail.com', :password => '123456'},
+             {:email => 'manuel.gonzalez.noriega+b@gmail.com', :password => '123456'},
+             {:email => 'manuel.gonzalez.noriega+c@gmail.com', :password => '123456'}      
+          ])
 
-Plan.create([:title => 'Free', :description => 'Share away!', :max_users_in_channel => 5, :max_created_channels => 1, :monthly_price => '0', :monthly_price_currency => '$'], :without_protection => true)
+EmoteSet.create([title: 'Buzzfeed', keyword: 'buzzfeed', status: 1])
 
-User.create([:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'])
-User.create([:email => 'manuel.gonzalez.noriega+a@gmail.com', :password => '123456'])
-User.create([:email => 'manuel.gonzalez.noriega+b@gmail.com', :password => '123456'])
-User.create([:email => 'manuel.gonzalez.noriega+c@gmail.com', :password => '123456'])
+
+Emote.create([
+             {content: '<3', emote_set_id: EmoteSet.first.id}, 
+             {content: '</3', emote_set_id: EmoteSet.first.id}, 
+             {content: 'LOL', emote_set_id: EmoteSet.first.id}, 
+             {content: 'OLD', emote_set_id: EmoteSet.first.id}, 
+             {content: 'OMG', emote_set_id: EmoteSet.first.id}, 
+             {content: 'WTF', emote_set_id: EmoteSet.first.id}, 
+             {content: 'CUTE', emote_set_id: EmoteSet.first.id}, 
+             {content: 'WIN', emote_set_id: EmoteSet.first.id}, 
+             {content: 'FAIL', emote_set_id: EmoteSet.first.id}, 
+             {content: 'TRASHY', emote_set_id: EmoteSet.first.id}, 
+             {content: 'EW', emote_set_id: EmoteSet.first.id},
+             {content: 'YAAASS', emote_set_id: EmoteSet.first.id}
+             ])
 
 
 Admin.create([:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'])
 
-Channel.create([{:title => 'Wadus', :description => 'Fuel the wadus!', :owner_id => User.first.id }], :without_protection => true)
+Channel.create({:title => 'Wadus', :description => 'Fuel the wadus!', :owner_id => User.first.id })
+
+# Channel.channel_settings.create()

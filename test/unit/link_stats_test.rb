@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  link_id             :integer
 #  item_count          :integer
-#  click_count         :integer
+#  jump_count          :integer
 #  kept_count          :integer
 #  fwd_count           :integer
 #  twitter_share_count :integer

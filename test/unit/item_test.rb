@@ -11,6 +11,7 @@
 #  updated_at :datetime         not null
 #  item_type  :string(255)      default("url"), not null
 #  link_id    :integer
+#  forwarded  :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

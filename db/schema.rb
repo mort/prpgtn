@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319222356) do
+ActiveRecord::Schema.define(version: 20140326163202) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(version: 20140319222356) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+
+  create_table "api_v0_emotings", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "user_id"
+    t.integer  "emote_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "archived_links", force: true do |t|
     t.integer  "user_id"
@@ -53,6 +61,14 @@ ActiveRecord::Schema.define(version: 20140319222356) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "channel_settings", force: true do |t|
+    t.integer  "channel_id"
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "channel_subs", force: true do |t|
     t.integer  "channel_id"
     t.integer  "user_id"
@@ -72,6 +88,30 @@ ActiveRecord::Schema.define(version: 20140319222356) do
     t.integer  "post_permissions", default: 1,    null: false
   end
 
+  create_table "emote_sets", force: true do |t|
+    t.string   "title"
+    t.string   "keyword"
+    t.integer  "status",     default: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "emotes", force: true do |t|
+    t.integer  "emote_set_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "forwardings", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "channel_id"
+    t.integer  "user_id"
+    t.integer  "original_fwd_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "items", force: true do |t|
     t.integer  "channel_id"
     t.integer  "user_id"
@@ -81,6 +121,7 @@ ActiveRecord::Schema.define(version: 20140319222356) do
     t.datetime "updated_at",                 null: false
     t.string   "item_type",  default: "url", null: false
     t.integer  "link_id"
+    t.boolean  "forwarded",  default: false, null: false
   end
 
   create_table "link_stats", force: true do |t|

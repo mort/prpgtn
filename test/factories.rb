@@ -4,11 +4,11 @@ FactoryGirl.define do
     sequence(:email) {|n| "email#{n}@prpgtn.com" }        
     password               "password"
     password_confirmation  "password"
-    plan
+    display_name           "mort"
   end
 
   factory :channel do 
-    title             "Foo"
+    sequence(:title) {|n| "channel#{n}" }        
     description       "Foo"
     owner  
   end
@@ -27,6 +27,12 @@ FactoryGirl.define do
     max_users_in_channel '5'
     monthly_price '0'
     monthly_price_currency '$'
+  end
+  
+  factory :forwarding do
+    item
+    user
+    channel
   end
   
   factory :channel_sub do 

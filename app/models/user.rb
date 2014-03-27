@@ -16,6 +16,11 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  plan_id                :integer
+#  avatar_file_name       :string(255)
+#  avatar_content_type    :string(255)
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
+#  display_name           :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -35,24 +40,23 @@ class User < ActiveRecord::Base
   has_many :links, :through => :archived_links 
   has_many :sent_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'sender_id'
   has_many :received_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'recipient_id'
+  has_many :forwardings
   
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
-  
-  
-  belongs_to :plan
-  
-  
-  before_validation :set_name
-  after_create :create_selfie
-  
-  validates_presence_of :plan_id, :display_name
     
+  before_validation(on: :create) do
+    
+    self.display_name = self.email.split('@')[0] unless attribute_present?('display_name')
+
+  end
+  
+  after_create :create_selfie
+
+  validates_presence_of :display_name
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
   delegate :max_created_channels, :to => :plan
   
-  before_validation do |user|
-    user.plan_id ||= Plan.first.id
-  end
   
   def owns?(channel)
     id == channel.owner_id
@@ -68,11 +72,12 @@ class User < ActiveRecord::Base
     create_selfie
   end
   
-  private
-  
-  def set_name
-    display_name = email.split('@')[0]
+  def fwd_item(item)
+    item.fwd(self, item)
   end
+  
+  private
+
   
   def create_selfie
   

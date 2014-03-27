@@ -11,6 +11,7 @@
 #  updated_at :datetime         not null
 #  item_type  :string(255)      default("url"), not null
 #  link_id    :integer
+#  forwarded  :boolean          default(FALSE), not null
 #
 
 class Item < ActiveRecord::Base
@@ -20,6 +21,8 @@ class Item < ActiveRecord::Base
   belongs_to :channel
   belongs_to :user
   belongs_to :link
+  
+  has_many :forwardings, -> { order("created_at ASC") }
   
   class << self
     def with_link
@@ -65,6 +68,20 @@ class Item < ActiveRecord::Base
     link.archive_for(user, :as => ArchivedLink::ARCHIVE_TYPES[:kept])
   end
 
+  def fwd(user, channel)
+  
+    f = forwardings.build(user: user, channel: channel, forwarded: true)
+  
+  end
+  
+  # Is this item in one of the channels of the user
+  def is_for?(user)
+    
+    user.channels.map(&:id).include? channel_id
+    
+  end
+  
+  
   private 
 
   def generate_item_token

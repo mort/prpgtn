@@ -16,6 +16,11 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  plan_id                :integer
+#  avatar_file_name       :string(255)
+#  avatar_content_type    :string(255)
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
+#  display_name           :string(255)
 #
 
 require 'test_helper'
