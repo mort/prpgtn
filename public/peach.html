@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <title>Peach</title>
+    
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    
+  </head>
+
+  <body>
+    <h1>Prpgnt</h1>
+    
+    <section id="login">
+      
+      <form method="post">
+        <p>
+          <input type="text" id="email"/>
+        </p>
+        <p>
+          <input type="password" id="password"/>
+        </p>
+        <p>
+          <input type="submit" id="sbmt"/>
+        </p>
+      </form>
+    </section>
+    
+    <section>
+    </section>  
+    
+    
+    <script>
+    
+    $(function(){
+      
+      a = localStorage.getItem('access_token');
+      ENDPOINT = 'http:///0.0.0.0:3000'
+
+      if (a) {
+        initialize_app();
+      }
+      
+      
+      
+      
+      $('#sbmt').on('click', function(){
+        
+        var e = $('#email').val();
+        var p = $('#password').val();        
+        grant_credentials(e,p);
+        
+        return false;
+        
+        
+      });
+      
+      function initialize_app(){
+        $('#login').hide();
+        $('#app').show();
+        
+        get_user_data();
+        
+      }
+      
+      function paint_items(items){
+        _.each(items,function(v,k,l){
+          
+          var s = '<div>';
+          var s = '<h3>'++'</h3>';
+          
+          
+        });
+      }
+      
+      function get_channel_items(channel){
+        console.log("Retrieve items channel #"+channel);
+        
+        var url = ENDPOINT + '/api/v0/channels/'+channel+'.json';
+        
+        
+        $.ajax({
+            url: url,
+            headers: { 'Authorization': 'Bearer '+a },
+            success: function(d){
+              console.log(d);
+              paint_items(d.channel.viewport_items);
+            }
+        });
+        
+      }
+      
+      function get_user_data(){
+      
+        var url = ENDPOINT + '/api/v0/me.json';
+      
+        $.ajax({
+            url: url,
+            headers: { 'Authorization': 'Bearer '+a },
+            success: function(d){
+              paint_user_data(d.user);
+              paint_channels_menu(d.user.channels);
+            }
+        });
+      
+      }
+    
+      // UI
+    
+      function paint_user_data(user){
+        
+        var n = user.display_name;
+        
+        $('body').append('<p>'+n+'</p>');         
+        
+        
+      }
+      
+      function paint_channels_menu(channels){
+        
+        var s = $('<select id="channels_menu"></select>');
+        
+        _.each(channels, function(v,k,l){
+          
+          s.append('<option value="'+v.id+'">'+v.title+'</option>');
+          
+        });
+        
+        $('body').append(s);
+        
+        $('#channels_menu').on('change', function(e){
+          get_channel_items($('#channels_menu').val());
+        });
+        
+      }
+    
+      // REQUESTS
+    
+      function grant_credentials(e,p){
+        
+        var url = ENDPOINT + '/oauth/token'
+        var CLIENT_ID = 'f91e8572d33a3c81d78e0e26e1b85e1c20c80f6e924ae792bbbdf43889917db5';
+        var CLIENT_SECRET = 'b2b78a525ead916ec01732bd5767bbc716328f7ce6acb87b01b1affbbab56b0d';
+        
+        var data = {
+          'grant_type': 'password',
+          'client_id': CLIENT_ID,
+          'client_secret': CLIENT_SECRET,
+          'username': e,
+          'password': p
+        };
+        
+        $.post(ENDPOINT, data, function(d){
+          // console.log(d);
+          localStorage.setItem('access_token', d.access_token);
+          // console.log(localStorage.getItem('access_token'));
+          
+        });
+        
+      };
+      
+      
+      
+    });
+    
+    
+    
+    
+    
+    
+    
+    </script>
+    
+    
+  </body>
+
+</html>
