@@ -9,7 +9,7 @@ class Api::V0::ChannelsController < Api::V0::ApiController
   
   def show
   
-    respond_with current_user.channels.find_by(params[:id])
+    respond_with current_user.channels.find params[:id]
   
   end
 

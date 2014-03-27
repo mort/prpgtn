@@ -30,7 +30,9 @@
       </form>
     </section>
     
-    <section>
+    <section id="canvas">
+      <header></header>
+      <section id="viewport"></section>
     </section>  
     
     
@@ -68,14 +70,41 @@
       }
       
       function paint_items(items){
+        
+        $('#canvas #viewport').html('');
+        
         _.each(items,function(v,k,l){
           
-          var s = '<div>';
-          var s = '<h3>'++'</h3>';
+          if (v.link != null) {
+            
+            var link = v.link;
+          
+            var c = $("<div></div>");
+            var p = $('<p></p>');
+            var p2 = $('<p>'+link.og_description+'</p>');
+            var a = $("<a>"+link.og_title+"</a>");
+            a.attr('href', link.og_url);
+          
+            p.append(a);
+            c.append(p);
+            c.append(p2);
+            c.append(_item_buttons(v));
+          
+            $('#canvas #viewport').append(c);
+        }
+          
           
           
         });
       }
+      
+      function _item_buttons(item) {
+        
+        return $('<p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p>');
+        
+        
+      } 
+      
       
       function get_channel_items(channel){
         console.log("Retrieve items channel #"+channel);
@@ -115,7 +144,7 @@
         
         var n = user.display_name;
         
-        $('body').append('<p>'+n+'</p>');         
+        $('section#canvas header').append('<p>'+n+'</p>');         
         
         
       }
@@ -130,7 +159,7 @@
           
         });
         
-        $('body').append(s);
+        $('section#canvas header').append(s);
         
         $('#channels_menu').on('change', function(e){
           get_channel_items($('#channels_menu').val());

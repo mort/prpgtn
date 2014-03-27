@@ -38,7 +38,7 @@ class Channel < ActiveRecord::Base
   has_many :channel_invites, :dependent => :destroy
 
   has_many :users, -> { uniq }, :through => :channel_subs, :as => :subscribers
-
+  
   validates_presence_of :title, :owner_id
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
   validates_uniqueness_of :title, :scope => [:owner_id]
