@@ -81,6 +81,8 @@ Prpgtn::Application.routes.draw do
   get 'user/invites' => 'channel_invites#index', :as => :invites
   get 'onboarding' => 'onboarding#step', :as => :onboarding
   
+  get 'peach/v0' => 'peach#v0', :as => :peach_0
+  
   root :to => "channels#index"
   
   # The priority is based upon order of creation:
