@@ -45,14 +45,17 @@ group :development do
   gem 'mailcatcher'
   gem "rubber", "~> 2.7.4"
   gem 'jsonpretty', '~> 1.1.0'
+  gem 'spring', '~> 1.1.2'
+  gem 'oauth2', '~> 0.9.3'
+  
 end
 
 group :test do
-  gem "factory_girl", "~> 4.1.0"
-  gem "factory_girl_rails", "~> 4.1.0"
-  gem "shoulda", "~> 3.3.2"
-  gem "faker", "~> 1.1.2"
-  gem "database_cleaner", "~> 0.9.1"
+  gem "factory_girl", "~> 4.4.0"
+  gem "factory_girl_rails", "~> 4.4.1"
+  gem "shoulda", "~> 3.5.0"
+  gem "faker", "~> 1.3.0"
+  gem "database_cleaner", "~> 1.2.0"
 end
 
 # To use ActiveModel has_secure_password

@@ -1,5 +1,11 @@
 Prpgtn::Application.routes.draw do
     
+  namespace :api do
+    namespace :v0 do
+      resources :emotings
+    end
+  end
+
   require 'sidekiq/web'
 
   use_doorkeeper
