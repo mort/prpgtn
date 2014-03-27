@@ -41,7 +41,12 @@ class Link < ActiveRecord::Base
     l = archived_links.build
     l.user_id = user.id
     l.archive_type = options[:as]
-    l.save!
+    
+    if l.save
+    else
+      puts l.errors.as_json
+    end
+    #TODO Add to list of channels in archived link if link was already present
   end
   
   #after_create :disembed

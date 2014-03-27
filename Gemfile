@@ -21,6 +21,9 @@ gem "foreman", "~> 0.63.0"
 gem "thin", "~> 1.6.2"
 gem "whenever", "~> 0.9.2"
 gem "sidekiq", "~> 2.17.7"
+gem "sidekiq-status", "~> 0.4.0"
+
+
 gem "nokogiri", "~> 1.5.9"
 gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"

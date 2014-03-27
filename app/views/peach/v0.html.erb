@@ -67,6 +67,7 @@
         
         get_user_data();
         
+        
       }
       
       function paint_items(items){
@@ -89,7 +90,7 @@
             c.append(p);
             c.append(p2);
             c.append(_item_buttons(v));
-          
+            
             $('#canvas #viewport').append(c);
         }
           
@@ -100,7 +101,7 @@
       
       function _item_buttons(item) {
         
-        return $('<p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p>');
+        return $('<p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p><hr>');
         
         
       } 
@@ -132,7 +133,7 @@
             headers: { 'Authorization': 'Bearer '+a },
             success: function(d){
               paint_user_data(d.user);
-              paint_channels_menu(d.user.channels);
+              paint_channels_menu(d.user.channels, d.user.latest_updated_channel_id);
             }
         });
       
@@ -149,13 +150,19 @@
         
       }
       
-      function paint_channels_menu(channels){
+      function paint_channels_menu(channels, latest_updated_channel_id){
         
         var s = $('<select id="channels_menu"></select>');
         
         _.each(channels, function(v,k,l){
           
-          s.append('<option value="'+v.id+'">'+v.title+'</option>');
+          var o = $('<option value="'+v.id+'">'+v.title+'</option>');
+          
+          if (v.id == latest_updated_channel_id){
+            o.attr('selected','selected')
+          }
+          
+          s.append(o);
           
         });
         
@@ -164,6 +171,7 @@
         $('#channels_menu').on('change', function(e){
           get_channel_items($('#channels_menu').val());
         });
+        get_channel_items($('#channels_menu').val());
         
       }
     

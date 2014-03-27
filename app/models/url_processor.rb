@@ -10,40 +10,42 @@ class UrlProcessor
     
     item = Item.find item_id
     
-    u = normalize(item.body)    
+    if item
     
-    puts "_______ Working with #{u}"
+      u = normalize(item.body)    
+    
+      puts "_______ Working with #{u}"
 
-    # Hit the cache first
-    existing_link = Link.where(["uri = ?", u]).first
+      # Hit the cache first
+      existing_link = Link.where(["uri = ?", u]).first
     
-    link = if existing_link
-      puts "... Existing link from #{existing_link.created_at.to_s}"
-      existing_link
+      link = if existing_link
+        puts "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
+        existing_link
       
-    else 
+      else 
     
-      link_attrs = embed_attrs = nil
+        link_attrs = embed_attrs = nil
        
-      puts "... Fetching link"
-      link_attrs = fetch(u)
+        puts "... Fetching link"
+        link_attrs = fetch(u)
     
-      puts "... Disembedding link"
-      embed_attrs = embedly_disembed(u)
+        puts "... Disembedding link"
+        embed_attrs = embedly_disembed(u)
   
-      attrs = link_attrs.merge!(embed_attrs)
+        attrs = link_attrs.merge!(embed_attrs)
 
-      puts "Creating link #{attrs}"
-      Link.create!(attrs)
+        puts "Creating link #{attrs}"
+        Link.create!(attrs)
         
-    end
+      end
     
         
-    item.update_attribute(:link_id, link.id)
-    item.archive_links
-  end
-  
-  def process
+      item.update_column(:link_id, link.id)
+      item.archive_links
+      item.user.update_column(:latest_updated_channel_id, item.channel.id)
+    
+    end
   end
   
   def fetch(u)
