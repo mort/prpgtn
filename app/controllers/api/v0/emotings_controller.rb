@@ -1,17 +1,23 @@
 class Api::V0::EmotingsController < Api::V0::ApiController
 
   def create
-  
-    Item.find(emoting_params[:item_id])
-  
-    if item.is_for?(current_user)
-
-      emoting = current_user.emotings.build(emoting_params)
     
-      if emoting.save
-        render status: 201
-      else
-        respond_with @emoting.errors.full_messages, :status => :unprocessable_entity 
+    item = Item.find(params[:item_id])
+  
+    if item && item.is_for?(current_user)
+
+      emote = item.channel.emotes.find(params[:emote_id])
+      
+        if emote 
+      
+          emoting = current_user.emotings.build(item_id: item.id, emote_id: emote.id)
+    
+          if emoting.save
+            render nothing: true, status: 201
+          else
+            respond_with emoting.errors.full_messages, :status => :unprocessable_entity 
+          end
+  
       end
   
     end
@@ -30,13 +36,5 @@ class Api::V0::EmotingsController < Api::V0::ApiController
   
   end
 
-
-  private
-  
-  def emoting_params
-
-    params.require(:emoting).permit(:item_id, :emote_id)
-    
-  end
 
 end

@@ -43,7 +43,7 @@ class UrlProcessor
         
       item.update_column(:link_id, link.id)
       item.archive_links
-      item.user.update_column(:latest_updated_channel_id, item.channel.id)
+      item.user.update_attribute(:latest_updated_channel_id, item.channel.id)
     
     end
   end

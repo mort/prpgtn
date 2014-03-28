@@ -16,6 +16,9 @@
 
 class Channel < ActiveRecord::Base
   
+  store :settings, accessors: [ :emote_set_id ], coder: JSON
+  
+  
   CHANNEL_TYPES = {:standard => 1, :selfie => 2, :bored => 3}
   POST_PERMISSIONS = {:blocked => 0, :public => 1, :owner => 2}  
   
@@ -39,9 +42,16 @@ class Channel < ActiveRecord::Base
 
   has_many :users, -> { uniq }, :through => :channel_subs, :as => :subscribers
   
-  validates_presence_of :title, :owner_id
+  validates_presence_of :title, :owner_id, :emote_set_id, :post_permissions
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
   validates_uniqueness_of :title, :scope => [:owner_id]
+  
+  before_validation(on: :create) do
+    
+    self.emote_set_id = EmoteSet.first.id
+  
+  end
+  
   
   # validate do
   #    
@@ -51,7 +61,7 @@ class Channel < ActiveRecord::Base
 
   #before_validation :set_max_users
   
-  after_create :subscribe_owner
+  after_create :subscribe_owner 
   
   def standard?
     channel_type == CHANNEL_TYPES[:standard]
@@ -76,6 +86,28 @@ class Channel < ActiveRecord::Base
   def post_owner?
      post_permissions == POST_PERMISSIONS[:owner]
   end
+  
+  def emote_set
+    return nil if selfie?
+
+    begin 
+      EmoteSet.find(emote_set_id) 
+    rescue ActiveRecord::RecordNotFound
+      e = EmoteSet.first
+      emote_set_id = e.id
+      self.class.delay.assign_emote_set(self.id, e.id)      
+      e
+    end
+  end
+  
+  def emotes
+    return [] if selfie?
+    emote_set.emotes
+  end
+  
+  def self.assign_emote_set(channel_id, emote_set_id)
+    find(channel_id).update_attribute(:emote_set_id, emote_set_id)
+  end
     
   def subscribe(user)
     cs = channel_subs.build
@@ -89,6 +121,7 @@ class Channel < ActiveRecord::Base
   
   private
   
+
   def subscribe_owner
     subscribe(owner)
   end

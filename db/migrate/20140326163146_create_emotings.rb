@@ -1,6 +1,6 @@
-class CreateApiV0Emotings < ActiveRecord::Migration
+class CreateEmotings < ActiveRecord::Migration
   def change
-    create_table :api_v0_emotings do |t|
+    create_table :emotings do |t|
       t.references :item
       t.references :user
       t.references :emote

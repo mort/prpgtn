@@ -35,6 +35,10 @@
         <%= image_tag current_user.avatar.url(:thumb) %>
         <%= link_to current_user.display_name, edit_user_settings_path %>
       <%- end -%>
+    
+    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+    
+    
       <hr>
       <ul>
         <li>

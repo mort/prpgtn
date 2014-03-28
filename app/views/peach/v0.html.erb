@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <h1>Prpgnt</h1>
+    <h1>Peach</h1>
     
     <section id="login">
       
@@ -70,7 +70,12 @@
         
       }
       
-      function paint_items(items){
+      function paint_login() {
+        $('#login').show();
+        $('#app').hide();
+      }
+      
+      function paint_items(items, emotes){
         
         $('#canvas #viewport').html('');
         
@@ -89,9 +94,25 @@
             p.append(a);
             c.append(p);
             c.append(p2);
-            c.append(_item_buttons(v));
+            c.append(_item_buttons(v, emotes));
             
             $('#canvas #viewport').append(c);
+            
+            $('ul.emotes li a').on('click', function(){
+              
+              console.log();
+              
+              var id_arr = $(this).attr('id').split('_');
+              var item_id = id_arr[1];
+              var emote_id = id_arr[2];
+              
+              post_emote(item_id, emote_id);
+              
+              $(this).unbind('click')
+              
+              
+            });
+            
         }
           
           
@@ -99,16 +120,33 @@
         });
       }
       
-      function _item_buttons(item) {
+    
+      
+      function _item_buttons(item, emotes) {
         
-        return $('<p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p><hr>');
+         var buttons = $('<div><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p>></div>');
+         
+         var em = $('<ul class="emotes"></ul>');
         
+        _.each(emotes, function(e){
+          //console.log(e);
+          
+          var e_id = 'emote_'+item.id+'_'+e.id;
+          var a = $('<li><a id="'+e_id+'">'+e.content+'</a></li>');
+          //console.log(a);
+          em.append(a);
+          
+          
+        });
+                
+        buttons.append(em);
+        return buttons;
         
       } 
       
       
       function get_channel_items(channel){
-        console.log("Retrieve items channel #"+channel);
+        //console.log("Retrieve items channel #"+channel);
         
         var url = ENDPOINT + '/api/v0/channels/'+channel+'.json';
         
@@ -117,8 +155,8 @@
             url: url,
             headers: { 'Authorization': 'Bearer '+a },
             success: function(d){
-              console.log(d);
-              paint_items(d.channel.viewport_items);
+              //console.log(d);
+              paint_items(d.channel.viewport_items, d.channel.emotes);
             }
         });
         
@@ -134,6 +172,14 @@
             success: function(d){
               paint_user_data(d.user);
               paint_channels_menu(d.user.channels, d.user.latest_updated_channel_id);
+            }, 
+            error: function(d){
+              //console.log("Error!");
+              //console.log(d.status);
+              if (d.status == 401) {
+                paint_login();
+              }
+              
             }
         });
       
@@ -143,10 +189,11 @@
     
       function paint_user_data(user){
         
-        var n = user.display_name;
+        var n = user.display_name+'.'+user.id;
         
-        $('section#canvas header').append('<p>'+n+'</p>');         
-        
+        var p = $('<p>'+n+'</p>');
+        $('section#canvas header').append(p);         
+          
         
       }
       
@@ -180,8 +227,8 @@
       function grant_credentials(e,p){
         
         var url = ENDPOINT + '/oauth/token'
-        var CLIENT_ID = 'f91e8572d33a3c81d78e0e26e1b85e1c20c80f6e924ae792bbbdf43889917db5';
-        var CLIENT_SECRET = 'b2b78a525ead916ec01732bd5767bbc716328f7ce6acb87b01b1affbbab56b0d';
+        var CLIENT_ID = '70f0fb61fe4e466de9a09d65376ad140ea1f35694b654c03f63e77f687b25701';
+        var CLIENT_SECRET = '3a29000fa5d04c0bb030710ca4065818f8feaa93d511e30e1ad51ccdf27163e1';
         
         var data = {
           'grant_type': 'password',
@@ -191,16 +238,39 @@
           'password': p
         };
         
-        $.post(ENDPOINT, data, function(d){
-          // console.log(d);
+        $.post(url, data, function(d){
           localStorage.setItem('access_token', d.access_token);
-          // console.log(localStorage.getItem('access_token'));
+          //console.log(localStorage.getItem('access_token'));
           
         });
         
       };
       
       
+      
+      function post_emote(item_id, emote_id){
+       
+          var url = ENDPOINT + '/api/v0/items/'+item_id+'/emotings';
+          console.log(url);
+          
+          var data = {
+            'emote_id': emote_id
+          }
+          
+          console.log(data);
+          
+          $.ajax({
+              url: url,
+              type: 'POST',
+              data: data,
+              headers: { 'Authorization': 'Bearer '+a },
+              success: function(d){
+                console.log(d);
+              }
+          });
+          
+        
+      }
       
     });
     

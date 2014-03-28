@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   belongs_to :link
   
   has_many :forwardings, -> { order("created_at ASC") }
+  has_many :emotings
   
   class << self
     def with_link
@@ -79,6 +80,10 @@ class Item < ActiveRecord::Base
     
     user.channels.map(&:id).include? channel_id
     
+  end
+  
+  def emotings_from(user)
+    emotings.find_by_user_id(user.id)
   end
   
   
