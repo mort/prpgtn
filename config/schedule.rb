@@ -21,6 +21,6 @@
 
 # every 5.minutes do 
 #   
-#   rake "prpgtn:twitter_feed RAILS_ENV=development" 
+#   rake "peach:twitter_feed RAILS_ENV=development" 
 #   
 # end

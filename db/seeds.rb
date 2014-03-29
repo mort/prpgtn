@@ -6,15 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
-User.create!([
-             {:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'},
-             {:email => 'manuel.gonzalez.noriega+a@gmail.com', :password => '123456'},
-             {:email => 'manuel.gonzalez.noriega+b@gmail.com', :password => '123456'},
-             {:email => 'manuel.gonzalez.noriega+c@gmail.com', :password => '123456'}      
-          ])
-
 EmoteSet.create([title: 'Buzzfeed', keyword: 'buzzfeed', status: 1])
+
+
+User.create!(:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456')
+
+('a'..'c').each do |letter|
+  User.create!(:email => "manuel.gonzalez.noriega+#{letter}@gmail.com", :password => '123456')
+end          
+
 
 
 Emote.create([
@@ -36,5 +36,3 @@ Emote.create([
 Admin.create([:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'])
 
 Channel.create({:title => 'Wadus', :description => 'Fuel the wadus!', :owner_id => User.first.id })
-
-# Channel.channel_settings.create()

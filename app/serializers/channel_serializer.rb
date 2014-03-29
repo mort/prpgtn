@@ -3,5 +3,5 @@ class ChannelSerializer < ActiveModel::Serializer
   
   has_many :viewport_items, :root => :items
   has_many :emotes
-  
+    
 end

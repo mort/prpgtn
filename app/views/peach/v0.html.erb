@@ -9,6 +9,19 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+
+    <script src="/js/posters.js"></script>  
+    <script src="/js/getters.js"></script>  
+    <script src="/js/builders.js"></script>  
+    <script src="/js/painters.js"></script>
+
+    
+    <style>
+    a.emote_on {
+      color: blue;
+      text-decoration: underline;
+    }
+    </style>
     
   </head>
 
@@ -34,244 +47,40 @@
       <header></header>
       <section id="viewport"></section>
     </section>  
-    
+  
     
     <script>
     
     $(function(){
       
+      var Peach = {
+        
+        
+        run: function(){
+          $('#login').hide();
+          $('#app').show();
+        
+          get_user_data();
+        
+        }
+      
+        
+      }
+      
       a = localStorage.getItem('access_token');
       ENDPOINT = 'http:///0.0.0.0:3000'
 
       if (a) {
-        initialize_app();
+        Peach.run();
       }
       
+  
       
-      
-      
-      $('#sbmt').on('click', function(){
-        
-        var e = $('#email').val();
-        var p = $('#password').val();        
-        grant_credentials(e,p);
-        
-        return false;
-        
-        
-      });
-      
-      function initialize_app(){
-        $('#login').hide();
-        $('#app').show();
-        
-        get_user_data();
-        
-        
-      }
-      
-      function paint_login() {
-        $('#login').show();
-        $('#app').hide();
-      }
-      
-      function paint_items(items, emotes){
-        
-        $('#canvas #viewport').html('');
-        
-        _.each(items,function(v,k,l){
-          
-          if (v.link != null) {
-            
-            var link = v.link;
-          
-            var c = $("<div></div>");
-            var p = $('<p></p>');
-            var p2 = $('<p>'+link.og_description+'</p>');
-            var a = $("<a>"+link.og_title+"</a>");
-            a.attr('href', link.og_url);
-          
-            p.append(a);
-            c.append(p);
-            c.append(p2);
-            c.append(_item_buttons(v, emotes));
-            
-            $('#canvas #viewport').append(c);
-            
-            $('ul.emotes li a').on('click', function(){
-              
-              console.log();
-              
-              var id_arr = $(this).attr('id').split('_');
-              var item_id = id_arr[1];
-              var emote_id = id_arr[2];
-              
-              post_emote(item_id, emote_id);
-              
-              $(this).unbind('click')
-              
-              
-            });
-            
-        }
-          
-          
-          
-        });
-      }
-      
+     
     
+
       
-      function _item_buttons(item, emotes) {
-        
-         var buttons = $('<div><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p>></div>');
-         
-         var em = $('<ul class="emotes"></ul>');
-        
-        _.each(emotes, function(e){
-          //console.log(e);
-          
-          var e_id = 'emote_'+item.id+'_'+e.id;
-          var a = $('<li><a id="'+e_id+'">'+e.content+'</a></li>');
-          //console.log(a);
-          em.append(a);
-          
-          
-        });
-                
-        buttons.append(em);
-        return buttons;
-        
-      } 
-      
-      
-      function get_channel_items(channel){
-        //console.log("Retrieve items channel #"+channel);
-        
-        var url = ENDPOINT + '/api/v0/channels/'+channel+'.json';
-        
-        
-        $.ajax({
-            url: url,
-            headers: { 'Authorization': 'Bearer '+a },
-            success: function(d){
-              //console.log(d);
-              paint_items(d.channel.viewport_items, d.channel.emotes);
-            }
-        });
-        
-      }
-      
-      function get_user_data(){
-      
-        var url = ENDPOINT + '/api/v0/me.json';
-      
-        $.ajax({
-            url: url,
-            headers: { 'Authorization': 'Bearer '+a },
-            success: function(d){
-              paint_user_data(d.user);
-              paint_channels_menu(d.user.channels, d.user.latest_updated_channel_id);
-            }, 
-            error: function(d){
-              //console.log("Error!");
-              //console.log(d.status);
-              if (d.status == 401) {
-                paint_login();
-              }
-              
-            }
-        });
-      
-      }
-    
-      // UI
-    
-      function paint_user_data(user){
-        
-        var n = user.display_name+'.'+user.id;
-        
-        var p = $('<p>'+n+'</p>');
-        $('section#canvas header').append(p);         
-          
-        
-      }
-      
-      function paint_channels_menu(channels, latest_updated_channel_id){
-        
-        var s = $('<select id="channels_menu"></select>');
-        
-        _.each(channels, function(v,k,l){
-          
-          var o = $('<option value="'+v.id+'">'+v.title+'</option>');
-          
-          if (v.id == latest_updated_channel_id){
-            o.attr('selected','selected')
-          }
-          
-          s.append(o);
-          
-        });
-        
-        $('section#canvas header').append(s);
-        
-        $('#channels_menu').on('change', function(e){
-          get_channel_items($('#channels_menu').val());
-        });
-        get_channel_items($('#channels_menu').val());
-        
-      }
-    
-      // REQUESTS
-    
-      function grant_credentials(e,p){
-        
-        var url = ENDPOINT + '/oauth/token'
-        var CLIENT_ID = '70f0fb61fe4e466de9a09d65376ad140ea1f35694b654c03f63e77f687b25701';
-        var CLIENT_SECRET = '3a29000fa5d04c0bb030710ca4065818f8feaa93d511e30e1ad51ccdf27163e1';
-        
-        var data = {
-          'grant_type': 'password',
-          'client_id': CLIENT_ID,
-          'client_secret': CLIENT_SECRET,
-          'username': e,
-          'password': p
-        };
-        
-        $.post(url, data, function(d){
-          localStorage.setItem('access_token', d.access_token);
-          //console.log(localStorage.getItem('access_token'));
-          
-        });
-        
-      };
-      
-      
-      
-      function post_emote(item_id, emote_id){
-       
-          var url = ENDPOINT + '/api/v0/items/'+item_id+'/emotings';
-          console.log(url);
-          
-          var data = {
-            'emote_id': emote_id
-          }
-          
-          console.log(data);
-          
-          $.ajax({
-              url: url,
-              type: 'POST',
-              data: data,
-              headers: { 'Authorization': 'Bearer '+a },
-              success: function(d){
-                console.log(d);
-              }
-          });
-          
-        
-      }
-      
+  
     });
     
     

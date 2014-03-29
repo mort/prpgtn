@@ -16,8 +16,9 @@ class Emoting < ActiveRecord::Base
   belongs_to :item
   belongs_to :emote
 
-
-  validates_presence_of :emote, :item, :user
-  validates_uniqueness_of :emote_id, scope: [:user_id, :item_id]
+  validates_presence_of   :emote, :item, :user
+  validates_uniqueness_of :emote_id, scope: [:item_id, :user_id]
+  
+  
   
 end

@@ -3,6 +3,7 @@ require 'link_fetcher'
 class UrlProcessor
   include Sidekiq::Worker
   sidekiq_options :queue => :critical
+  sidekiq_options :retry => 5
     
   def perform(item_id)
     

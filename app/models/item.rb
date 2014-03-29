@@ -82,8 +82,10 @@ class Item < ActiveRecord::Base
     
   end
   
-  def emotings_from(user)
-    emotings.find_by_user_id(user.id)
+  def emotes_from(user)
+    
+    emotings.where(user_id: user.id).map(&:emote_id)
+  
   end
   
   

@@ -15,7 +15,7 @@ class Api::V0::EmotingsController < Api::V0::ApiController
           if emoting.save
             render nothing: true, status: 201
           else
-            respond_with emoting.errors.full_messages, :status => :unprocessable_entity 
+            render json: emoting.errors.as_json, :status => :unprocessable_entity 
           end
   
       end

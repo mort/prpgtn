@@ -50,7 +50,7 @@ group :development do
   gem 'jsonpretty', '~> 1.1.0'
   gem 'spring', '~> 1.1.2'
   gem 'oauth2', '~> 0.9.3'
-  
+  gem 'exception_notification', '~> 4.0.1'
 end
 
 group :test do

@@ -2,7 +2,9 @@ Prpgtn::Application.routes.draw do
     
   namespace :api do
     namespace :v0 do
-      resources :emotings
+      resources :items do
+        resources :emotings
+      end
     end
   end
 
@@ -22,7 +24,7 @@ Prpgtn::Application.routes.draw do
   
   namespace :api do 
   
-    api_version(:module => "v0", :header => {:name => "Accept", :value => "application/vnd.prpgtn.com; version=0"}, :path => {:value => "v0"}) do
+    api_version(:module => "v0", :header => {:name => "Accept", :value => "application/vnd.grabapeach.com; version=0"}, :path => {:value => "v0"}) do
       # match '/foos.(:format)' => 'foos#index', :via => :get
       # match '/foos_no_format' => 'foos#index', :via => :get
       # resources :bars
