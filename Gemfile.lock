@@ -1,11 +1,20 @@
 GIT
   remote: https://github.com/mort/opengraph.git
-  revision: 1e265ce23dff6a5620cb784d72d30df68ff808ab
+  revision: 5b0dd0b4ae2b4cbd36e1acfeb854fb8b72ec7065
   specs:
     opengraph (0.0.4)
       hashie
-      nokogiri (~> 1.5.9)
+      nokogiri (~> 1.6.1)
       rest-client (~> 1.6.0)
+
+GIT
+  remote: https://github.com/postrank-labs/postrank-uri.git
+  revision: ca90c4b346dcbcea70dc369d63435d46efe8e8b3
+  specs:
+    postrank-uri (1.0.17)
+      addressable (~> 2.3.0)
+      nokogiri (~> 1.6.1)
+      public_suffix (~> 1.1.3)
 
 GEM
   remote: https://rubygems.org/
@@ -36,7 +45,7 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    addressable (2.3.5)
+    addressable (2.3.6)
     annotate (2.5.0)
       rake
     arel (4.0.2)
@@ -57,7 +66,7 @@ GEM
     clamp (0.6.3)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    cocaine (0.5.3)
+    cocaine (0.5.4)
       climate_control (>= 0.0.3, < 1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -67,6 +76,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     connection_pool (2.0.0)
+    curb (0.8.5)
     daemons (1.1.9)
     database_cleaner (1.2.0)
     devise (3.2.4)
@@ -97,6 +107,12 @@ GEM
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     fast-stemmer (1.0.2)
+    feedbag (0.9.2)
+      hpricot (>= 0.6)
+    feedjira (1.1.0)
+      curb (~> 0.8.1)
+      loofah (~> 1.2.1)
+      sax-machine (~> 0.2.1)
     fog (1.21.0)
       fog-brightbox
       fog-core (~> 1.21, >= 1.21.1)
@@ -117,6 +133,7 @@ GEM
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
+    forgery (0.5.0)
     formatador (0.2.4)
     haml (4.0.5)
       tilt
@@ -124,6 +141,7 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     hirb (0.7.1)
+    hpricot (0.8.6)
     httparty (0.13.0)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -135,6 +153,8 @@ GEM
     jsonpretty (1.1.0)
     jwt (0.1.11)
       multi_json (>= 1.5)
+    loofah (1.2.1)
+      nokogiri (>= 1.4.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -149,8 +169,9 @@ GEM
       sqlite3-ruby
       thin
     mime-types (1.25.1)
+    mini_portile (0.5.3)
     minitest (4.7.5)
-    multi_json (1.9.0)
+    multi_json (1.9.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.15)
@@ -161,7 +182,8 @@ GEM
     net-ssh (2.8.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nokogiri (1.5.11)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     oauth2 (0.9.3)
       faraday (>= 0.8, < 0.10)
       jwt (~> 0.1.8)
@@ -182,10 +204,6 @@ GEM
       nokogiri
       sanitize
     polyglot (0.3.4)
-    postrank-uri (1.0.17)
-      addressable (~> 2.3.0)
-      nokogiri (~> 1.5.5)
-      public_suffix (~> 1.1.3)
     public_suffix (1.1.3)
     quilt (0.0.8)
     rack (1.5.2)
@@ -206,14 +224,14 @@ GEM
       activesupport (= 4.0.4)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.1.1)
+    rake (10.2.2)
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rmagick (2.13.2)
-    rubber (2.7.4)
+    rubber (2.7.5)
       capistrano (~> 2.12)
       clamp
       fog (~> 1.6)
@@ -223,12 +241,14 @@ GEM
       thor
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
-    sass (3.2.16)
+    sass (3.2.18)
     sass-rails (4.0.2)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0.0)
+    sax-machine (0.2.1)
+      nokogiri (~> 1.6.0)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
@@ -267,8 +287,8 @@ GEM
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
-    thor (0.18.1)
-    thread_safe (0.2.0)
+    thor (0.19.1)
+    thread_safe (0.3.1)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
     timers (1.1.0)
@@ -288,7 +308,7 @@ GEM
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
     wirble (0.1.3)
-    yard (0.8.7.3)
+    yard (0.8.7.4)
 
 PLATFORMS
   ruby
@@ -307,19 +327,22 @@ DEPENDENCIES
   factory_girl (~> 4.4.0)
   factory_girl_rails (~> 4.4.1)
   faker (~> 1.3.0)
+  feedbag (~> 0.9.2)
+  feedjira (~> 1.1.0)
   foreman (~> 0.63.0)
+  forgery (~> 0.5.0)
   hirb
   httparty (~> 0.13.0)
   jquery-rails
   jsonpretty (~> 1.1.0)
   mailcatcher
   mysql2 (~> 0.3.15)
-  nokogiri (~> 1.5.9)
+  nokogiri (~> 1.6.1)
   oauth2 (~> 0.9.3)
   opengraph!
   paperclip (~> 4.1)
   pismo (~> 0.7.2)
-  postrank-uri (~> 1.0.17)
+  postrank-uri!
   quilt (~> 0.0.8)
   rails (= 4.0.4)
   rmagick (~> 2.13.2)
