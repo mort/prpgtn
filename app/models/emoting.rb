@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: api_v0_emotings
+# Table name: emotings
 #
 #  id         :integer          not null, primary key
 #  item_id    :integer

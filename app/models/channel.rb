@@ -12,6 +12,7 @@
 #  max_users        :integer
 #  is_deletable     :boolean          default(TRUE), not null
 #  post_permissions :integer          default(1), not null
+#  settings         :string(4096)
 #
 
 class Channel < ActiveRecord::Base
@@ -37,10 +38,12 @@ class Channel < ActiveRecord::Base
   
   has_many :items, -> { order('created_at DESC') }, :dependent => :destroy
   has_many :viewport_items, -> { order('created_at DESC').limit(Channel::VIEWPORT_SIZE) }, :class_name => 'Item'
-  has_many :channel_subs, :dependent => :destroy
   has_many :channel_invites, :dependent => :destroy
 
-  has_many :users, -> { uniq }, :through => :channel_subs, :as => :subscribers
+  has_many :channel_subs, :dependent => :destroy 
+  has_many :users, -> { uniq }, :through => :channel_subs, :source => :participant, :source_type => 'User'
+  has_many :robotos, -> { uniq }, :through => :channel_subs, :source => :participant, :source_type => 'Roboto'
+
     
   validates_presence_of :title, :owner_id, :emote_set_id, :post_permissions
   validates_inclusion_of :channel_type, :in => CHANNEL_TYPES.values
@@ -63,6 +66,10 @@ class Channel < ActiveRecord::Base
   
   after_create :subscribe_owner 
   
+  def participants
+    users + robotos
+  end
+  
   def standard?
     channel_type == CHANNEL_TYPES[:standard]
   end
@@ -72,7 +79,7 @@ class Channel < ActiveRecord::Base
   end
   
   def owned_by?(user)
-    owner_id == user.id
+    user.is_a?(User) && (owner_id == user.id)
   end
 
   def post_blocked?
@@ -109,14 +116,18 @@ class Channel < ActiveRecord::Base
     find(channel_id).update_attribute(:emote_set_id, emote_set_id)
   end
     
-  def subscribe(user)
-    cs = channel_subs.build
-    cs.user = user
+  def subscribe(participant)
+    # Robotos can only subscribe to standard channels
+    raise "No robots allowed!" if (participant.is_a?(Roboto) && !standard?)
+    # Only owners can subscribe to a selfie channel
+    raise "Not for you!" if selfie? && !owned_by?(participant)
+    
+    cs = channel_subs.build(participant_type: participant.class.to_s.downcase, participant: participant)
     cs.save!
   end
   
-  def unsubscribe(user)
-    channel_subs.find_by_user_id(user.id).destroy
+  def unsubscribe(participant)
+    channel_subs.where({participant_id: participant.id, participant_type: participant.class.to_s.downcase}).destroy_all
   end
   
   private

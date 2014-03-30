@@ -10,7 +10,7 @@ class ChannelSubsController < ApplicationController
     
     respond_to do |format|
       format.html {
-        redirect_to channel_path(channel), :notice => 'User removed'
+        redirect_to channel_path(channel), :notice => 'Suscrition removed'
       }
     end
   

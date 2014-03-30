@@ -12,6 +12,7 @@
 #  max_users        :integer
 #  is_deletable     :boolean          default(TRUE), not null
 #  post_permissions :integer          default(1), not null
+#  settings         :string(4096)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

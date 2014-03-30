@@ -3,7 +3,7 @@ class CreateChannelSubs < ActiveRecord::Migration
     create_table :channel_subs do |t|
    
       t.references :channel
-      t.references :user
+      t.references :participant, polymorphic: true
       t.timestamps
    
     end

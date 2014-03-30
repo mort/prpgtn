@@ -44,7 +44,7 @@
 
 <%- end -%>
 
-<h3>Participants</h3>
+<h3>Participants </h3>
 
 <ul>
 <%- @channel.users.each do |u| -%>
@@ -65,27 +65,39 @@
 
 <%- end -%>
 
+<%- @channel.robotos.each do |r| -%>
+<li> <%= r.name %></li>
+
+<%- if current_user.owns?(@channel) -%>
+
+  <%= form_for @channel, :url => channel_channel_sub_path(@channel, r.channel_sub_for(@channel.id)), :method => :delete do -%>
+    <p>
+      <%= submit_tag 'Remove from channel'  %>
+    </p>
+  <%- end -%>
+
+<%- end -%>
+<%- end -%>
+
 
 <%- if current_user.owns?(@channel)  -%>
 
-<%- @channel.channel_invites.pending.each do |i| -%>
-<li><%= i.email %> <i>(pending)</i>
+  <%- @channel.channel_invites.pending.each do |i| -%>
+  <li>
+    <%= i.email %> <i>(pending)</i>
   
-  <%- if current_user.owns?(@channel) -%>
+    <%- if current_user.owns?(@channel) -%>
   
-    <%= form_for i, :url => channel_invite_path(i), :method => :delete do -%>
-       <p>
-         <%= submit_tag 'Cancel invitation'  %>
-       </p>
+      <%= form_for i, :url => channel_invite_path(i), :method => :delete do -%>
+         <p>
+           <%= submit_tag 'Cancel invitation'  %>
+         </p>
+      <%- end -%>
+    
     <%- end -%>
+    </li>
   <%- end -%>
-  
-  
-  
-  </li>
 <%- end -%>
-<%- end -%>
-
 
 
 </ul>

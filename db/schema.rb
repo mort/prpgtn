@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327104038) do
+ActiveRecord::Schema.define(version: 20140330231426) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.integer  "user_id"
     t.integer  "link_id"
     t.integer  "archive_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "channel_invites", force: true do |t|
@@ -49,23 +49,16 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.datetime "accepted_at"
     t.datetime "declined_at"
     t.datetime "expired_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  create_table "channel_settings", force: true do |t|
-    t.integer  "channel_id"
-    t.string   "key"
-    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "channel_subs", force: true do |t|
     t.integer  "channel_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "participant_id"
+    t.string   "participant_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "channels", force: true do |t|
@@ -73,8 +66,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.string   "title",                                        null: false
     t.string   "description"
     t.integer  "channel_type",                  default: 1,    null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "max_users"
     t.boolean  "is_deletable",                  default: true, null: false
     t.integer  "post_permissions",              default: 1,    null: false
@@ -104,6 +97,20 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.datetime "updated_at"
   end
 
+  create_table "feeds", force: true do |t|
+    t.string   "uri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "title"
+    t.text     "description"
+    t.string   "language"
+    t.text     "entries"
+    t.string   "latest_status"
+    t.datetime "fetched_at"
+    t.integer  "etag"
+    t.datetime "last_modified"
+  end
+
   create_table "forwardings", force: true do |t|
     t.integer  "item_id"
     t.integer  "channel_id"
@@ -118,8 +125,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.integer  "user_id"
     t.string   "item_token"
     t.text     "body"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "item_type",  default: "url", null: false
     t.integer  "link_id"
     t.boolean  "forwarded",  default: false, null: false
@@ -134,8 +141,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.integer  "twitter_share_count"
     t.integer  "fb_share_count"
     t.integer  "email_share_count"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "links", force: true do |t|
@@ -150,8 +157,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.boolean  "has_embed"
     t.text     "oembed_response"
     t.datetime "fetched_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "links", ["uri"], name: "index_links_on_uri", using: :btree
@@ -189,8 +196,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.string   "uid",          null: false
     t.string   "secret",       null: false
     t.string   "redirect_uri", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
@@ -203,8 +210,27 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.integer  "monthly_price"
     t.string   "monthly_price_currency"
     t.integer  "channels_counter"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roboto_requests", force: true do |t|
+    t.integer  "channel_id"
+    t.integer  "user_id"
+    t.integer  "roboto_id"
+    t.string   "uri"
+    t.datetime "processed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "robotos", force: true do |t|
+    t.integer  "roboto_request_id"
+    t.integer  "maker_id"
+    t.integer  "feed_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
@@ -218,8 +244,8 @@ ActiveRecord::Schema.define(version: 20140327104038) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "plan_id"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"

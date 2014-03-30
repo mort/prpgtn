@@ -7,38 +7,49 @@ gem 'rails', '4.0.4'
 
 gem 'sqlite3'
 gem "mysql2", "~> 0.3.15"
-gem "devise", "~> 3.2.4"
-gem "devise-async", "~> 0.9.0"
 
-gem "cancan", "~> 1.6.10"
-#gem "rocket_pants", "~> 1.5.5"
-#gem 'doorkeeper', '~> 0.6.6'
-gem "postrank-uri", "~> 1.0.17"
-gem "opengraph", :git => 'https://github.com/mort/opengraph.git'
-gem "pismo", "~> 0.7.2"
-gem "httparty", "~> 0.13.0"
+# system
+
 gem "foreman", "~> 0.63.0"
 gem "thin", "~> 1.6.2"
 gem "whenever", "~> 0.9.2"
 gem "sidekiq", "~> 2.17.7"
 gem "sidekiq-status", "~> 0.4.0"
-
-
-gem "nokogiri", "~> 1.5.9"
-gem "quilt", "~> 0.0.8"
-gem "rmagick", "~> 2.13.2"
 gem 'sinatra', '>= 1.3.0', :require => nil
-gem "paperclip", "~> 4.1"
 
-gem 'jquery-rails'
-
+# JSON API
 gem 'doorkeeper', '~> 1.0.0'
 gem 'versionist', '~> 1.3.0'
 gem 'active_model_serializers', '~> 0.8.1'
 
+# users
+
+gem "devise", "~> 3.2.4"
+gem "devise-async", "~> 0.9.0"
+gem "cancan", "~> 1.6.10"
+
+# network
+
+gem 'feedjira', '~> 1.1.0'
+gem 'feedbag', '~> 0.9.2'
+gem "nokogiri", "~> 1.6.1"
+gem "postrank-uri", :git => 'https://github.com/postrank-labs/postrank-uri.git'
+gem "opengraph", :git => 'https://github.com/mort/opengraph.git'
+gem "pismo", "~> 0.7.2"
+gem "httparty", "~> 0.13.0"
+
+gem "quilt", "~> 0.0.8"
+gem "rmagick", "~> 2.13.2"
+gem "paperclip", "~> 4.1"
+
+gem 'jquery-rails'
+
+
 gem 'sass-rails',   '~> 4.0.2'
 gem 'coffee-rails', '~> 4.0.1'
 gem "uglifier", "~> 2.5.0"
+gem 'forgery', '~> 0.5.0'
+
 
 group :development do 
   gem "annotate", "~> 2.5.0"
