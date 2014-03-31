@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
 
       t.references :channel
-      t.references :user
+      t.references :participant, polymorphic: true
       t.string :item_token
       t.text :body
       t.timestamps

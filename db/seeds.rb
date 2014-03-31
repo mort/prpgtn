@@ -36,3 +36,7 @@ Emote.create([
 Admin.create([:email => 'manuel.gonzalez.noriega@gmail.com', :password => '123456'])
 
 Channel.create({:title => 'Wadus', :description => 'Fuel the wadus!', :owner_id => User.first.id })
+
+RobotoRequest.create({
+  channel: Channel.standard.first, user: Channel.standard.first.owner, uri: 'http://www.theguardian.com/uk/sport'
+})

@@ -1,0 +1,22 @@
+<h2>Robotos</h2>
+
+<table>
+  
+<%- @robotos.each do |r| -%>
+<tr>
+  <td>
+    <%= r.name %>
+  </td>
+
+  <td>
+    <%= link_to r.feed_title, admin_feed_path(r.feed) %>
+  </td>
+
+  <td>
+    <%= r.feed_description %>
+  </td>
+
+
+</tr>
+<%- end -%>
+</table>

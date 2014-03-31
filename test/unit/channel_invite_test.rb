@@ -12,8 +12,8 @@
 #  accepted_at  :datetime
 #  declined_at  :datetime
 #  expired_at   :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 require 'test_helper'

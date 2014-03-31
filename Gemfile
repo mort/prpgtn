@@ -49,7 +49,7 @@ gem 'sass-rails',   '~> 4.0.2'
 gem 'coffee-rails', '~> 4.0.1'
 gem "uglifier", "~> 2.5.0"
 gem 'forgery', '~> 0.5.0'
-
+gem 'whenever', '~> 0.9.2', :require => false
 
 group :development do 
   gem "annotate", "~> 2.5.0"

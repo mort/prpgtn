@@ -10,8 +10,8 @@
 #  monthly_price          :integer
 #  monthly_price_currency :string(255)
 #  channels_counter       :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  created_at             :datetime
+#  updated_at             :datetime
 #
 
 class Plan < ActiveRecord::Base

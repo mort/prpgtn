@@ -1,0 +1,28 @@
+<%= @feed.title %>
+
+<p>
+  <%= @feed.description %>
+</p>
+
+<table>
+  
+<%- @feed.entries.each do |l| -%>
+<tr>
+  <td>
+    <%= l.uri %>
+  </td>
+  <td>
+    <%= link_to l.og_description, admin_link_path(l) %>
+  </td>
+  <td>
+    <%= l.content_type %>
+  </td>
+  <td>
+    <%= l.fetch_method %>
+  </td>
+  <td>
+    <%= l.items.count %>
+  </td>
+</tr>
+<%- end -%>
+</table>

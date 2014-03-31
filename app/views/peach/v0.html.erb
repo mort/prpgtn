@@ -67,18 +67,14 @@
         
       }
       
+      window.peach = Peach;
+      
       a = localStorage.getItem('access_token');
       ENDPOINT = 'http:///0.0.0.0:3000'
 
       if (a) {
-        Peach.run();
+        window.peach.run();
       }
-      
-  
-      
-     
-    
-
       
   
     });

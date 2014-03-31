@@ -2,7 +2,7 @@ class Admin::ItemsController < Admin::AdminController
 
   def index
   
-    @items = Item.all
+    @items = Item.with_link
   
   end
 

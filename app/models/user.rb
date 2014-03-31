@@ -13,8 +13,8 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  created_at             :datetime
+#  updated_at             :datetime
 #  plan_id                :integer
 #  avatar_file_name       :string(255)
 #  avatar_content_type    :string(255)
@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 
   has_many :own_channels, :class_name => 'Channel', :foreign_key => 'owner_id', :dependent => :destroy
   has_one  :selfie, -> { where ["channel_type = ?", Channel::CHANNEL_TYPES[:selfie]] }, :class_name => 'Channel', :foreign_key => 'owner_id' , :dependent => :destroy
-  has_many :items
+  has_many :items, as: :participant
   has_many :archived_links 
   has_many :links, :through => :archived_links 
   has_many :sent_channel_invites, :class_name => 'ChannelInvite', :foreign_key => 'sender_id'

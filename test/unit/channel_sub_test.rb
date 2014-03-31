@@ -2,11 +2,12 @@
 #
 # Table name: channel_subs
 #
-#  id         :integer          not null, primary key
-#  channel_id :integer
-#  user_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :integer          not null, primary key
+#  channel_id       :integer
+#  participant_id   :integer
+#  participant_type :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
 #
 
 require 'test_helper'

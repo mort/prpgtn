@@ -25,7 +25,7 @@ function get_user_data(){
       success: function(d){
         paint_user_data(d.user);
         channels = d.user_channels;
-        Peach.user = d.user
+        window.peach.user = d.user
         var s = build_channels_menu(d.user.channels, d.user.latest_updated_channel_id);
         paint_channel_items(s);
       }, 
@@ -45,8 +45,8 @@ function get_user_data(){
 function grant_credentials(e,p){
   
   var url = ENDPOINT + '/oauth/token'
-  var CLIENT_ID = '70f0fb61fe4e466de9a09d65376ad140ea1f35694b654c03f63e77f687b25701';
-  var CLIENT_SECRET = '3a29000fa5d04c0bb030710ca4065818f8feaa93d511e30e1ad51ccdf27163e1';
+  var CLIENT_ID = '5905a513cb652e3030adccc8abf845cd2f1200e0238ee254cd803fefb65eb4ea';
+  var CLIENT_SECRET = 'c8e187c8f0fe494639ea78350b7be0b45b868141762353182fad372c9101798f';
   
   var data = {
     'grant_type': 'password',

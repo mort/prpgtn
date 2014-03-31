@@ -24,3 +24,9 @@
 #   rake "peach:twitter_feed RAILS_ENV=development" 
 #   
 # end
+
+every 1.minute do
+
+  rake "peach:engage_robotos RAILS_ENV=development" 
+
+end

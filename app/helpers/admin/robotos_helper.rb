@@ -1,0 +1,2 @@
+module Admin::RobotosHelper
+end

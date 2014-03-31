@@ -3,7 +3,7 @@ class RobotoAssembler
   attr_reader :request, :feed
 
   include Sidekiq::Worker
-  sidekiq_options :queue => :robotos
+  sidekiq_options :queue => :default
   sidekiq_options :retry => 5
 
 
@@ -12,33 +12,49 @@ class RobotoAssembler
     raise "Bad Request" unless request.is_a?(RobotoRequest)
   
     @request = request
-    @feed = nil
     
   end
   
-  def perform
-    # Check uri
-    # Discover feed
-    # Create Feed
-    # Create roboto
-    # Subscribe roboto to channel
+  def feed_uris
     
+    Feedbag.find @request.uri
+    
+  end
+  
+  def make_feed(uri)
+    
+    Feed.find_or_create_by(uri: uri)
+  
+  end
+  
+  def make_roboto(feed, request)
+  
+    request.user.robotos.create(roboto_request_id: request.id, feed_id: feed.id) 
+    
+  end
+  
+  
+  def perform
+  
+      
     begin
 
-      feed_uris = Feedbag.find @request.uri
+      fu = feed_uris
       
-      if feed_uris.is_a?(Array)
+      if fu.any?
         
-        feed_uri = feed_uris.first
-
-        feed = Feed.find_or_create_by(uri: feed_uri)
+        feed = make_feed(fu.first)
                         
-        roboto = @request.user.robotos.create(roboto_request_id: @request.id, feed_id: feed.id)         
+        roboto = make_roboto(feed, @request)        
        
-        @request.channel.subscribe(roboto) if roboto
-        
-        @request.update_attributes({processed_at: Time.now, roboto_id: roboto.id })
-        
+        if roboto
+          
+          @request.channel.subscribe(roboto) 
+          @request.mark_as_processed(roboto)
+          roboto.bootup
+          
+        end  
+      
       end
       
     end

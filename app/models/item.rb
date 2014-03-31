@@ -2,16 +2,17 @@
 #
 # Table name: items
 #
-#  id         :integer          not null, primary key
-#  channel_id :integer
-#  user_id    :integer
-#  item_token :string(255)
-#  body       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  item_type  :string(255)      default("url"), not null
-#  link_id    :integer
-#  forwarded  :boolean          default(FALSE), not null
+#  id               :integer          not null, primary key
+#  channel_id       :integer
+#  participant_id   :integer
+#  participant_type :string(255)
+#  item_token       :string(255)
+#  body             :text
+#  created_at       :datetime
+#  updated_at       :datetime
+#  item_type        :string(255)      default("url"), not null
+#  link_id          :integer
+#  forwarded        :boolean          default(FALSE), not null
 #
 
 class Item < ActiveRecord::Base
@@ -19,26 +20,26 @@ class Item < ActiveRecord::Base
   ITEM_TYPES = %W(url)
   
   belongs_to :channel
-  belongs_to :user
+  belongs_to :participant, polymorphic: true
   belongs_to :link
   
   has_many :forwardings, -> { order("created_at ASC") }
   has_many :emotings
   
-  class << self
-    def with_link
-      where("link_id IS NOT NULL")
-    end
-  end
+  scope :by_human, -> {where(participant_type: 'User')}
+  scope :by_roboto, -> {where(participant_type: 'Roboto')}
+  scope :with_link, -> {where("link_id IS NOT NULL")}
+  scope :without_link, -> {where("link_id IS NULL")}
   
   # Ensure it has a type
   before_validation do 
     self.item_type = 'url' if item_type.blank?
   end
     
-  validates_presence_of :body, :channel, :user
+  validates_presence_of :body, :channel, :participant
   validates_inclusion_of :item_type, :in => ITEM_TYPES
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
+  validates_uniqueness_of :body, scope: [:participant_id, :channel_id]
 
   validate do
     errors.add(:base, "No posts allowed") if channel.post_blocked? 
@@ -50,7 +51,26 @@ class Item < ActiveRecord::Base
   
   delegate :fetched_at, :to => :link, :prefix => true
   
+  def user
+    (participant_type == 'User') ? participant : nil
+  end
+  
+  def roboto
+    (participant_type == 'Roboto') ? participant : nil
+  end
+  
+  def by_human?
+    !user.nil?
+  end
+
+  def by_roboto?
+    !roboto.nil?
+  end
+  
+  
   def archive_links
+    
+    return unless by_human?
     
     if link
       
@@ -76,9 +96,9 @@ class Item < ActiveRecord::Base
   end
   
   # Is this item in one of the channels of the user
-  def is_for?(user)
+  def is_for?(participant)
     
-    user.channels.map(&:id).include? channel_id
+    participant.channels.map(&:id).include?(channel_id)
     
   end
   

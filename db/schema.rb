@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20140330231426) do
     t.text     "entries"
     t.string   "latest_status"
     t.datetime "fetched_at"
-    t.integer  "etag"
+    t.string   "etag"
     t.datetime "last_modified"
   end
 
@@ -122,14 +122,15 @@ ActiveRecord::Schema.define(version: 20140330231426) do
 
   create_table "items", force: true do |t|
     t.integer  "channel_id"
-    t.integer  "user_id"
+    t.integer  "participant_id"
+    t.string   "participant_type"
     t.string   "item_token"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "item_type",  default: "url", null: false
+    t.string   "item_type",        default: "url", null: false
     t.integer  "link_id"
-    t.boolean  "forwarded",  default: false, null: false
+    t.boolean  "forwarded",        default: false, null: false
   end
 
   create_table "link_stats", force: true do |t|

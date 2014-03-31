@@ -6,8 +6,8 @@
 #  user_id      :integer
 #  link_id      :integer
 #  archive_type :integer
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 require 'test_helper'

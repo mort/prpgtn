@@ -15,9 +15,9 @@ class Popup::ItemsController < ApplicationController
     
     @item = current_user.items.build(item_params)
     
-    if @item.save!
+    if @item.save
       respond_to do |format|
-        format.html { render :text => 'Propagated!' }
+        format.html { render :text => 'Peach!' }
       end
       
     else

@@ -66,7 +66,7 @@
 <%- end -%>
 
 <%- @channel.robotos.each do |r| -%>
-<li> <%= r.name %></li>
+<li> <%= r.name %>: <%= r.feed_title %></li>
 
 <%- if current_user.owns?(@channel) -%>
 

@@ -2,11 +2,18 @@
 #
 # Table name: feeds
 #
-#  id         :integer          not null, primary key
-#  roboto_id  :integer
-#  uri        :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id            :integer          not null, primary key
+#  uri           :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  title         :string(255)
+#  description   :text
+#  language      :string(255)
+#  entries       :text
+#  latest_status :string(255)
+#  fetched_at    :datetime
+#  etag          :string(255)
+#  last_modified :datetime
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

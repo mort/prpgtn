@@ -48,7 +48,7 @@ Prpgtn::Application.routes.draw do
   
   namespace :admin do 
     
-    resources :users, :links, :items
+    resources :users, :links, :items, :robotos, :feeds
     resources :channels do
       member do 
         get 'subscribers', 'items'

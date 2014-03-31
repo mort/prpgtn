@@ -1,0 +1,23 @@
+<h2>Feeds</h2>
+
+
+<table>
+  
+<%- @feeds.each do |feed| -%>
+<tr>
+  <td>
+    <%= feed.title %>
+  </td>
+
+  <td>
+    <%= feed.roboto.name %>
+  </td>
+  
+  <td>
+    
+  </td>
+
+</tr>
+<%- end  -%>
+
+</table>

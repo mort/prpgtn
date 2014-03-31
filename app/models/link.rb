@@ -14,8 +14,8 @@
 #  has_embed       :boolean
 #  oembed_response :text
 #  fetched_at      :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  created_at      :datetime
+#  updated_at      :datetime
 #
 
 class Link < ActiveRecord::Base
@@ -26,27 +26,33 @@ class Link < ActiveRecord::Base
   has_many :archived_links
   has_many :users, :through => :archived_links
   
-  validates_presence_of :uri
-  validates_uniqueness_of :uri
+  validates :uri, presence: true, uniqueness: true
   
-  has_one :link_stats
-  
-  after_create :create_stats
+  #has_one :link_stats
+  #after_create :create_stats
   
   def fetch_og?
+    
     fetch_method == 'og'
+  
   end
   
   def archive_for(user, options)
+    
     l = archived_links.build
     l.user_id = user.id
     l.archive_type = options[:as]
     
     if l.save
+    
     else
+    
       puts l.errors.as_json
+    
     end
+    
     #TODO Add to list of channels in archived link if link was already present
+    
   end
   
   #after_create :disembed
@@ -58,11 +64,11 @@ class Link < ActiveRecord::Base
   #   update_attributes!(embed_attrs)
   # end 
   
-  def create_stats
-    
-    create_link_stats! :item_count => 1
-    
-  end
+  # def create_stats
+  #   
+  #   create_link_stats! :item_count => 1
+  #   
+  # end
   
   
 end

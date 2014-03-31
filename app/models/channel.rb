@@ -7,8 +7,8 @@
 #  title            :string(255)      not null
 #  description      :string(255)
 #  channel_type     :integer          default(1), not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  created_at       :datetime
+#  updated_at       :datetime
 #  max_users        :integer
 #  is_deletable     :boolean          default(TRUE), not null
 #  post_permissions :integer          default(1), not null
@@ -37,7 +37,7 @@ class Channel < ActiveRecord::Base
   belongs_to :plan
   
   has_many :items, -> { order('created_at DESC') }, :dependent => :destroy
-  has_many :viewport_items, -> { order('created_at DESC').limit(Channel::VIEWPORT_SIZE) }, :class_name => 'Item'
+  has_many :viewport_items, -> { where('link_id IS NOT NULL').order('created_at DESC').limit(Channel::VIEWPORT_SIZE) }, :class_name => 'Item'
   has_many :channel_invites, :dependent => :destroy
 
   has_many :channel_subs, :dependent => :destroy 
@@ -98,13 +98,18 @@ class Channel < ActiveRecord::Base
     return nil if selfie?
 
     begin 
+      
       EmoteSet.find(emote_set_id) 
+      
     rescue ActiveRecord::RecordNotFound
+      
       e = EmoteSet.first
       emote_set_id = e.id
       self.class.delay.assign_emote_set(self.id, e.id)      
       e
+    
     end
+  
   end
   
   def emotes
@@ -122,7 +127,7 @@ class Channel < ActiveRecord::Base
     # Only owners can subscribe to a selfie channel
     raise "Not for you!" if selfie? && !owned_by?(participant)
     
-    cs = channel_subs.build(participant_type: participant.class.to_s.downcase, participant: participant)
+    cs = channel_subs.build(participant_type: participant.class.to_s.downcase, participant_id: participant.id)
     cs.save!
   end
   

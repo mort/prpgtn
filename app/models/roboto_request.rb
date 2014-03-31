@@ -19,6 +19,20 @@ class RobotoRequest < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :channel
+  belongs_to :roboto 
   
+  after_create :process
+  
+  def mark_as_processed(roboto)
+  
+    update_attributes({processed_at: Time.now, roboto_id: roboto.id })
+  
+  end
+  
+  def process
+    
+    RobotoAssembler.new(self).perform
+    
+  end
   
 end

@@ -5,6 +5,7 @@
 #  id                :integer          not null, primary key
 #  roboto_request_id :integer
 #  maker_id          :integer
+#  feed_id           :integer
 #  name              :string(255)
 #  created_at        :datetime
 #  updated_at        :datetime
