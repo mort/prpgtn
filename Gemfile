@@ -12,7 +12,7 @@ gem "mysql2", "~> 0.3.15"
 
 gem "foreman", "~> 0.63.0"
 gem "thin", "~> 1.6.2"
-gem "whenever", "~> 0.9.2"
+gem "whenever", "~> 0.9.2", :require => false
 gem "sidekiq", "~> 2.17.7"
 gem "sidekiq-status", "~> 0.4.0"
 gem 'sinatra', '>= 1.3.0', :require => nil
@@ -49,7 +49,6 @@ gem 'sass-rails',   '~> 4.0.2'
 gem 'coffee-rails', '~> 4.0.1'
 gem "uglifier", "~> 2.5.0"
 gem 'forgery', '~> 0.5.0'
-gem 'whenever', '~> 0.9.2', :require => false
 
 group :development do 
   gem "annotate", "~> 2.5.0"
