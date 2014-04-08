@@ -1,12 +1,31 @@
 <h2>Robotos</h2>
 
+<%- if @feeds.any? -%>
+
+  <%= simple_form_for @roboto, url: admin_robotos_path do |f| %>
+    
+    
+      <%= f.input :feed_id, collection: @feeds %>
+      <%= f.button :submit %>
+      
+  
+  
+  <%- end -%>
+
+<%- end -%>
+
 <table>
   
 <%- @robotos.each do |r| -%>
 <tr>
   <td>
-    <%= r.name %>
+    <%= r.unemployed? ? 'Available' : 'Employed' %>
   </td>
+  <td>
+    <%= link_to r.name, admin_roboto_path(r) %>
+  </td>
+
+  <%- if r.employed? -%>
 
   <td>
     <%= link_to r.feed_title, admin_feed_path(r.feed) %>
@@ -16,6 +35,7 @@
     <%= r.feed_description %>
   </td>
 
+  <%- end -%>
 
 </tr>
 <%- end -%>

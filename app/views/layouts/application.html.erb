@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Peach</title>
+  <title><%= yield(:title) %> | Peach</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -50,7 +50,9 @@
         <li>
           <%= link_to 'Invites', invites_path %>
         </li>
-        
+      <li>
+        <%= link_to 'Robotos', robotos_path %>
+      </li>
       </ul>  
     </div>
     

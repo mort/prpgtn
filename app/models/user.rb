@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
   has_many :forwardings
   has_many :emotings
   has_many :robotos, :foreign_key => 'maker_id'
+  has_many :roboto_requests
   
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
     

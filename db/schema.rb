@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331232349) do
+ActiveRecord::Schema.define(version: 20140408104829) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -109,6 +109,12 @@ ActiveRecord::Schema.define(version: 20140331232349) do
     t.datetime "fetched_at"
     t.string   "etag"
     t.datetime "last_modified"
+    t.boolean  "admin_created",   default: false, null: false
+    t.datetime "discovered_at"
+    t.text     "discovered_uris"
+    t.string   "submitted_uri",                   null: false
+    t.integer  "creation_status", default: 0,     null: false
+    t.integer  "fetch_status"
   end
 
   create_table "forwardings", force: true do |t|
@@ -224,6 +230,8 @@ ActiveRecord::Schema.define(version: 20140331232349) do
     t.datetime "processed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "feed_id"
+    t.integer  "process_status", default: 0, null: false
   end
 
   create_table "robotos", force: true do |t|
@@ -233,6 +241,8 @@ ActiveRecord::Schema.define(version: 20140331232349) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "unemployed",        default: false
+    t.boolean  "admin_created",     default: false, null: false
   end
 
   create_table "users", force: true do |t|

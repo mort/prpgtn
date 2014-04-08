@@ -1,0 +1,20 @@
+<h2>Robotos</h2>
+
+<table>
+  
+<%- @robotos.each do |r| -%>
+<tr>
+  <td>
+    <%= link_to r.name, roboto_path(r) %>
+  </td>
+  <td>
+    <%=  r.feed.title %>:
+    <%= r.feed.description %>
+    
+  </td>
+
+  
+</tr>
+<%- end -%>
+
+</table>

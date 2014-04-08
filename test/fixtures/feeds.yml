@@ -2,18 +2,22 @@
 #
 # Table name: feeds
 #
-#  id            :integer          not null, primary key
-#  uri           :string(255)
-#  created_at    :datetime
-#  updated_at    :datetime
-#  title         :string(255)
-#  description   :text
-#  language      :string(255)
-#  entries       :text
-#  latest_status :string(255)
-#  fetched_at    :datetime
-#  etag          :string(255)
-#  last_modified :datetime
+#  id              :integer          not null, primary key
+#  uri             :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  title           :string(255)
+#  description     :text
+#  language        :string(255)
+#  entries         :text
+#  latest_status   :string(255)
+#  fetched_at      :datetime
+#  etag            :string(255)
+#  last_modified   :datetime
+#  admin_created   :boolean          default(FALSE), not null
+#  discovered_at   :datetime
+#  discovered_uris :text
+#  submitted_uri   :string(255)      not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

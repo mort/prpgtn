@@ -16,6 +16,7 @@
 #  fetched_at      :datetime
 #  created_at      :datetime
 #  updated_at      :datetime
+#  bad_uri_warning :boolean          default(FALSE), not null
 #
 
 require 'test_helper'

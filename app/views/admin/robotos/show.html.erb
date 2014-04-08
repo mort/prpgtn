@@ -1,0 +1,19 @@
+<h2><%= @roboto.name %></h2>
+
+<p>
+  <%= @roboto.available? ? 'Available' : link_to(@roboto.feed.title, admin_feed_path(@roboto.feed)) %>
+</p>
+
+<%- if @feeds.any? -%>
+
+  <%= simple_form_for @roboto, url: admin_roboto_path(@roboto), method: :patch do |f| %>
+    
+    
+      <%= f.input :feed_id, collection: @feeds %>
+      <%= f.button :submit %>
+      
+  
+  
+  <%- end -%>
+
+<%- end -%>

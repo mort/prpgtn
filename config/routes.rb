@@ -1,5 +1,7 @@
-Prpgtn::Application.routes.draw do
+Peach::Application.routes.draw do
     
+  resources :roboto_requests
+
   namespace :api do
     namespace :v0 do
       resources :items do
@@ -20,6 +22,8 @@ Prpgtn::Application.routes.draw do
   end
   
   resources :items, :links
+  resources :robotos, :only => [:show, :index]
+  resources :feeds, :only => [:show, :index]
   
   
   namespace :api do 
@@ -48,25 +52,31 @@ Prpgtn::Application.routes.draw do
   
   namespace :admin do 
     
-    resources :users, :links, :items, :robotos, :feeds
+    resources :users, :links, :items, :feeds
+    
+    resources :robotos do
+      
+      patch 'fire', on: :member
+    
+    end
+    
     resources :channels do
       member do 
         get 'subscribers', 'items'
       end
     end
+    
   end
  
   resources :channels, :only => [:new, :create, :index, :show, :destroy] do
     
-    member do
-      put 'leave'
-    end
+    put 'leave', on: :member
     
     resources :items do
-      member do
-        get 'jump'
-      end
+      get 'jump', on: :member
     end
+    
+    resources :roboto_requests, :only => [:create, :show]
     
     resources :channel_subs, :only => :destroy
     
@@ -75,6 +85,7 @@ Prpgtn::Application.routes.draw do
         put 'accept', 'decline'
       end
     end
+    
   end
   
   resource :user_settings, :only => [:edit, :update]

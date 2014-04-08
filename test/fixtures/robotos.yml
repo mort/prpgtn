@@ -9,6 +9,8 @@
 #  name              :string(255)
 #  created_at        :datetime
 #  updated_at        :datetime
+#  unemployed        :boolean          default(FALSE)
+#  admin_created     :boolean          default(FALSE), not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

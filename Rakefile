@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Prpgtn::Application.load_tasks
+Peach::Application.load_tasks

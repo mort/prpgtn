@@ -18,6 +18,8 @@ class ChannelsController < ApplicationController
       @channel = current_user.channels.standard.find params[:id]
     
       @invite = @channel.channel_invites.build
+      @request = @channel.roboto_requests.build
+
       @items = @channel.items
     
       t = Channel::CHANNEL_TYPES.invert[@channel.channel_type]

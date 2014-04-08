@@ -31,7 +31,15 @@
   
 <%- end -%>
 
+
+
 <%- if current_user.owns?(@channel) -%>
+
+<h3>New participant</h3>
+
+  <p>
+    Someone with feelings just like you.
+  </p>
 
   <%= form_for [@channel, @invite] do |f| %>
     <p>
@@ -41,6 +49,24 @@
       <%= submit_tag 'Invite' %>
     </p>
   <%- end -%>
+  
+  
+  <h3>New roboto</h3>
+  
+  <p>
+    An unstoppable link sharing machine.
+  </p>
+  
+  <%= form_for [@channel, @request] do |f| %>
+    <p>
+      <%= f.text_field :uri %>
+    </p>
+    <p>
+      <%= submit_tag 'Create' %>
+    </p>
+  <%- end -%>
+  
+  
 
 <%- end -%>
 

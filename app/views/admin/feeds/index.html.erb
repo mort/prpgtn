@@ -1,17 +1,23 @@
 <h2>Feeds</h2>
 
+<p>
+  <%= link_to 'New feed', new_admin_feed_path %>
+</p>
 
 <table>
   
 <%- @feeds.each do |feed| -%>
 <tr>
+  
   <td>
-    <%= feed.title %>
+    <%= link_to feed.title, admin_feed_path(feed) %>
   </td>
 
+  <%- if feed.robotos.any? -%>
   <td>
     <%= feed.roboto.name %>
   </td>
+  <%- end -%>
   
   <td>
     

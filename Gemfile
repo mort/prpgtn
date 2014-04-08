@@ -50,6 +50,10 @@ gem 'coffee-rails', '~> 4.0.1'
 gem "uglifier", "~> 2.5.0"
 gem 'forgery', '~> 0.5.0'
 
+
+gem 'simple_form', '~> 3.0.1'
+
+
 group :development do 
   gem "annotate", "~> 2.5.0"
   gem "wirble"
@@ -61,6 +65,8 @@ group :development do
   gem 'spring', '~> 1.1.2'
   gem 'oauth2', '~> 0.9.3'
   gem 'exception_notification', '~> 4.0.1'
+  gem 'better_errors', '~> 1.1.0'
+  gem 'binding_of_caller', '~> 0.7.2'
 end
 
 group :test do

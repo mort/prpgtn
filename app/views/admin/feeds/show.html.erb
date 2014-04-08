@@ -1,28 +1,35 @@
-<%= @feed.title %>
-
+<h2><%= @feed.title %></h2>
 <p>
   <%= @feed.description %>
 </p>
+<hr>
+<h3>Robotos</h3>
 
-<table>
-  
-<%- @feed.entries.each do |l| -%>
-<tr>
-  <td>
-    <%= l.uri %>
-  </td>
-  <td>
-    <%= link_to l.og_description, admin_link_path(l) %>
-  </td>
-  <td>
-    <%= l.content_type %>
-  </td>
-  <td>
-    <%= l.fetch_method %>
-  </td>
-  <td>
-    <%= l.items.count %>
-  </td>
-</tr>
+<%= simple_form_for Roboto.new, url: admin_robotos_path do |f| %>
+
+  <%= f.input :feed_id, as: :hidden, input_html: { value: @feed.id } %>
+  <%= f.button :submit %>
+
 <%- end -%>
-</table>
+
+<ul>
+  
+<%- @feed.robotos.each do |roboto|  -%>
+<li>
+  <%= link_to roboto.name, admin_roboto_path(roboto) %>
+  
+  <%= form_for roboto, url: fire_admin_roboto_path(roboto) do |f| %>
+  
+    <%= f.submit 'Unlink' %>
+    
+  <%- end -%>
+  
+  
+</li>
+<%- end -%>
+</ul>
+
+
+
+<p>Latest entry: <%= link_to @feed.latest_entry.title, @feed.latest_entry.url %></p>
+

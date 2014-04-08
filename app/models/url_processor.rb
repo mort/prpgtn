@@ -85,11 +85,16 @@ class UrlProcessor
   
   def normalize(body)
     u = PostRank::URI.extract(body).first
-    u = PostRank::URI.clean(u)
-    # u = PostRank::URI.normalize(u)
     
-    PostRank::URI.unescape(u)
+    r = unless u.nil?
+      u = PostRank::URI.clean(u)
+      # u = PostRank::URI.normalize(u)    
+      PostRank::URI.unescape(u)
+    else 
+      body
+    end
     
+    r
     
   end
 

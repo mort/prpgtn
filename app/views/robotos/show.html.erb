@@ -1,0 +1,13 @@
+<% title "Hi! This is #{@roboto.name}. I'm a roboto. " %>
+
+<h2>Roboto <%= @roboto.name %></h2>
+
+<p>
+  Subscribed to: <%= @roboto.feed.title %> (<%= link_to '*', @roboto.feed.uri %>)
+</p>
+
+
+<%-  if @roboto.feed.latest_entry -%>
+  Latest: <%= link_to  @roboto.feed.latest_entry.title, @roboto.feed.latest_entry.url %>
+<%- end -%>
+
