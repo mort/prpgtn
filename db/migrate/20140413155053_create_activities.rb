@@ -6,6 +6,7 @@ class CreateActivities < ActiveRecord::Migration
       t.references :channel
       t.string :verb
       t.text :content
+      t.boolean :for_user_stream, default: true
       t.datetime :streamed_at
       t.timestamps
 
