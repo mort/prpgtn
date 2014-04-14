@@ -31,12 +31,10 @@ class Api::V0::UsersController < ApplicationController
           response.stream.write("data:#{ data }\n\n")
         end
       
-      ensure
-               response.stream.close
-      end
-        
+      end  
       
     }
+    
     
   end
   
