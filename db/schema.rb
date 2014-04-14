@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20140413155053) do
     t.integer  "channel_id"
     t.string   "verb"
     t.text     "content"
+    t.boolean  "for_user_stream",  default: true
     t.datetime "streamed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
