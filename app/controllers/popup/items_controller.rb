@@ -13,21 +13,13 @@ class Popup::ItemsController < ApplicationController
   
   def create
     
-    @item = current_user.items.build(item_params)
+    @item = current_user.items.build
     
-    if @item.save
-      respond_to do |format|
-        format.html { render :text => 'Peach!' }
-      end
-      
-    else
-      
-      respond_to do |format|
-        format.html { redirect_to new_popup_item_url(:url => @item.body) }
-      end
-    end
+    @item.on(:create_item_successful) { |item| render :text => 'Peach!' }
+    @item.on(:create_item_failed)     { |item| redirect_to new_popup_item_url(:url => item.body) }
     
-    
+    @item.commit(item_params)
+        
   end
   
   

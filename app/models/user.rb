@@ -82,6 +82,49 @@ class User < ActiveRecord::Base
     item.fwd(self, item)
   end
   
+  
+  def as_object_fields
+    %w(objectType id displayName)
+  end
+  
+  
+  def as_object(options = {})
+    
+    o = {}
+    
+    only = options.delete(:only)
+    except = options.delete(:except)
+        
+    f = if only && only.is_a?(Array)  
+      as_object_fields & only
+    elsif except && except.is_a?(Array)  
+      as_object_fields - except
+    else
+      as_object_fields
+    end
+        
+    puts f.inspect    
+        
+    f.each { |_f| o[_f] = self.send("as_#{_f.underscore}") }
+        
+    o
+        
+  end
+  
+  def as_object_type
+    'person'
+  end
+  
+  def as_id
+    "urn:peach:people:#{id}"
+  end
+  
+  def as_display_name
+    display_name
+  end
+  
+  
+  
   private
 
   

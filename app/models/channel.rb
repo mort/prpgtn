@@ -66,6 +66,8 @@ class Channel < ActiveRecord::Base
   
   after_create :subscribe_owner 
   
+  alias_method :humans, :users
+  
   def participants
     users + robotos
   end
@@ -127,13 +129,62 @@ class Channel < ActiveRecord::Base
     # Only owners can subscribe to a selfie channel
     raise "Not for you!" if selfie? && !owned_by?(participant)
     
-    cs = channel_subs.build(participant_type: participant.class.to_s.downcase, participant_id: participant.id)
-    cs.save!
+    
+    begin
+      
+      cs = channel_subs.build(participant_type: participant.class.to_s, participant_id: participant.id)
+      cs.commit
+      
+    end
+    
   end
   
   def unsubscribe(participant)
-    channel_subs.where({participant_id: participant.id, participant_type: participant.class.to_s.downcase}).destroy_all
+    channel_subs.where({participant_id: participant.id, participant_type: participant.class.to_s.downcase}).first.cancel
   end
+  
+  # AS
+  
+  def as_object_fields
+    %w(objectType id displayName)
+  end
+  
+  def as_object(options = {})
+    
+    o = {}
+    
+    only = options.delete(:only)
+    except = options.delete(:except)
+        
+    f = if only && only.is_a?(Array)  
+      as_object_fields & only
+    elsif except && except.is_a?(Array)  
+      as_object_fields - except
+    else
+      as_object_fields
+    end
+        
+    puts f.inspect    
+        
+    f.each { |_f| o[_f] = self.send("as_#{_f.underscore}") }
+        
+    o
+        
+  end
+  
+  def as_object_type
+    'group'
+  end
+  
+  def as_id
+    "urn:peach:channels:#{id}"
+  end
+  
+  def as_display_name
+    title
+  end
+  
+  
   
   private
   

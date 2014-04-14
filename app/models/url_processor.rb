@@ -1,57 +1,77 @@
 require 'link_fetcher'
 
 class UrlProcessor
+  
+  include Wisper::Publisher
+  
   include Sidekiq::Worker
   sidekiq_options :queue => :url_processor
   sidekiq_options :retry => 5
+    
+    
     
   def perform(item_id)
     
     link_created = false
     
-    item = Item.find item_id
+    Wisper.with_listeners(ActivityListener.new) do
     
-    if item
-    
-      u = normalize(item.body)    
-    
-      puts "_______ Working with #{u}"
+      begin
 
-      # Hit the cache first
-      existing_link = Link.where(["uri = ?", u]).first
+      item = Item.find item_id
     
-      link = if existing_link
-        puts "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
-        existing_link
-      
-      else 
+      if item
+          
+        u = normalize(item.body)    
     
-        link_attrs = embed_attrs = nil
-       
-        puts "... Fetching link"
-        link_attrs = fetch(u)
-    
-        puts "... Disembedding link"
-        embed_attrs = embedly_disembed(u)
-  
-        attrs = link_attrs.merge!(embed_attrs)
+        #puts "_______ Working with #{u}"
 
-        puts "Creating link #{attrs}"
-        Link.create!(attrs)
+        # Hit the cache first
+        existing_link = Link.where(["uri = ?", u]).first
+    
+        link = if existing_link
         
+          #puts "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
+          existing_link
+      
+        else 
+    
+          link_attrs = embed_attrs = nil
+       
+          #puts "... Fetching link"
+          link_attrs = fetch(u)
+    
+          #puts "... Disembedding link"
+          embed_attrs = embedly_disembed(u)
+  
+          attrs = link_attrs.merge!(embed_attrs)
+
+          #puts "Creating link #{attrs}"
+          Link.create!(attrs)
+        
+        end
+    
+        
+        item.update_column(:link_id, link.id)
+        publish(:item_link_fetched_successful, item)
+      
+      
+        if item.by_human?
+        
+          item.archive_links
+          item.user.update_attribute(:latest_updated_channel_id, item.channel.id)
+    
+        end
+    
       end
     
-        
-      item.update_column(:link_id, link.id)
-      
-      if item.by_human?
-        
-        item.archive_links
-        item.user.update_attribute(:latest_updated_channel_id, item.channel.id)
     
+      rescue ActiveRecord::RecordNotFound
+        #puts "Item #{item_id} no longer exists"
       end
     
     end
+    
   end
   
   def fetch(u)

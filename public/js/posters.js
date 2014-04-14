@@ -4,7 +4,7 @@ function post_emote(item_id, emote_id){
     console.log(url);
     
     var data = {
-      'emote_id': emote_id
+      'emoting[emote_id]': emote_id
     }
     
     console.log(data);

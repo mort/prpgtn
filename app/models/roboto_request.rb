@@ -30,6 +30,10 @@ class RobotoRequest < ActiveRecord::Base
   
   after_create :process
   
+  def process_status_text
+    PROCESS_STATUSES.invert[process_status].to_s
+  end
+  
   def mark_as_processed_fail(feed)
     update_attributes({processed_at: Time.now, process_status: PROCESS_STATUSES[:fail], feed_id: feed.id })
   end

@@ -16,6 +16,10 @@
 #
 
 class Item < ActiveRecord::Base
+  
+  include Wisper::Publisher
+  
+  #default_scope { where("link_id IS NOT NULL").order('created_at DESC') }
     
   ITEM_TYPES = %W(url)
   
@@ -23,13 +27,13 @@ class Item < ActiveRecord::Base
   belongs_to :participant, polymorphic: true
   belongs_to :link
   
-  has_many :forwardings, -> { order("created_at ASC") }
-  has_many :emotings
+  has_many :forwardings, -> { order("created_at ASC") },  dependent: :destroy
+  has_many :emotings, dependent: :destroy
   
   scope :by_human, -> {where(participant_type: 'User')}
   scope :by_roboto, -> {where(participant_type: 'Roboto')}
   scope :with_link, -> {where("link_id IS NOT NULL")}
-  scope :without_link, -> {where("link_id IS NULL")}
+  scope :without_link, -> { where("link_id IS NULL")}
   
   # Ensure it has a type
   before_validation do 
@@ -49,7 +53,21 @@ class Item < ActiveRecord::Base
   after_create :set_item_token
   after_create :process_url
   
-  delegate :fetched_at, :to => :link, :prefix => true
+  delegate :fetched_at, :prefix => true, :to => :link
+  delegate :og_title, :og_url, :og_image, :og_description, :og_type, :to => :link
+  
+  def commit(_attrs)
+    
+    assign_attributes(_attrs) if _attrs.present?
+    
+    if valid?
+      save!
+      publish(:create_item_successful, self)
+    else
+      publish(:create_item_failed, self)
+    end
+    
+  end
   
   def user
     (participant_type == 'User') ? participant : nil
@@ -108,6 +126,70 @@ class Item < ActiveRecord::Base
   
   end
   
+  
+  def as_object_fields
+    %w(objectType id url displayName targetUrl content)
+  end
+  
+  def as_object(options = {})
+    
+    o = {}
+    
+    only = options.delete(:only)
+    except = options.delete(:except)
+        
+    f = if only && only.is_a?(Array)  
+      as_object_fields & only
+    elsif except && except.is_a?(Array)  
+      as_object_fields - except
+    else
+      as_object_fields
+    end
+        
+    puts f.inspect    
+        
+    f.each { |_f| o[_f] = self.send("as_#{_f.underscore}") }
+        
+    o
+        
+  end
+  
+  def as_object_type
+    'bookmark'
+  end
+  
+  def as_id
+    "urn:peach:items:#{item_token}"
+  end
+  
+  def as_url
+    Rails.application.routes.url_helpers.jump_channel_item_url(self.channel, self, { :host => "localhost:3000" })
+  end
+  
+  def as_display_name
+    og_title
+  end
+  
+  def as_target_url
+    og_url
+  end
+  
+  def as_content
+    og_description
+  end
+  
+  def as_activity
+    
+    {
+      actor: participant.as_object,
+      object: as_object,
+      target: channel.as_object,
+      to: channel.humans.collect(&:as_id),
+      verb: 'post',
+      published: Time.now.to_datetime.rfc3339
+    }
+
+  end
   
   private 
 

@@ -5,19 +5,19 @@ class Api::V0::EmotingsController < Api::V0::ApiController
     item = Item.find(params[:item_id])
   
     if item && item.is_for?(current_user)
-
-      emote = item.channel.emotes.find(params[:emote_id])
+      
+      emote = item.channel.emotes.find(emoting_params[:emote_id])
       
         if emote 
-      
-          emoting = current_user.emotings.build(item_id: item.id, emote_id: emote.id)
-    
-          if emoting.save
-            render nothing: true, status: 201
-          else
-            render json: emoting.errors.as_json, :status => :unprocessable_entity 
-          end
+          
+          emoting = current_user.emotings.build(item_id: item.id)
+          emoting.subscribe(ActivityListener.new)
+          
+          emoting.on(:create_emoting_successful) { |emoting| render nothing: true, status: 201 }
+          emoting.on(:create_emoting_failed)     { |emoting| render json: emoting.errors.as_json, :status => :unprocessable_entity }
   
+          emoting.commit(emoting_params)
+        
       end
   
     end
@@ -35,6 +35,16 @@ class Api::V0::EmotingsController < Api::V0::ApiController
   
   
   end
+  
+  
+  private
+  
+  def emoting_params
 
+    params.require(:emoting).permit(:emote_id)
+
+
+  end
+  
 
 end

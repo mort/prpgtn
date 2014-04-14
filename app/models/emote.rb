@@ -16,4 +16,6 @@ class Emote < ActiveRecord::Base
   
   belongs_to :emote_set
   
+ 
+  
 end

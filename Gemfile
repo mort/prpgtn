@@ -11,7 +11,8 @@ gem "mysql2", "~> 0.3.15"
 # system
 
 gem "foreman", "~> 0.63.0"
-gem "thin", "~> 1.6.2"
+#gem "thin", "~> 1.6.2"
+gem 'puma', '~> 2.8.2'
 gem "whenever", "~> 0.9.2", :require => false
 gem "sidekiq", "~> 2.17.7"
 gem "sidekiq-status", "~> 0.4.0"
@@ -53,6 +54,7 @@ gem 'forgery', '~> 0.5.0'
 
 gem 'simple_form', '~> 3.0.1'
 
+gem 'wisper', '~> 1.3.0'
 
 group :development do 
   gem "annotate", "~> 2.5.0"

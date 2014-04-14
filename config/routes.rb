@@ -29,11 +29,9 @@ Peach::Application.routes.draw do
   namespace :api do 
   
     api_version(:module => "v0", :header => {:name => "Accept", :value => "application/vnd.grabapeach.com; version=0"}, :path => {:value => "v0"}) do
-      # match '/foos.(:format)' => 'foos#index', :via => :get
-      # match '/foos_no_format' => 'foos#index', :via => :get
-      # resources :bars
 
       match 'me' => 'users#me', :via => :get
+      match 'stream' => 'users#stream', :via => :get
   
       resources :channels, :only => [:index, :show] do
         resources :users, :only => [:index] 
@@ -70,7 +68,7 @@ Peach::Application.routes.draw do
  
   resources :channels, :only => [:new, :create, :index, :show, :destroy] do
     
-    put 'leave', on: :member
+    patch 'leave', on: :member
     
     resources :items do
       get 'jump', on: :member

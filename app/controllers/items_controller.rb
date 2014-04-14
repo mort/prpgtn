@@ -1,10 +1,8 @@
 class ItemsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:jump]
-  
-  
+
   def jump
     
-    @i = current_user.channels.find(params[:channel_id]).items.find params[:id]
+    @i = Item.find_by_item_token item_params[:token]
         
     respond_to do |format|
      
@@ -15,6 +13,12 @@ class ItemsController < ApplicationController
     end
     
     
+  end
+  
+  private
+  
+  def item_params
+    params.require(:token)
   end
 
 end
