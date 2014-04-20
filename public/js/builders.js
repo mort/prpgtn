@@ -1,6 +1,6 @@
 function build_channels_menu(channels, latest_updated_channel_id){
   
-  console.log(channels);
+  // console.log(channels);
   
   var s = $('<select id="channels_menu"></select>');
   
@@ -23,12 +23,12 @@ function build_channels_menu(channels, latest_updated_channel_id){
 
 function build_item_buttons(item, emotes, channels) {
   
-   var buttons = $('<div><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p>></div>');
-   
-            
+   var buttons = $('<div><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p></div>');
    
   var em = build_emotes(item, emotes);   
   var fwd = build_fwd_menu(item, channels);
+  var keep = build_keep_button(item);
+  
   
   buttons.append(em);
   return buttons;
@@ -37,6 +37,7 @@ function build_item_buttons(item, emotes, channels) {
 
 function build_emotes(item, emotes) {
   
+
   var emotes_from_user = item.current_user_emotes;
   
   var em = $('<ul class="emotes"></ul>');
@@ -72,5 +73,9 @@ function build_emotes(item, emotes) {
 
 
 function build_fwd_menu(item, channels){
+  
+}
+
+function build_keep_button(item) {
   
 }

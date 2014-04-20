@@ -1,17 +1,13 @@
 # == Schema Information
 #
-# Table name: roboto_requests
+# Table name: activity_notifications
 #
-#  id             :integer          not null, primary key
-#  channel_id     :integer
-#  user_id        :integer
-#  roboto_id      :integer
-#  uri            :string(255)
-#  processed_at   :datetime
-#  created_at     :datetime
-#  updated_at     :datetime
-#  feed_id        :integer
-#  process_status :integer          default(0), not null
+#  id                :integer          not null, primary key
+#  user_id           :integer
+#  activity_id       :integer
+#  notification_type :string(255)
+#  created_at        :datetime
+#  updated_at        :datetime
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

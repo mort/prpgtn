@@ -23,6 +23,7 @@ gem 'doorkeeper', '~> 1.0.0'
 gem 'versionist', '~> 1.3.0'
 gem 'active_model_serializers', '~> 0.8.1'
 
+
 # users
 
 gem "devise", "~> 3.2.4"
@@ -38,6 +39,7 @@ gem "postrank-uri", :git => 'https://github.com/postrank-labs/postrank-uri.git'
 gem "opengraph", :git => 'https://github.com/mort/opengraph.git'
 gem "pismo", "~> 0.7.2"
 gem "httparty", "~> 0.13.0"
+#gem 'open_uri_redirections'
 
 gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"
@@ -67,7 +69,7 @@ group :development do
   gem 'spring', '~> 1.1.2'
   gem 'oauth2', '~> 0.9.3'
   gem 'exception_notification', '~> 4.0.1'
-  gem 'better_errors', '~> 1.1.0'
+  #gem 'better_errors', '~> 1.1.0'
   gem 'binding_of_caller', '~> 0.7.2'
 end
 

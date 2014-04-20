@@ -22,6 +22,7 @@
 #  avatar_updated_at      :datetime
 #  display_name           :string(255)
 #  settings               :string(4096)
+#  latest_notification_at :datetime
 #
 
 require 'test_helper'

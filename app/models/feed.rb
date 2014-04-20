@@ -18,6 +18,8 @@
 #  discovered_at   :datetime
 #  discovered_uris :text
 #  submitted_uri   :string(255)      not null
+#  creation_status :integer          default(0), not null
+#  fetch_status    :integer
 #
 
 class Feed < ActiveRecord::Base

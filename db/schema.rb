@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140413155053) do
+ActiveRecord::Schema.define(version: 20140419170907) do
 
   create_table "activities", force: true do |t|
     t.integer  "participant_id"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20140413155053) do
     t.text     "content"
     t.boolean  "for_user_stream",  default: true
     t.datetime "streamed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "activity_notifications", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.string   "notification_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -277,6 +285,7 @@ ActiveRecord::Schema.define(version: 20140413155053) do
     t.datetime "avatar_updated_at"
     t.string   "display_name"
     t.string   "settings",               limit: 4096
+    t.datetime "latest_notification_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

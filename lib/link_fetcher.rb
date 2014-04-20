@@ -1,5 +1,6 @@
 require 'opengraph'
 require 'pismo'
+require 'open_uri_unsafe_redirections'
 
 class LinkFetcher
 

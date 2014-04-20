@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
 
   def jump
     
-    @i = Item.find_by_item_token item_params[:token]
+    @i = Item.find params[:id]
         
     respond_to do |format|
      

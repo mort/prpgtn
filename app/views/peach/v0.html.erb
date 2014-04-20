@@ -55,13 +55,14 @@
       
       var Peach = {
         
-        
         run: function(){
           $('#login').hide();
           $('#app').show();
         
           get_user_data();
-        
+          setInterval(get_user_activities, 5000);
+          //window.peach.listen();
+          
         }
       
         
@@ -73,10 +74,25 @@
       ENDPOINT = 'http:///0.0.0.0:3000'
 
       if (a) {
-        window.peach.run();
+        window.peach.run();          
+      } else{
+        
+        console.log("Login");
+        $('#sbmt').on('click', function(e){
+          
+          var u = $('#email').val();
+          var p = $('#password').val();
+          
+          console.log(u);
+          console.log(p);
+          
+          e.preventDefault();
+          grant_credentials(u,p);
+          return false;
+          
+        });
+        
       }
-      
-  
     });
     
     

@@ -2,14 +2,16 @@
 #
 # Table name: roboto_requests
 #
-#  id           :integer          not null, primary key
-#  channel_id   :integer
-#  user_id      :integer
-#  roboto_id    :integer
-#  uri          :string(255)
-#  processed_at :datetime
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id             :integer          not null, primary key
+#  channel_id     :integer
+#  user_id        :integer
+#  roboto_id      :integer
+#  uri            :string(255)
+#  processed_at   :datetime
+#  created_at     :datetime
+#  updated_at     :datetime
+#  feed_id        :integer
+#  process_status :integer          default(0), not null
 #
 
 class RobotoRequest < ActiveRecord::Base

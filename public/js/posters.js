@@ -1,7 +1,6 @@
 function post_emote(item_id, emote_id){
  
     var url = ENDPOINT + '/api/v0/items/'+item_id+'/emotings';
-    console.log(url);
     
     var data = {
       'emoting[emote_id]': emote_id

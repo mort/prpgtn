@@ -1,5 +1,11 @@
 Peach::Application.routes.draw do
     
+  namespace :api do
+    namespace :v0 do
+      resources :activities
+    end
+  end
+
   resources :roboto_requests
 
   namespace :api do
@@ -31,10 +37,12 @@ Peach::Application.routes.draw do
     api_version(:module => "v0", :header => {:name => "Accept", :value => "application/vnd.grabapeach.com; version=0"}, :path => {:value => "v0"}) do
 
       match 'me' => 'users#me', :via => :get
-      match 'stream' => 'users#stream', :via => :get
+      match 'me/stream' => 'users#stream', :via => :get
+      match 'me/activities' => 'users#activities', :via => :get
   
       resources :channels, :only => [:index, :show] do
         resources :users, :only => [:index] 
+        resources :activities, :only => [:index]
       end
 
     end

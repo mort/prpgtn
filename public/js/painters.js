@@ -57,22 +57,15 @@ function paint_items(items, channel){
     
     if (v.link != null) {
       
-      var link = v.link;
-    
-      var c = $("<div></div>");
-      var p = $('<p></p>');
-      var p2 = $('<p>'+link.og_description+'</p>');
-      var a = $("<a>"+link.og_title+"</a>");
-      a.attr('href', link.og_url);
-    
-      p.append(a);
-      c.append(p);
-      c.append(p2);
+      c = _paint_item(v);
       c.append(build_item_buttons(v, emotes));
+      c.append('<hr>')
       
       $('#canvas #viewport').append(c);
-      
+        
   }
+  
+  
     
   });
   
@@ -88,8 +81,49 @@ function paint_items(items, channel){
     e.preventDefault();
     
   });
+  
+  
 }
 
+
+function _paint_item(v) {
+  
+  console.log(v);
+  
+  var link = v.link;
+
+  var c = $("<div></div>");
+  var p = $('<p></p>');
+  var p2 = $('<p>'+link.og_description+'</p>');
+  var a = $("<a>"+link.og_title+"</a>");
+  a.attr('href', link.og_url);
+
+  p.append(a);
+  c.append(p);
+  c.attr('peach_as_id', v.as_id);
+
+  
+  return c;
+  
+}
+
+function _paint_item_activity(data) {
+  
+  content = data.content;
+  console.log(content);
+  
+  var c = $("<div></div>");
+  var p = $('<p></p>');
+  var a = $("<a>New activity: "+content.object.displayName+"</a>");
+  a.attr('href', content.object.url);
+
+  p.append(a);
+  c.append(p);
+  
+  return c;
+  
+  
+}
 
 
 function paint_login() {

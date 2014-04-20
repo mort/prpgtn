@@ -25,9 +25,11 @@ function get_user_data(){
       success: function(d){
         paint_user_data(d.user);
         channels = d.user_channels;
-        window.peach.user = d.user
+        window.peach.current_user = d.user
         var s = build_channels_menu(d.user.channels, d.user.latest_updated_channel_id);
         paint_channel_items(s);
+        
+        
       }, 
       error: function(d){
         //console.log("Error!");
@@ -39,6 +41,87 @@ function get_user_data(){
       }
   });
 
+}
+
+
+
+function get_user_activities(){
+  
+   var url = ENDPOINT + '/api/v0/me/activities.json';
+   
+   var since = localStorage.getItem('latest_activities_date');
+   
+   if (since != null) {
+     url += '?since='+since;
+   }
+   
+   
+   $.ajax({
+       url: url,
+       headers: { 'Authorization': 'Bearer '+a },
+       success: function(d){
+                        
+         _.each(d.activities, function(el){
+           // console.log(el);
+           el.signature = function() {
+             return this.content.actor.objectType+"_"+this.content.verb+'_'+this.content.object.objectType;
+          };
+                     
+           handler_for(el.signature(), el);
+           
+           
+         });          
+         
+         localStorage.setItem('latest_activities_date', d.meta.publishedAt);
+       }, 
+       error: function(d){
+         console.log("Error!");
+         console.log(d.status);
+        
+       }
+   });
+  
+}
+
+function handler_for(event, data) {
+ 
+  console.log(event);
+  
+  var s = "handler_"+event;
+  
+  window[s](data);
+  
+}
+
+function handler_person_post_comment(activity) {
+  //console.log(data);
+
+  console.log(window.peach.current_user);
+  var u = window.peach.current_user;
+    
+  console.log(activity);
+  
+  if (u.as_id != activity.content.actor.id) {
+    console.log("Comment from other actor");
+    
+    var el = $('[peach_as_id="'+activity.content.inReplyTo+'"]');
+    console.log(el);
+    
+    var r = '<p>'+activity.content.actor.displayName+' says: '+activity.content.object.content+'</p>';
+    el.prepend(r);
+    
+  }
+  
+  
+  
+}
+
+function handler_person_post_bookmark(activity) {
+  console.log("handler_person_post_bookmark ________________");
+  //console.log(data);
+  var c = _paint_item_activity(activity);  
+  $('section#viewport').prepend(c);
+  
 }
 
 
@@ -72,9 +155,8 @@ function get_channel_items(channel){
   
   $.ajax({
       url: url,
-      headers: { 'Authorization': 'Bearer '+a },
+      headers: { 'Authorization': 'Bearer '+a},
       success: function(d){
-        console.log(d);
         paint_items(d.channel.viewport_items, d.channel);
       }
   });

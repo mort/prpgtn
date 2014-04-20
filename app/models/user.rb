@@ -22,6 +22,7 @@
 #  avatar_updated_at      :datetime
 #  display_name           :string(255)
 #  settings               :string(4096)
+#  latest_notification_at :datetime
 #
 
 class User < ActiveRecord::Base
@@ -47,6 +48,10 @@ class User < ActiveRecord::Base
   has_many :emotings
   has_many :robotos, :foreign_key => 'maker_id'
   has_many :roboto_requests
+  
+  has_many :own_activities, as: :participant, :class_name => 'Activity'
+  has_many :activity_notifications
+  has_many :activities, through: :activity_notifications
   
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
     

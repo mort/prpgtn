@@ -1,6 +1,6 @@
 class ItemSerializer < ActiveModel::Serializer
 
-  attributes :id, :body, :current_user_emotes
+  attributes :id, :body, :current_user_emotes, :as_id
   
   has_one :link
   has_one :user, :serializer => UserSignatureSerializer
