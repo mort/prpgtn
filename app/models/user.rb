@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   has_many :activity_notifications
   has_many :activities, through: :activity_notifications
   
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>", :tiny => '30x30' }, :default_url => "/images/:style/missing.png"
     
   before_validation(on: :create) do
     
@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
   
   
   def as_object_fields
-    %w(objectType id displayName)
+    %w(objectType id displayName image)
   end
   
   
@@ -118,6 +118,17 @@ class User < ActiveRecord::Base
   
   def as_object_type
     'person'
+  end
+  
+  def as_image
+    
+    {
+      url: avatar.url(:tiny),
+      mediaType: avatar.content_type,
+      width: avatar.width(:tiny),
+      height: avatar.height(:tiny)
+    } if avatar
+      
   end
   
   def as_id

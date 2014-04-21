@@ -200,6 +200,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    paperclip-meta (1.1.0)
+      paperclip (>= 3.0.2, < 5.0)
     pismo (0.7.4)
       awesome_print
       chronic
@@ -351,6 +353,7 @@ DEPENDENCIES
   oauth2 (~> 0.9.3)
   opengraph!
   paperclip (~> 4.1)
+  paperclip-meta (~> 1.1.0)
   pismo (~> 0.7.2)
   postrank-uri!
   puma (~> 2.8.2)

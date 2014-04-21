@@ -44,6 +44,7 @@ gem "httparty", "~> 0.13.0"
 gem "quilt", "~> 0.0.8"
 gem "rmagick", "~> 2.13.2"
 gem "paperclip", "~> 4.1"
+gem 'paperclip-meta',  "~> 1.1.0"
 
 gem 'jquery-rails'
 

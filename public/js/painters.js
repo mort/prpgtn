@@ -59,7 +59,8 @@ function paint_channel_section(channel){
   section.append(h);
         
   _.each(items,function(item,k,l){
-          
+    
+    console.log(item);      
     c = _build_item(item);
     c.append(build_item_buttons(item));
     c.append('<hr>')

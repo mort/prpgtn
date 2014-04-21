@@ -139,7 +139,6 @@ function build_keep_button(item) {
 }
 
 function _build_item(v) {
-  
   var link = v.link;
 
   var c = $("<article></article>");
@@ -147,8 +146,24 @@ function _build_item(v) {
   var a = $("<a>"+link.og_title+"</a>");
   a.attr('href', link.og_url);
 
+  
   p.append(a);
   c.append(p);
+  
+  if (v.user != null) {
+    var u = $('<p>'+v.user.display_name+'</p>');
+
+    if (v.user.as_image != null) {
+      var img = $('<img>');
+      img.attr('src', v.user.as_image.url);
+      u.prepend(img);
+    }
+
+
+    c.append(u);
+  }
+  
+  
   c.attr('peach_as_id', v.as_id);
 
   
@@ -159,6 +174,7 @@ function _build_item(v) {
 function _build_incoming_item(data) {
   
   return _build_item({
+    user: data.content.actor,
     link: {
       og_title: data.content.object.displayName,
       og_url: data.content.object.url

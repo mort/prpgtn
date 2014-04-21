@@ -1,5 +1,5 @@
 class RobotosController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:show]
   
   def show
   

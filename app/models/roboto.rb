@@ -171,9 +171,7 @@ class Roboto < ActiveRecord::Base
   private
 
   def set_name
-
     self.name = [Forgery::Basic.color, Forgery::Address.street_name.split(" ").first, rand(100)].join("-").downcase
-
   end
   
  

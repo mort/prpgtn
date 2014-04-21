@@ -18,13 +18,20 @@ function _click_fwd(e){
   // console.log($(this).find('option:selected').val());
   // return false;        
                 
-  var id_arr = $(this).find('option:selected').val().split('_');
+  var opt = $(this).find('option:selected');              
+  var id_arr = opt.val().split('_');
   var item_id = id_arr[1];
   var channel_id = id_arr[2];
 
   post_fwd(item_id, channel_id);
 
-  $(this).unbind('click');
+  
+  opt.remove();
+  
+  if (($(this).find('option').length < 1)) {
+    $(this).fadeOut();
+  }
+
   e.preventDefault();
   return false;
   

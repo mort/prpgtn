@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419170907) do
+ActiveRecord::Schema.define(version: 20140421233123) do
 
   create_table "activities", force: true do |t|
     t.integer  "participant_id"
@@ -286,6 +286,7 @@ ActiveRecord::Schema.define(version: 20140419170907) do
     t.string   "display_name"
     t.string   "settings",               limit: 4096
     t.datetime "latest_notification_at"
+    t.text     "avatar_meta"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
