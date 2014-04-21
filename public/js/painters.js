@@ -1,18 +1,11 @@
-
-
-
-
-
 function paint_user_data(user){
   
   var n = user.display_name+'.'+user.id;
   
   var p = $('<p>'+n+'</p>');
   $('section#canvas header').append(p);         
-    
   
 }
-
 
 
 function paint_login() {
@@ -33,41 +26,48 @@ function paint_login() {
 }
 
 
-
-
-function paint_channel_items(s) {
+function paint_channel_selector() {
+  
+  var user = window.peach.current_user;
+  var s = build_channels_menu(user.channels, user.latest_updated_channel_id);
   
   $('section#canvas header').append(s);
   
   $('#channels_menu').on('change', function(e){
-    get_channel_items($('#channels_menu').val());
+    var cid = $(this).val();
+    $('section.channel').fadeOut();
+    $('section#channel_'+cid).fadeIn();   
   });
-
-  get_channel_items($('#channels_menu').val());
 
 }
 
-function paint_items(items, channel){
+function paint_channel_section(channel){
   
   var emotes = channel.emotes;
-  
-  $('#canvas #viewport').html('');
-  
-  _.each(items,function(v,k,l){
-    
-    if (v.link != null) {
+  var items = channel.viewport_items;  
       
-      c = _paint_item(v);
-      c.append(build_item_buttons(v, emotes));
-      c.append('<hr>')
-      
-      $('#canvas #viewport').append(c);
+  var section = $('<section class="channel">');    
+  section.attr('peach_as_id', channel.as_id);
+  section.attr('id', 'channel_'+channel.id)
+  var h = $('<h2>'+channel.title+'</h2>');      
+  section.append(h);
         
+  _.each(items,function(item,k,l){
+          
+    c = _build_item(item);
+    c.append(build_item_buttons(item, emotes));
+    c.append('<hr>')
+    
+    section.append(c);
+        
+   
+  });
+  
+  if (window.peach.current_user.latest_updated_channel_id != channel.id) {
+    section.css('display', 'none');
   }
   
-  
-    
-  });
+  $('section#viewport').append(section);
   
   $('a.emote_on').on('click', function(e){
     
@@ -82,46 +82,15 @@ function paint_items(items, channel){
     
   });
   
-  
 }
 
-
-function _paint_item(v) {
+function paint_incoming_item(activity){
   
-  console.log(v);
-  
-  var link = v.link;
-
-  var c = $("<div></div>");
-  var p = $('<p></p>');
-  var p2 = $('<p>'+link.og_description+'</p>');
-  var a = $("<a>"+link.og_title+"</a>");
-  a.attr('href', link.og_url);
-
-  p.append(a);
-  c.append(p);
-  c.attr('peach_as_id', v.as_id);
-
-  
-  return c;
-  
-}
-
-function _paint_item_activity(data) {
-  
-  content = data.content;
-  console.log(content);
-  
-  var c = $("<div></div>");
-  var p = $('<p></p>');
-  var a = $("<a>New activity: "+content.object.displayName+"</a>");
-  a.attr('href', content.object.url);
-
-  p.append(a);
-  c.append(p);
-  
-  return c;
-  
+  var c = _build_incoming_item(activity);  
+  console.log(activity);
+  var target_id = activity.content.target.id;
+  console.log("Appending to "+'section[peach_as_id="'+target_id+'"]');
+  $('section[peach_as_id="'+target_id+'"]').prepend(c);
   
 }
 

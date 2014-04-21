@@ -7,9 +7,7 @@ class ItemSerializer < ActiveModel::Serializer
   has_many :emotings
   
   def current_user_emotes
-    
     object.emotes_from(scope)
-  
   end
 
 end

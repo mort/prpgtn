@@ -6,7 +6,7 @@ function build_channels_menu(channels, latest_updated_channel_id){
   
   _.each(channels, function(v,k,l){
     
-    var o = $('<option value="'+v.id+'">'+v.title+'</option>');
+    var o = $('<option value="'+v.id+'" peach_as_id="'+v.as_id+'">'+v.title+'</option>');
     
     if (v.id == latest_updated_channel_id){
       o.attr('selected','selected')
@@ -77,5 +77,43 @@ function build_fwd_menu(item, channels){
 }
 
 function build_keep_button(item) {
+  
+}
+
+function _build_item(v) {
+  
+  console.log(v);
+  
+  var link = v.link;
+
+  var c = $("<article></article>");
+  var p = $('<h3></h3>');
+  var a = $("<a>"+link.og_title+"</a>");
+  a.attr('href', link.og_url);
+
+  p.append(a);
+  c.append(p);
+  c.attr('peach_as_id', v.as_id);
+
+  
+  return c;
+  
+}
+
+function _build_incoming_item(data) {
+  
+  content = data.content;
+  //console.log(content);
+  
+  var c = $("<div></div>");
+  var p = $('<p></p>');
+  var a = $("<a>New: "+content.object.displayName+"</a>");
+  a.attr('href', content.object.url);
+
+  p.append(a);
+  c.append(p);
+  
+  return c;
+  
   
 }
