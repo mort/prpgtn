@@ -16,7 +16,6 @@ class ActivityPublisher
       
       act.touch(:streamed_at)
 
-
     rescue ActiveRecord::RecordNotFound
       puts 'Activity not found'  
     end

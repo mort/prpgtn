@@ -34,3 +34,9 @@ function handler_person_post_bookmark(activity) {
   paint_incoming_item(activity);
   
 }
+
+function handler_roboto_post_bookmark(activity) {
+
+  paint_incoming_item(activity);
+  
+}

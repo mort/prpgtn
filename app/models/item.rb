@@ -34,6 +34,7 @@ class Item < ActiveRecord::Base
   scope :by_roboto, -> {where(participant_type: 'Roboto')}
   scope :with_link, -> {where("link_id IS NOT NULL")}
   scope :without_link, -> { where("link_id IS NULL")}
+  scope :forwarded, -> {where(forwarded: true)}
   
   # Ensure it has a type
   before_validation do 
@@ -43,7 +44,7 @@ class Item < ActiveRecord::Base
   validates_presence_of :body, :channel, :participant
   validates_inclusion_of :item_type, :in => ITEM_TYPES
   validates_format_of :body, :with => URI::regexp(%w(http https)), :if => Proc.new {|item| item.item_type == 'url' }
-  validates_uniqueness_of :body, scope: [:participant_id, :channel_id]
+  validates_uniqueness_of :body, scope: [:participant_id, :participant_type, :channel_id]
 
   validate do
     errors.add(:base, "No posts allowed") if channel.post_blocked? 
@@ -115,18 +116,17 @@ class Item < ActiveRecord::Base
   
   # Is this item in one of the channels of the user
   def is_for?(participant)
-    
     participant.channels.map(&:id).include?(channel_id)
-    
   end
   
   def emotes_from(user)
-    
-    emotings.where(user_id: user.id).map(&:emote_id)
-  
+    user.emotings.where(user_id: user.id).map(&:emote_id)
   end
-  
-  
+
+  def forwardings_from(user)
+    forwardings.where(user_id: user.id).map(&:channel_id)
+  end
+
   def as_object_fields
     %w(objectType id url displayName targetUrl content)
   end
@@ -159,7 +159,7 @@ class Item < ActiveRecord::Base
   end
   
   def as_id
-    "urn:peach:items:#{item_token}"
+    "urn:peach:items:#{id}"
   end
   
   def as_url
@@ -190,6 +190,13 @@ class Item < ActiveRecord::Base
     }
 
   end
+  
+  # Needed for serialization purposes
+  
+  def channel_as_id
+    channel.as_id
+  end
+    
   
   private 
 

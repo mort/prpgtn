@@ -29,6 +29,14 @@ class Activity < ActiveRecord::Base
     [content[:actor]['objectType'], verb, content[:object]['objectType']].join(':')
   end
   
+  def as_id
+    "urn:peach:activities:#{id}"
+  end
+  
+  def content
+    read_attribute(:content).merge(as_id: as_id)
+  end
+  
   private
   
   def process

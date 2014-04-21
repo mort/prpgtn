@@ -12,6 +12,7 @@ Peach::Application.routes.draw do
     namespace :v0 do
       resources :items do
         resources :emotings
+        resources :forwardings
       end
     end
   end

@@ -29,13 +29,13 @@ class Link < ActiveRecord::Base
   
   validates :uri, presence: true, uniqueness: true
   
+  scope :with_image, -> { where('og_image IS NOT NULL')}
+  
   #has_one :link_stats
   #after_create :create_stats
   
   def fetch_og?
-    
     fetch_method == 'og'
-  
   end
   
   def archive_for(user, options)

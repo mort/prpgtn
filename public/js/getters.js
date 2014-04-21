@@ -46,9 +46,15 @@ function get_new_activities(){
        success: function(d){
                         
          _.each(d.activities, function(el){
-           // console.log(el);
            el.signature = function() {
-             return this.content.actor.objectType+"_"+this.content.verb+'_'+this.content.object.objectType;
+             
+             if (this.content.actor.objectType == 'person') {
+               var ot = 'person';
+             } else {
+               var ot = 'roboto';
+             }
+
+             return ot+"_"+this.content.verb+'_'+this.content.object.objectType;
           };
                      
            handler_for(el.signature(), el);

@@ -3,18 +3,18 @@ class Api::V0::ForwardingsController < Api::V0::ApiController
   
   def create
   
-    item = Item.find(fwd_params[:item_id])
+    item = Item.find(params[:item_id])
+    channel = current_user.channels.find(fwd_params[:channel_id])
     
-    if item.is_for?(current_user)
+    if item.is_for?(current_user) && channel
     
-      fwd = current_user.forwardings.build(fwd_params)
+      fwd = current_user.forwardings.build(item_id: item.id)
     
-      if fwd.save
-        render status: 201
-      else
-        respond_with fwd.errors.full_messages, :status => :unprocessable_entity 
-      end
-      
+      fwd.on(:create_forwarding_successful) { |forwarding| render nothing: true, status: 201 }
+      fwd.on(:create_forwarding_failed)     { |forwarding| render json: forwarding.errors.as_json, :status => :unprocessable_entity }
+
+      fwd.commit(fwd_params)
+            
     end
   end
   
@@ -33,9 +33,7 @@ class Api::V0::ForwardingsController < Api::V0::ApiController
   private
   
   def fwd_params
-  
-    params.require(:forwarding).permit(:item_id, :channel_id)
-  
+    params.require(:forwarding).permit(:channel_id)
   end
   
 

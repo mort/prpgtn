@@ -33,17 +33,13 @@ class Api::V0::EmotingsController < Api::V0::ApiController
       render status: 200
     end
   
-  
   end
   
   
   private
   
   def emoting_params
-
     params.require(:emoting).permit(:emote_id)
-
-
   end
   
 

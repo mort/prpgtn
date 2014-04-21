@@ -45,6 +45,12 @@ function paint_channel_section(channel){
   
   var emotes = channel.emotes;
   var items = channel.viewport_items;  
+  
+  var k = 'emotes:'+channel.as_id;
+
+  if (localStorage.getItem(k) == null){ 
+    localStorage.setItem(k, JSON.stringify(emotes));
+  }
       
   var section = $('<section class="channel">');    
   section.attr('peach_as_id', channel.as_id);
@@ -55,7 +61,7 @@ function paint_channel_section(channel){
   _.each(items,function(item,k,l){
           
     c = _build_item(item);
-    c.append(build_item_buttons(item, emotes));
+    c.append(build_item_buttons(item));
     c.append('<hr>')
     
     section.append(c);
@@ -68,29 +74,25 @@ function paint_channel_section(channel){
   }
   
   $('section#viewport').append(section);
-  
-  $('a.emote_on').on('click', function(e){
     
-    var id_arr = $(this).attr('id').split('_');
-    var item_id = id_arr[1];
-    var emote_id = id_arr[2];
-    
-    post_emote(item_id, emote_id);
-    
-    $(this).unbind('click').removeClass('emote_on');
-    e.preventDefault();
-    
-  });
-  
 }
 
 function paint_incoming_item(activity){
   
   var c = _build_incoming_item(activity);  
-  console.log(activity);
+  
+  var item = {
+     id: _urn_to_id(activity.content.object.id),
+     channel_as_id: activity.content.target.id  
+   };
+   
+  c.append(build_item_buttons(item));
+  
+  c.addClass('incoming_item');
+  c.append('<hr>')
+  
   var target_id = activity.content.target.id;
-  console.log("Appending to "+'section[peach_as_id="'+target_id+'"]');
-  $('section[peach_as_id="'+target_id+'"]').prepend(c);
+  $('section[peach_as_id="'+target_id+'"] h2').after(c);
   
 }
 
@@ -111,3 +113,6 @@ function paint_login() {
   $('#login').show();
   $('#app').hide();
 }
+
+
+
