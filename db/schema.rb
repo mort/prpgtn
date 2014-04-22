@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140421233123) do
+ActiveRecord::Schema.define(version: 20140422202413) do
 
   create_table "activities", force: true do |t|
     t.integer  "participant_id"
@@ -186,7 +186,11 @@ ActiveRecord::Schema.define(version: 20140421233123) do
     t.datetime "fetched_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "bad_uri_warning", default: false, null: false
+    t.boolean  "bad_uri_warning",    default: false, null: false
+    t.string   "asset_file_name"
+    t.string   "asset_content_type"
+    t.integer  "asset_file_size"
+    t.datetime "asset_updated_at"
   end
 
   add_index "links", ["uri"], name: "index_links_on_uri", using: :btree

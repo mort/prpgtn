@@ -30,6 +30,9 @@ class Link < ActiveRecord::Base
   validates :uri, presence: true, uniqueness: true
   
   scope :with_image, -> { where('og_image IS NOT NULL')}
+   
+  has_attached_file :asset, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :asset, :content_type => /\Aimage\/.*\Z/
   
   #has_one :link_stats
   #after_create :create_stats
