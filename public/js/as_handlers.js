@@ -1,6 +1,9 @@
 function handler_for(event, data) {
    
   var s = "handler_"+event;
+  console.log(s);
+  console.log(data);
+  
   window[s](data);
   
 }
@@ -30,7 +33,6 @@ function handler_person_post_comment(activity) {
 }
 
 function handler_person_post_bookmark(activity) {
-
   paint_incoming_item(activity);
   
 }
@@ -38,5 +40,17 @@ function handler_person_post_bookmark(activity) {
 function handler_roboto_post_bookmark(activity) {
 
   paint_incoming_item(activity);
+  
+}
+
+function handler_person_join_group(activity) {
+
+  console.log(activity);
+  
+}
+
+function handler_person_leave_group(activity) {
+
+  console.log(activity);
   
 }

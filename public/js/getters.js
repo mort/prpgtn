@@ -15,6 +15,7 @@ function get_state(){
           paint_channel_section(c);
         });
         
+        $('article[peach_asset_only=true]').hoverIntent(_item_hover_in,_item_hover_out);  
         
       }, 
       error: function(d){

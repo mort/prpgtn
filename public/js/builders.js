@@ -35,15 +35,27 @@ function build_channels_menu(channels, latest_updated_channel_id){
 
 function build_item_buttons(item, channels) {
   
-  var buttons = $('<div><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p></div>');
+  var buttons = $('<div class="buttons"><p class="i_buttons"><a>[Keep]</a></p><p> Send to: <a>Twitter</a> | <a>Facebook</a> | <a>Email</a> | <a>Pocket</a> </p></div>');
    
   var em = build_emotes(item);   
   var fwd = build_fwd_menu(item, channels);
   var keep = build_keep_button(item);
   
-  
   buttons.append(em);
   buttons.append(fwd);
+  
+  if (item.user != null) {
+    var u = $('<p>'+item.user.display_name+'</p>');
+
+    if (item.user.as_image != null) {
+      var img = $('<img id="user_avatar">');
+      img.attr('src', item.user.as_image.url);
+      u.prepend(img);
+    }
+
+    buttons.append(u);
+  }
+  
 
   return buttons;
   
@@ -140,29 +152,43 @@ function build_keep_button(item) {
 
 function _build_item(v) {
   var link = v.link;
+  
+  var has_asset = false;
 
   var c = $("<article></article>");
   var p = $('<h3></h3>');
-  var a = $("<a>"+link.og_title+"</a>");
-  a.attr('href', link.og_url);
-
   
-  p.append(a);
-  c.append(p);
-  
-  if (v.user != null) {
-    var u = $('<p>'+v.user.display_name+'</p>');
-
-    if (v.user.as_image != null) {
-      var img = $('<img>');
-      img.attr('src', v.user.as_image.url);
-      u.prepend(img);
-    }
-
-
-    c.append(u);
+  if (link.og_title != null) {
+    var a = $("<a target='_blank'>"+link.og_title+"</a>");
+    a.attr('href', link.og_url);
+    p.append(a);
   }
   
+  c.append(p);
+  
+
+  if (link.image != undefined) {
+    
+    var has_asset = true;
+    
+    var img = $('<img>');
+    img.attr('src', link.image.url);
+    img.css('height', link.image.height);
+    img.css('width', link.image.width);
+    //c.append(img);
+    c.css('background-image', 'url('+link.image.url+')');
+    
+    
+    c.attr('peach_has_asset', 'true');
+    c.attr('peach_asset_width', link.image.height);
+    c.attr('peach_asset_height', link.image.width);
+  } else {
+    c.attr('peach_has_asset', 'false');
+  }
+  
+  if (link.og_title == null && has_asset) {
+     c.attr('peach_asset_only', 'true');
+  }
   
   c.attr('peach_as_id', v.as_id);
 
@@ -177,7 +203,8 @@ function _build_incoming_item(data) {
     user: data.content.actor,
     link: {
       og_title: data.content.object.displayName,
-      og_url: data.content.object.url
+      og_url: data.content.object.url,
+      image: data.content.object.image
     }
   });
  

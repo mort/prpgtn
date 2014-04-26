@@ -9,6 +9,7 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="/js/vendor/jquery.hoverIntent.minified.js"></script>
 
     <script src="/js/posters.js"></script>  
     <script src="/js/getters.js"></script>  
@@ -16,9 +17,52 @@
     <script src="/js/painters.js"></script>
     <script src="/js/as_handlers.js"></script>
     <script src="/js/handlers.js"></script>
-
+  
     
     <style>
+    
+    body {
+      font-family: Verdana, Arial, sans-serif;
+      font-size: 0.8em;
+    }
+    
+    header {
+      height: 40px;
+      background-color: #555;
+    }
+    
+    hr {
+      display:  none;
+    }
+    
+    h1, h2 {
+      display: none;
+    }
+    
+    article {
+      border: 1px solid #555;
+      background-color: #555;
+    }
+    
+    body, div, article, section#viewport {
+      margin: 0;
+      padding: 0;
+    }
+    
+    article h3 {
+      padding: 1em;
+      font-size: 1.4em;
+    }
+    
+    select#channels_menu {
+      width: 20%;
+      float: right;
+    }
+    
+    div.buttons {
+      display: none;
+    }
+    
     a.emote_on {
       color: blue;
       text-decoration: underline;
@@ -37,6 +81,28 @@
     p.incoming_emoting {
       color: red;
       font-size: 1.2em;
+    }
+    
+    article {
+      height: 150px;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      -webkit-filter: grayscale(90%);
+      -webkit-transition:.5s;
+    }
+    
+    article:hover {
+      -webkit-filter: grayscale(0%);
+      background-color: #ffa06e;
+    }
+    
+    article a {
+      color: #FFFFFF;
+      text-decoration: none;
     }
     
     </style>

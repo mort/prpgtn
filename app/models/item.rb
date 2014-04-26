@@ -36,6 +36,8 @@ class Item < ActiveRecord::Base
   scope :without_link, -> { where("link_id IS NULL")}
   scope :forwarded, -> {where(forwarded: true)}
   
+  delegate :asset, to: :link
+  
   # Ensure it has a type
   before_validation do 
     self.item_type = 'url' if item_type.blank?
@@ -55,7 +57,7 @@ class Item < ActiveRecord::Base
   after_create :process_url
   
   delegate :fetched_at, :prefix => true, :to => :link
-  delegate :og_title, :og_url, :og_image, :og_description, :og_type, :to => :link
+  delegate :og_title, :og_url, :og_image, :og_description, :og_type, :as_image, :to => :link
   
   def commit(_attrs)
     
@@ -128,7 +130,7 @@ class Item < ActiveRecord::Base
   end
 
   def as_object_fields
-    %w(objectType id url displayName targetUrl content)
+    %w(objectType id url displayName targetUrl content image)
   end
   
   def as_object(options = {})
@@ -153,6 +155,8 @@ class Item < ActiveRecord::Base
     o
         
   end
+  
+
   
   def as_object_type
     'bookmark'

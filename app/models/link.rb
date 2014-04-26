@@ -31,7 +31,7 @@ class Link < ActiveRecord::Base
   
   scope :with_image, -> { where('og_image IS NOT NULL')}
    
-  has_attached_file :asset, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  has_attached_file :asset, :styles => { :medium => "300x300>", :thumb => "100x100>" }
   validates_attachment_content_type :asset, :content_type => /\Aimage\/.*\Z/
   
   #has_one :link_stats
@@ -57,6 +57,17 @@ class Link < ActiveRecord::Base
     
     #TODO Add to list of channels in archived link if link was already present
     
+  end
+  
+  def as_image
+    
+    {
+      url: asset.url(:medium),
+      mediaType: asset.content_type,
+      width: asset.width(:medium),
+      height: asset.height(:medium)
+    } if asset
+      
   end
   
   #after_create :disembed
