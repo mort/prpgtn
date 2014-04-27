@@ -11,7 +11,6 @@ function build_channels_menu(channels, latest_updated_channel_id){
     var o = $('<option value="'+v.id+'" peach_as_id="'+v.as_id+'">'+v.title+'</option>');
     
     if (v.id == latest_updated_channel_id){
-      localStorage.setItem('current_channel_id', v.id);
       o.attr('selected','selected')
     }
     
@@ -165,7 +164,6 @@ function _build_item(v) {
     p.append(a);
   }
   
-  c.addClass('textfill');
   c.append(p);
   
 
@@ -194,7 +192,7 @@ function _build_item(v) {
   
   c.attr('peach_as_id', v.as_id);
 
-  c.append('<hr>');
+  
   return c;
   
 }
@@ -207,7 +205,7 @@ function _build_incoming_item(data) {
   
   //if ($('article[peach_as_id="'+as_id+'"]').length == 0) {
     
-    var c = _build_item({
+    return _build_item({
       as_id: as_id,
       user: data.content.actor,
       link: {
@@ -217,42 +215,7 @@ function _build_incoming_item(data) {
       }
     });
   
-
-    c.addClass('incoming');
-    c.addClass('incoming_item');
-    return c;
     //}
-
   
  
-}
-
-
-function _build_incoming_invite(data) {
-  
-  var c = $("<article></article>");
-  
-  var channel_title = data.content.target.displayName;
-  var inviter_name = data.content.actor.displayName;
-  
-  var h = $('<h3>'+inviter_name+' invited you to channel '+channel_title+'</h3>');
-  var form = $('<form></form>');
-  var accept_button = $('<button class="accept_invite">Accept</button>');
-  var decline_button = $('<button class="decline_invite">Decline</button>');
-
-  accept_button.attr('peach_invite_id', data.content.object.id);
-  decline_button.attr('peach_invite_id', data.content.object.id);
-
-  form.append(accept_button);
-  form.append(decline_button);
-  
-  c.append(h);
-  c.append(form);
-
-  c.addClass('incoming');
-  c.addClass('incoming_invite');
-  
-  return c;
-  
-  
 }

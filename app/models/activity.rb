@@ -23,7 +23,11 @@ class Activity < ActiveRecord::Base
   belongs_to :participant, polymorphic: true
   belongs_to :channel
   
+  before_create :set_for_user_stream
   after_create :process
+  
+  scope :for_user_stream, -> { where(for_user_stream: true) }
+  scope :not_for_user_stream, -> { where(for_user_stream: false) }
   
   def signature
     [content[:actor]['objectType'], verb, content[:object]['objectType']].join(':')
@@ -39,8 +43,13 @@ class Activity < ActiveRecord::Base
   
   private
   
+  def set_for_user_stream
+    self.for_user_stream = false if self.content[:to].nil?
+    nil
+  end
+  
   def process
-    ActivityPublisher.perform_async(self.id)
+    ActivityPublisher.perform_async(self.id) if self.for_user_stream
   end
 
   

@@ -46,7 +46,7 @@ class FeedWorker
     
     end  
     
-    params[:entries].each { |e| e.summary = e.content = '' }
+    params[:entries].each { |e| e.summary = e.content = '' } if params.entries.any?
     
     
     params

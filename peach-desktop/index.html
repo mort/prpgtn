@@ -6,19 +6,17 @@
     <meta charset="utf-8">
     <title>Peach</title>
     
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-    <script src="//jquery-textfill.github.io/jquery-textfill/jquery.textfill.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="js/vendor/jquery.hoverIntent.minified.js"></script>
 
-    <script src="/js/vendor/jquery.hoverIntent.minified.js"></script>
-
-    <script src="/js/posters.js"></script>  
-    <script src="/js/getters.js"></script>  
-    <script src="/js/builders.js"></script>  
-    <script src="/js/painters.js"></script>
-    <script src="/js/as_handlers.js"></script>
-    <script src="/js/handlers.js"></script>
+    <script src="js/posters.js"></script>  
+    <script src="js/getters.js"></script>  
+    <script src="js/builders.js"></script>  
+    <script src="js/painters.js"></script>
+    <script src="js/as_handlers.js"></script>
+    <script src="js/handlers.js"></script>
   
     
     <style>
@@ -28,58 +26,41 @@
       font-size: 0.8em;
     }
     
-    body, div, article, section#viewport {
-      margin: 0;
-      padding: 0;
-    }
-    
-    h1, h2, hr {
-      display:  none;
-    }
-    
-
     header {
       height: 40px;
       background-color: #555;
     }
     
-    header select#channels_menu {
-      width: 20%;
-      float: left;
-      margin-top: 1.2em;
+    hr {
+      display:  none;
+    }
+    
+    h1, h2 {
+      display: none;
     }
     
     article {
       border: 1px solid #555;
       background-color: #555;
-      height: 150px;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      -webkit-filter: grayscale(90%);
-      -webkit-transition:.5s;
     }
     
-    
-    article:hover {
-      -webkit-filter: grayscale(0%);
-      background-color: #ffa06e;
-    }
-    
-    article a {
-      color: #FFFFFF;
-      text-decoration: none;
+    body, div, article, section#viewport {
+      margin: 0;
+      padding: 0;
     }
     
     article h3 {
       padding: 1em;
       font-size: 1.4em;
+      
     }
     
-    article div.buttons {
+    select#channels_menu {
+      width: 20%;
+      float: right;
+    }
+    
+    div.buttons {
       display: none;
     }
     
@@ -103,16 +84,26 @@
       font-size: 1.2em;
     }
     
-    /* Rounded avatars */
-    .avatar {
-        float: left;
-        margin-top: 1em;
-        margin-right: 1em;
-        position: relative;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
-        box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    article {
+      height: 150px;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      -webkit-filter: grayscale(90%);
+      -webkit-transition:.5s;
+    }
+    
+    article:hover {
+      -webkit-filter: grayscale(0%);
+      background-color: #ffa06e;
+    }
+    
+    article a {
+      color: #FFFFFF;
+      text-decoration: none;
     }
     
     </style>

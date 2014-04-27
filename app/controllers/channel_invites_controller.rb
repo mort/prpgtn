@@ -16,7 +16,7 @@ class ChannelInvitesController < ApplicationController
     r = User.find_by_email(@invite.email)
     @invite.recipient = r if r
     
-    if @invite.save
+    if @invite.commit
       
       UserMailer.channel_invite(@invite)
 
@@ -52,17 +52,13 @@ class ChannelInvitesController < ApplicationController
     
     @invite = ChannelInvite.pending.find_by_token params[:id]
    
-    
     if @invite
       
-      @channel = @invite.channel
-      
       @invite.accept!(current_user)
-      @channel.subscribe(current_user)
       
       respond_to do |format|
         format.html {
-          redirect_to channel_path(@channel)
+          redirect_to channel_path(@invite.channel)
         }
       end  
       

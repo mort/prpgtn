@@ -66,23 +66,3 @@ function handler_roboto_leave_group(activity) {
   console.log(activity);
   
 }
-
-function handler_person_invite_invite(activity) {
-
-  //paint_incoming_invite(activity);
-  console.log(activity);
-
-  
-}
-
-function handler_person_accept_invite(activity) {
-  console.log(activity);  
-}
-
-function handler_person_cancel_invite(activity) {
-  console.log(activity);  
-}
-
-function handler_person_reject_invite(activity) {
-  console.log(activity);  
-}

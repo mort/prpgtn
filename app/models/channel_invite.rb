@@ -18,6 +18,8 @@
 
 class ChannelInvite < ActiveRecord::Base
   
+  include Wisper::Publisher
+  
   STATUSES = {:declined => 0, :pending => 1, :accepted => 2, :expired => 3}
   
   belongs_to :sender, :class_name => 'User'
@@ -42,19 +44,116 @@ class ChannelInvite < ActiveRecord::Base
   
   after_create :set_token
   
+  def commit
+    
+    subscribe(ActivityListener.new)    
+    publish(:send_invite, self)  
+    save!
+  
+  end
+  
+  
+  def cancel
+    
+    subscribe(ActivityListener.new)    
+    publish(:cancel_invite, self)
+    destroy
+    
+  end
+  
   def decline!(recipient)!
     raise "Ooops" if recipient == sender
+
+    subscribe(ActivityListener.new)    
+    publish(:decline_invite, self)  
+    
     update_attributes!(:status => STATUSES[:declined], :declined_at => Time.now, :recipient_id => recipient.id)
   end
 
   def accept!(recipient)!
     raise "Ooops" if recipient == sender
+    
+    subscribe(ActivityListener.new)    
+    publish(:accept_invite, self) 
+    
+    channel.subscribe(recipient)
     update_attributes!(:status => STATUSES[:accepted], :accepted_at => Time.now, :recipient_id => recipient.id)
+    
+    
   end
 
   def expire!
     update_attributes!(:status => STATUSES[:expired], :expired_at => Time.now)
   end
+  
+  def as_object_fields
+    %w(id objectType)
+  end
+  
+  def as_object(options = {})
+    
+    o = {}
+    
+    only = options.delete(:only)
+    except = options.delete(:except)
+        
+    f = if only && only.is_a?(Array)  
+      as_object_fields & only
+    elsif except && except.is_a?(Array)  
+      as_object_fields - except
+    else
+      as_object_fields
+    end
+        
+    puts f.inspect    
+        
+    f.each { |_f| o[_f] = self.send("as_#{_f.underscore}") }
+        
+    o
+        
+  end
+  
+  
+  def as_id
+    "urn:peach:channel_invites:#{id}"
+  end
+  
+  def as_object_type
+    'invite'
+  end
+  
+  def as_activity(v = 'invite')
+    
+    actor = case v
+    when 'invite', 'cancel'
+      sender
+    when 'accept', 'reject'
+      recipient
+    end
+    
+    to = case v
+    when 'invite'
+      recipient 
+    when 'accept', 'reject', 'cancel'
+      sender
+    end
+    
+    
+    data = {
+      actor: actor.as_object,
+      object: as_object,
+      verb: v,
+      target: channel.as_object,
+      published: Time.now.to_datetime.rfc3339
+    }
+    
+    data.merge!(to: [to.as_id]) if to
+    
+    data
+    
+  end 
+  
+  
   
   private 
 

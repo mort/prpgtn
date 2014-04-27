@@ -1,24 +1,9 @@
 function paint_user_data(user){
   
-  console.log(user);
-  
-  var div = $('<div>');
-  
   var n = user.display_name+'.'+user.id;
   
-  //var p = $('<p>'+n+'</p>');
-  //div.append(p);
-  
-  if (user.as_image != undefined) {
-    
-    var img = $('<img>');
-    img.attr('src', user.as_image.url);
-    img.addClass('avatar');
-    div.append(img);
-  
-  }
-  
-  $('section#canvas header').append(div);         
+  var p = $('<p>'+n+'</p>');
+  $('section#canvas header').append(p);         
   
 }
 
@@ -50,7 +35,6 @@ function paint_channel_selector() {
   
   $('#channels_menu').on('change', function(e){
     var cid = $(this).val();
-    localStorage.setItem('current_channel_id', cid);
     $('section.channel').fadeOut();
     $('section#channel_'+cid).fadeIn();   
   });
@@ -76,7 +60,7 @@ function paint_channel_section(channel){
         
   _.each(items,function(item,k,l){
     
-    // console.log(item);      
+    console.log(item);      
     c = _build_item(item);
     c.append(build_item_buttons(item));
     //c.append('<hr>')
@@ -104,28 +88,13 @@ function paint_incoming_item(activity){
      channel_as_id: activity.content.target.id  
    }));
   
+  c.addClass('incoming_item');
+  c.append('<hr>')
   
   var target_id = activity.content.target.id;
   $('section[peach_as_id="'+target_id+'"] h2').after(c);
 }
 
-function paint_incoming_invite(activity){
-  
-  console.log('Painting incoming invite');   
-  paint_in_current_channel(_build_incoming_invite(activity));
-  
-}
-
-
-function paint_in_current_channel(content) {
-  
-  var target_id = _current_channel_id();
-
-  console.log("Current_channel "+target_id);
-  
-  $('section[peach_as_id="urn:peach:channels:'+target_id+'"] h2').after(content);
-}
- 
 
 function paint_login() {
   
@@ -144,7 +113,5 @@ function paint_login() {
   $('#app').hide();
 }
 
-function _current_channel_id() {
-  return localStorage.getItem('current_channel_id')
-}
+
 

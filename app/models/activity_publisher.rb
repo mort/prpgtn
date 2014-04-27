@@ -8,10 +8,10 @@ class ActivityPublisher
     begin
       
       @act_id = act_id
-      act = Activity.find @act_id
+      act = Activity.for_user_stream.find @act_id
       content = act.content
 
-      publish_for(content[:to], content, 'to')
+      publish_for(content[:to], content, 'to') 
       publish_for(content[:cc], content, 'cc') unless content[:cc].nil?
       
       act.touch(:streamed_at)

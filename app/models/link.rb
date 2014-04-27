@@ -31,7 +31,13 @@ class Link < ActiveRecord::Base
   
   scope :with_image, -> { where('og_image IS NOT NULL')}
    
-  has_attached_file :asset, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  has_attached_file :asset, styles: { :medium => "300x300>", :thumb => "100x100>" }, fog_directory: 'peach-items-assets', fog_credentials: {
+    aws_access_key_id: 'AKIAIYJVW23KU4FBT7ZQ',
+    aws_secret_access_key: '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',
+    provider: 'AWS',
+    region: 'eu-west-2'
+  }
+  
   validates_attachment_content_type :asset, :content_type => /\Aimage\/.*\Z/
   
   #has_one :link_stats
@@ -62,7 +68,7 @@ class Link < ActiveRecord::Base
   def as_image
     
     {
-      url: asset.url(:medium),
+      url: URI.join(ActionController::Base.asset_host, asset.url(:medium)).to_s,
       mediaType: asset.content_type,
       width: asset.width(:medium),
       height: asset.height(:medium)
