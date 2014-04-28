@@ -58,7 +58,10 @@ gem 'simple_form', '~> 3.0.1'
 
 gem 'wisper', '~> 1.3.0'
 
+gem 'rb-readline'
 gem "skylight"
+
+#gem 'capistrano', '~> 3.2.0'
 
 group :development do 
   gem "annotate", "~> 2.5.0"
