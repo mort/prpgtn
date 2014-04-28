@@ -1,6 +1,6 @@
 function paint_user_data(user){
   
-  console.log(user);
+  // console.log(user);
   
   var div = $('<div>');
   

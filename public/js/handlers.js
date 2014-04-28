@@ -39,14 +39,14 @@ function _click_fwd(e){
 
 
 function _item_hover_in(e) {
-  console.log(this);
+  // console.log(this);
 
 
   var h = parseInt($(this).css('height'));
   var target_h = $(this).attr('peach_asset_height');
-  console.log(h);
-  console.log(target_h);
-  
+  // console.log(h);
+  // console.log(target_h);
+  // 
   if (target_h > h) {
     
     $(this).attr('peach_original_height', h);
@@ -64,12 +64,12 @@ function _item_hover_in(e) {
 
 function _item_hover_out(e) {
 
-  console.log(this);
+  // console.log(this);
   
   var h = parseInt($(this).css('height'));
   var target_h = $(this).attr('peach_original_height');
-  console.log(h);
-  console.log(target_h);
+  // console.log(h);
+  // console.log(target_h);
   
   if (target_h != h) {
     

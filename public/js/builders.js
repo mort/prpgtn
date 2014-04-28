@@ -202,9 +202,7 @@ function _build_item(v) {
 function _build_incoming_item(data) {
   
   var as_id = data.content.object.id;
-  
-  console.log(as_id);
-  
+    
   //if ($('article[peach_as_id="'+as_id+'"]').length == 0) {
     
     var c = _build_item({
