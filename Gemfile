@@ -5,7 +5,6 @@ gem 'rails', '4.0.4'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 gem "mysql2", "~> 0.3.15"
 
 # system
