@@ -60,7 +60,7 @@ gem 'wisper', '~> 1.3.0'
 gem 'rb-readline'
 gem "skylight"
 
-gem 'capistrano', '~> 3.2.0'
+
 
 group :development do 
   gem "annotate", "~> 2.5.0"
@@ -68,13 +68,17 @@ group :development do
   gem "hirb"
   gem "awesome_print"
   gem 'mailcatcher'
-  gem "rubber", "~> 2.7.4"
+  #gem "rubber", "~> 2.7.4"
   gem 'jsonpretty', '~> 1.1.0'
   gem 'spring', '~> 1.1.2'
   gem 'oauth2', '~> 0.9.3'
   gem 'exception_notification', '~> 4.0.1'
   #gem 'better_errors', '~> 1.1.0'
   gem 'binding_of_caller', '~> 0.7.2'
+  gem 'capistrano', '~> 3.2.0', require: false
+  gem 'capistrano-bundler', '~> 1.1.2', require: false
+  gem 'capistrano-rails', '~> 1.1.1', require: false
+  gem 'capistrano-rbenv', '~> 2.0.2', require: false
 end
 
 group :test do
