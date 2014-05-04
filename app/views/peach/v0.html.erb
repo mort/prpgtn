@@ -13,6 +13,7 @@
 
     <script src="/js/vendor/jquery.hoverIntent.minified.js"></script>
 
+    <script src="/js/config.js"></script>  
     <script src="/js/posters.js"></script>  
     <script src="/js/getters.js"></script>  
     <script src="/js/builders.js"></script>  
@@ -166,7 +167,6 @@
       window.peach = Peach;
       
       a = localStorage.getItem('access_token');
-      ENDPOINT = 'http:///grabapeach.com'
 
       if (a) {
         window.peach.run();          
