@@ -78,9 +78,7 @@ function get_new_activities(){
 function get_credentials(e,p){
   
   var url = ENDPOINT + '/oauth/token'
-  var CLIENT_ID = '5905a513cb652e3030adccc8abf845cd2f1200e0238ee254cd803fefb65eb4ea';
-  var CLIENT_SECRET = 'c8e187c8f0fe494639ea78350b7be0b45b868141762353182fad372c9101798f';
-  
+
   var data = {
     'grant_type': 'password',
     'client_id': CLIENT_ID,
