@@ -4,6 +4,8 @@ Peach::Application.configure do
   config.eager_load = true
   # Code is not reloaded between requests
   config.cache_classes = true
+  
+  config.action_controller.asset_host = 'http://grabapeach.com'
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
