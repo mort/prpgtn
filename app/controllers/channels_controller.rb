@@ -20,7 +20,7 @@ class ChannelsController < ApplicationController
       @invite = @channel.channel_invites.build
       @request = @channel.roboto_requests.build
 
-      @items = @channel.items
+      @items = @channel.items.with_link
     
       t = Channel::CHANNEL_TYPES.invert[@channel.channel_type]
     
