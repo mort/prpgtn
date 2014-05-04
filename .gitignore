@@ -16,3 +16,4 @@
 /log/*.log
 /tmp
 /public/system/*
+/public/js/config.js
