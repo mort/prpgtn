@@ -79,6 +79,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1.2', require: false
   gem 'capistrano-rails', '~> 1.1.1', require: false
   gem 'capistrano-rbenv', '~> 2.0.2', require: false
+  gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
 end
 
 group :test do

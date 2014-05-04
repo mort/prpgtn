@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: c6aee4a1abbed9f0940ddd079c1571e0f9c06936
+  specs:
+    capistrano-sidekiq (0.2.7)
+      capistrano
+      sidekiq
+
+GIT
   remote: https://github.com/mort/opengraph.git
   revision: 5b0dd0b4ae2b4cbd36e1acfeb854fb8b72ec7065
   specs:
@@ -336,6 +344,7 @@ DEPENDENCIES
   capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.1.1)
   capistrano-rbenv (~> 2.0.2)
+  capistrano-sidekiq!
   coffee-rails (~> 4.0.1)
   database_cleaner (~> 1.2.0)
   devise (~> 3.2.4)
