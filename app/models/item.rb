@@ -130,7 +130,7 @@ class Item < ActiveRecord::Base
   end
 
   def as_object_fields
-    %w(objectType id url displayName targetUrl content image)
+    %w(objectType id url displayName targetUrl content image author)
   end
   
   def as_object(options = {})
@@ -156,7 +156,10 @@ class Item < ActiveRecord::Base
         
   end
   
-
+  
+  def as_author
+    participant.as_object
+  end
   
   def as_object_type
     'bookmark'
