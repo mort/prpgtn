@@ -40,7 +40,7 @@ class Emoting < ActiveRecord::Base
   
   
   def as_object_fields
-    %w(objectType id content)
+    %w(objectType id content author)
   end
   
   def as_object(options = {})
@@ -64,6 +64,10 @@ class Emoting < ActiveRecord::Base
         
     o
         
+  end
+  
+  def as_author
+    user.as_object
   end
   
   def as_object_type
