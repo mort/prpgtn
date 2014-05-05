@@ -6,7 +6,6 @@ Peach::Application.configure do
   config.cache_classes = true
   
   config.action_controller.asset_host = 'http://grabapeach.com'
-  Rails.application.routes.default_url_options[:host] = 'http://grabapeach.com'
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
@@ -64,15 +63,17 @@ Peach::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  Rails.application.routes.default_url_options[:host] = 'http://grabapeach.com'
   
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'smtp.mandrillapp.com',
     port:                 587,
     domain:               'grabapeach.com',
-    user_name:            'manuelgonzaleznoriega',
-    password:             'JMt832b&UxhCQA29oQ<Y',
-    authentication:       'plain',
+    user_name:            'manuel.gonzalez.noriega@gmail.com',
+    password:             'i8Wx2ME91MmLQZ2Fr5vyCg',
+    authentication:       'login',
     enable_starttls_auto: true  }
 
 end
