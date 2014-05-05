@@ -2,8 +2,10 @@ class ChannelInvitesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    
     @sent = current_user.sent_channel_invites.pending
     @received = current_user.received_channel_invites.pending
+
   end
 
   def create
@@ -18,7 +20,7 @@ class ChannelInvitesController < ApplicationController
     
     if @invite.commit
       
-      UserMailer.channel_invite(@invite)
+      UserMailer.channel_invite(@invite).deliver
 
       respond_to do |format|
         
