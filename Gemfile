@@ -58,7 +58,7 @@ gem 'simple_form', '~> 3.0.1'
 gem 'wisper', '~> 1.3.0'
 
 gem 'rb-readline'
-gem "skylight"
+#gem "skylight"
 
 
 

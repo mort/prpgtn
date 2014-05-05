@@ -281,8 +281,6 @@ GEM
     skinny (0.2.2)
       eventmachine (~> 1.0)
       thin
-    skylight (0.3.12)
-      activesupport (>= 3.0.0)
     spring (1.1.2)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -383,7 +381,6 @@ DEPENDENCIES
   sidekiq-status (~> 0.4.0)
   simple_form (~> 3.0.1)
   sinatra (>= 1.3.0)
-  skylight
   spring (~> 1.1.2)
   uglifier (~> 2.5.0)
   versionist (~> 1.3.0)
