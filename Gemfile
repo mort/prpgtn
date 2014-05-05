@@ -60,7 +60,7 @@ gem 'wisper', '~> 1.3.0'
 gem 'rb-readline'
 #gem "skylight"
 
-
+gem 'rails_12factor', group: :production
 
 group :development do 
   gem "annotate", "~> 2.5.0"
@@ -89,6 +89,7 @@ group :test do
   gem "faker", "~> 1.3.0"
   gem "database_cleaner", "~> 1.2.0"
 end
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
