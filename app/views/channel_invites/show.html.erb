@@ -6,14 +6,14 @@
   Invited_by <%= @invite.sender.email %>
 </p>  
 
-<%= form_for @invite, :url => accept_channel_invite_path(@invite), :method => :put do |f| %>
+<%= form_for @invite, :url => accept_channel_invite_path(@invite.token), :method => :put do |f| %>
 <p>
   <%= submit_tag 'Accept' %>
 </p>
 
 <%- end -%>  
 
-<%= form_for @invite, :url => decline_channel_invite_path(@invite), :method => :put do |f| %>
+<%= form_for @invite, :url => decline_channel_invite_path(@invite.token), :method => :put do |f| %>
 <p>
   <%= submit_tag 'Decline' %>
 </p>

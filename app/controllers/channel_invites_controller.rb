@@ -43,8 +43,15 @@ class ChannelInvitesController < ApplicationController
   
   def show
     
-    @invite = ChannelInvite.pending.find_by_token_and_email params[:id], current_user.email
-    @channel = @invite.channel
+    @invite = ChannelInvite.pending.find_by_token params[:id]
+    
+    if (@invite && (@invite.email == current_user.email))
+      @channel = @invite.channel
+    elsif (@invite && @invite.email != current_user.email)   
+      render text: 'This invitation is meant for another user'
+    elsif @invite.nil?
+       render text: 'Couldnt find this invite'
+    end
     
   end
 
