@@ -61,7 +61,7 @@ class ActivityListener
     content = invite.as_activity('reject')
     verb = content[:verb]
     
-   Activity.create!(verb: verb, channel_id: invite.channel_id, participant_id: invite.recipient_id, participant_type: invite.recipient.class.to_s, content: content)
+   Activity.create!(verb: verb, channel_id: invite.channel_id, participant_id: invite.recipient_id, participant_type: invite.recipient.class.to_s, content: content, for_user_stream: false)
           
   end
   
@@ -72,6 +72,24 @@ class ActivityListener
     
     Activity.create!(verb: verb, channel_id: invite.channel_id, participant_id: invite.sender_id, participant_type: invite.sender.class.to_s, content: content)
 
+  end
+  
+  def create_channel(channel)
+    
+    content = channel.as_activity('create')
+    verb = content[:verb]
+    
+    Activity.create!(verb: verb, channel_id: channel.id, participant_id: channel.owner.id, participant_type: channel.owner.class.to_s, content: content)
+  
+  end
+  
+  def remove_channel(channel)
+  
+    content = channel.as_activity('delete')
+    verb = content[:verb]
+    
+    Activity.create!(verb: verb, channel_id: channel.id, participant_id: channel.owner.id, participant_type: channel.owner.class.to_s, content: content)
+  
   end
   
 

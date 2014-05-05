@@ -63,7 +63,7 @@ class ChannelInvitesController < ApplicationController
    
     if @invite
       
-      @invite.on(:accept_invite) {|i| redirect_to channel_path(i.channel) }
+      @invite.on(:accept_invite ) {|i| redirect_to channel_path(i.channel) }
       @invite.accept!(current_user)
         
     end
