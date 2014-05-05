@@ -50,7 +50,7 @@ class ChannelInvitesController < ApplicationController
     if (@invite && (@invite.email == current_user.email))
       @channel = @invite.channel
     elsif (@invite && @invite.email != current_user.email)   
-      render text: 'This invitation is meant for another user'
+      render text: "This invitation is meant for another user (You are #{current_user.email})"
     elsif @invite.nil?
        render text: 'Couldnt find this invite'
     end
@@ -63,14 +63,9 @@ class ChannelInvitesController < ApplicationController
    
     if @invite
       
+      @invite.on(:accept_invite) {|i| redirect_to channel_path(i.channel) }
       @invite.accept!(current_user)
-      
-      respond_to do |format|
-        format.html {
-          redirect_to channel_path(@invite.channel)
-        }
-      end  
-      
+        
     end
     
   end
@@ -81,14 +76,8 @@ class ChannelInvitesController < ApplicationController
        
     if @invite
       
+      @invite.on(:decline_invite) { |i| redirect_to channels_path, :notice => "You've declined the invitation" }
       @invite.decline!(current_user)
-      
-      respond_to do |format|
-        format.html {
-          redirect_to channels_path, :notice => "You've declined the invitation"
-        }
-        
-      end  
       
     end
      
