@@ -61,17 +61,22 @@ class ChannelInvite < ActiveRecord::Base
     
   end
   
-  def decline!(recipient)!
-    raise "Ooops" if recipient == sender
+  def decline!(rcp)!
+    
+    raise "Ooops" if rcp == sender
+    recipient ||= rcp
 
     subscribe(ActivityListener.new)    
     publish(:decline_invite, self)  
     
     update_attributes!(:status => STATUSES[:declined], :declined_at => Time.now, :recipient_id => recipient.id)
+  
   end
 
-  def accept!(recipient)!
-    raise "Ooops" if recipient == sender
+  def accept!(rcp)!
+    
+    raise "Ooops" if rcp == sender
+    recipient ||= rcp
     
     subscribe(ActivityListener.new)    
     publish(:accept_invite, self) 
