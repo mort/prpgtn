@@ -86,3 +86,8 @@ function handler_person_cancel_invite(activity) {
 function handler_person_reject_invite(activity) {
   console.log(activity);  
 }
+
+function handler_person_create_group(activity) {
+  console.log(activity);  
+  
+}
