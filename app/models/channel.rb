@@ -210,7 +210,7 @@ class Channel < ActiveRecord::Base
     payload = {
       actor: owner.as_object,
       verb: v,
-      to: owner.as_id,
+      to: [owner.as_id],
       object: self.as_object,
       published: Time.now.to_datetime.rfc3339
     }
