@@ -1,0 +1,93 @@
+
+body {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 0.8em;
+}
+
+body, div, article, section#viewport {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, hr {
+  display:  none;
+}
+
+
+header {
+  height: 40px;
+  background-color: #555;
+}
+
+header select#channels_menu {
+  width: 20%;
+  float: left;
+  margin-top: 1.2em;
+}
+
+article {
+  border: 1px solid #555;
+  background-color: #555;
+  height: 150px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-filter: grayscale(90%);
+  -webkit-transition:.5s;
+}
+
+
+article:hover {
+  -webkit-filter: grayscale(0%);
+  background-color: #ffa06e;
+}
+
+article a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+article h3 {
+  padding: 1em;
+  font-size: 1.4em;
+}
+
+article div.buttons {
+  display: none;
+}
+
+a.emote_on {
+  color: blue;
+  text-decoration: underline;
+}
+
+ul.emotes {
+  width: 100%;
+}
+
+ul.emotes li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+p.incoming_emoting {
+  color: red;
+  font-size: 1.2em;
+}
+
+/* Rounded avatars */
+.avatar {
+    float: left;
+    margin-top: 1em;
+    margin-right: 1em;
+    position: relative;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+}
+

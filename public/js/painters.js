@@ -50,11 +50,15 @@ function paint_channel_selector() {
   
   $('#channels_menu').on('change', function(e){
     var cid = $(this).val();
-    localStorage.setItem('current_channel_id', cid);
-    $('section.channel').fadeOut();
-    $('section#channel_'+cid).fadeIn();   
+    _display_channel(cid);
   });
 
+}
+
+function _display_channel(cid) {
+  localStorage.setItem('current_channel_id', cid);
+  $('section.channel').fadeOut();
+  $('section#channel_'+cid).fadeIn();     
 }
 
 function paint_channel_section(channel){

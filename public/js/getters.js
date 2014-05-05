@@ -19,6 +19,8 @@ function get_state(){
         
       }, 
       error: function(d){
+        console.log("get_state: error!");
+        console.log(d);
         
         if (d.status == 401) {
           paint_login();
@@ -77,7 +79,7 @@ function get_new_activities(){
 
 function get_credentials(e,p){
   
-  var url = ENDPOINT + '/oauth/token'
+  var url = ENDPOINT + '/oauth/token';
 
   var data = {
     'grant_type': 'password',
@@ -88,7 +90,9 @@ function get_credentials(e,p){
   };
   
   $.post(url, data, function(d){
-    localStorage.setItem('access_token', d.access_token);    
+    var a = d.access_token;
+    localStorage.setItem('access_token', a);    
+    window.peach.run(a);      
   });
   
 };
