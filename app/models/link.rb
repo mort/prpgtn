@@ -31,12 +31,13 @@ class Link < ActiveRecord::Base
   
   scope :with_image, -> { where('og_image IS NOT NULL')}
    
-  has_attached_file :asset, styles: { :medium => "300x300>", :thumb => "100x100>" }, fog_directory: 'peach-items-assets', fog_credentials: {
-    aws_access_key_id: 'AKIAIYJVW23KU4FBT7ZQ',
-    aws_secret_access_key: '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',
-    provider: 'AWS',
-    region: 'eu-west-2'
-  }
+  has_attached_file :asset, styles: { :medium => "300x300>", :thumb => "100x100>" }
+  # , storage: :fog, fog_directory: 'peach-items-assets', fog_credentials: {
+#     aws_access_key_id: 'AKIAIANFQE5VREPQ6HBQ',
+#     aws_secret_access_key: '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',
+#     provider: 'AWS',
+#     region: 'eu-west-2'
+#   }
   
   validates_attachment_content_type :asset, :content_type => /\Aimage\/.*\Z/
   
