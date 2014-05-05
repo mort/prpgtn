@@ -17,8 +17,9 @@
 
 class Channel < ActiveRecord::Base
   
+  include Wisper::Publisher
+
   store :settings, accessors: [ :emote_set_id ], coder: JSON
-  
   
   CHANNEL_TYPES = {:standard => 1, :selfie => 2, :bored => 3}
   POST_PERMISSIONS = {:blocked => 0, :public => 1, :owner => 2}  
@@ -69,8 +70,35 @@ class Channel < ActiveRecord::Base
   
   alias_method :humans, :users
   
+  
+  
+  def commit
+    
+    subscribe(ActivityListener.new)    
+  
+    if save
+      publish(:create_channel, self)  
+    else
+      publish(:create_channel_fail, self)  
+    end
+    
+  end
+  
+  def remove
+    
+    subscribe(ActivityListener.new) 
+    publish(:remove_channel, self)  
+       
+    destroy
+    
+  end
+  
   def participants
     users + robotos
+  end
+  
+  def guests
+    users - [owner]
   end
   
   def standard?
@@ -124,7 +152,7 @@ class Channel < ActiveRecord::Base
     find(channel_id).update_attribute(:emote_set_id, emote_set_id)
   end
     
-  def subscribe(participant)
+  def do_subscribe(participant)
     # Robotos can only subscribe to standard channels
     raise "No robots allowed!" if (participant.is_a?(Roboto) && !standard?)
     # Only owners can subscribe to a selfie channel
@@ -147,7 +175,7 @@ class Channel < ActiveRecord::Base
   # AS
   
   def as_object_fields
-    %w(objectType id displayName)
+    %w(objectType id displayName author)
   end
   
   def as_object(options = {})
@@ -173,6 +201,28 @@ class Channel < ActiveRecord::Base
         
   end
   
+  def as_author
+    owner.as_object
+  end
+  
+  def as_activity(v = 'create')
+    
+    payload = {
+      actor: owner.as_object,
+      verb: v,
+      to: owner.as_id,
+      object: self.as_object,
+      published: Time.now.to_datetime.rfc3339
+    }
+    
+    # let's notify the rest of the participants if the channel is being deleted
+    payload.merge!(cc: self.guests.collect(&:as_id)) if (v == 'delete')
+    
+    payload
+    
+  end
+  
+  
   def as_object_type
     'group'
   end
@@ -185,13 +235,11 @@ class Channel < ActiveRecord::Base
     title
   end
   
-  
-  
   private
   
 
   def subscribe_owner
-    subscribe(owner)
+    do_subscribe(owner)
   end
 
   def set_max_users
