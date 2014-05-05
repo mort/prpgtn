@@ -40,10 +40,6 @@
     
     
       <hr>
-      <p>
-        <%= link_to 'Open client', peach_0_path, target: '_blank' %>
-      </p>
-      <hr>
 
       <ul>
         <li>
@@ -63,6 +59,12 @@
     
     <div id="main">
       <h1>Peach</h1>
+      <hr>
+      <p>
+        Post with the <a href="javascript:var d=document,w=window,f="http://grabapeach.com/popup/items/new",l=d.location,e=encodeURIComponent,p="?url="+e(l.href),u=f+p;try{if(!/^(.*\.)?tumblr[^.]*$/.test(l.host))throw 0;tstbklt()}catch(z){a=function(){if(!w.open(u,"t","toolbar=0,resizable=0,status=1,width=450,height=430"))l.href=u};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a()}void 0">Peach it!</a> bookmarklet, read via the <%= link_to 'web client', peach_0_path, target: '_blank' %>
+      </p>
+      <hr>
+      
       
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
