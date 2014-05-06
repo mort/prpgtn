@@ -85,9 +85,7 @@ class Roboto < ActiveRecord::Base
   end
   
   def publish_all_entries_to_channel(channel_id)
-    
     feed_entries.each { |e| publish_entry_to_channel(e, channel_id) } if feed_entries
-    
   end
   
   def bootup
@@ -105,7 +103,7 @@ class Roboto < ActiveRecord::Base
   end
   
   def my_url
-     Rails.application.routes.url_helpers.roboto_url(self, host: '0.0.0.0:3000')
+     Rails.application.routes.url_helpers.roboto_url(self, host: ActionController::Base.asset_host)
   end
   
   def quit

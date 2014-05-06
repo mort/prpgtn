@@ -170,7 +170,7 @@ class Item < ActiveRecord::Base
   end
   
   def as_url
-    Rails.application.routes.url_helpers.jump_channel_item_url(self.channel, self, { :host => "localhost:3000" })
+    Rails.application.routes.url_helpers.jump_channel_item_url(self.channel, self, { :host => ActionController::Base.asset_host })
   end
   
   def as_display_name
