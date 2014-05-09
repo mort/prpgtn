@@ -31,7 +31,7 @@ class UrlProcessor
           #puts "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
           existing_link
         else 
-          #puts "Creating link #{attrs}"
+          logger.info "Creating link #{attrs}"
           Link.create!(link_attrs(u))
         end
         
@@ -70,13 +70,13 @@ class UrlProcessor
     
     if !attrs[:og_image].blank?
     
-      attrs.merge!(asset: attrs[:og_image])
+      attrs[:asset] = URI.parse attrs[:og_image]
 
     elsif (attrs[:og_image].nil? && attrs[:og_title].nil? && attrs[:og_description].nil? && attrs[:fetch_method] == :pismo)
+
       # No more comprobations here because the Paperclip validation checks the img/type for us
-      
-      attrs.merge!(asset: u)
-      
+      attrs[:asset] = URI.parse(u)
+
     end
     
 
