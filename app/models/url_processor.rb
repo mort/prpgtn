@@ -70,13 +70,13 @@ class UrlProcessor
     
     if !attrs[:og_image].blank?
     
-      attrs[:asset] = URI.parse attrs[:og_image]
+      attrs.merge!(asset: URI.parse(attrs[:og_image]))
 
     elsif (attrs[:og_image].nil? && attrs[:og_title].nil? && attrs[:og_description].nil? && attrs[:fetch_method] == :pismo)
-
       # No more comprobations here because the Paperclip validation checks the img/type for us
-      attrs[:asset] = URI.parse(u)
-
+      
+      attrs.merge!(asset: URI.parse(u))
+      
     end
     
 
