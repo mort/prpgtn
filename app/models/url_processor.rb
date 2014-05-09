@@ -28,22 +28,36 @@ class UrlProcessor
         existing_link = Link.where(["uri = ?", u]).first
   
         link = if existing_link      
-          #puts "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
+
+          logger.info "... Existing link #{existing_link.id} from #{existing_link.created_at.to_s}"
           existing_link
+
         else 
-          logger.info "Creating link #{attrs}"
-          Link.create!(link_attrs(u))
-        end
-        
-        item.update_column(:link_id, link.id)
-        publish(:item_link_fetched_successful, item)
           
-        if item.by_human?
+          attrs = link_attrs(u)
+          logger.info "Creating link #{attrs}"
+          Link.create(attrs)
         
-          item.archive_links
-          item.user.update_attribute(:latest_updated_channel_id, item.channel.id)
-    
         end
+        
+        if link
+        
+          item.update_column(:link_id, link.id)
+          publish(:item_link_fetched_successful, item)
+          
+          if item.by_human?
+        
+            item.archive_links
+            item.user.update_attribute(:latest_updated_channel_id, item.channel.id)
+    
+          end
+        
+        else
+        
+          logger.debug "Error on link #{link.error.full_messages.as_json}"
+        
+        end
+        
     
       end
     
